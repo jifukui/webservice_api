@@ -3221,7 +3221,7 @@ uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 		if(JsonGetInteger(info,&porttype))
 		{
 			info=json_object_get(json,"groupid");
-			if(JsonGetInteger(json,&groupid))
+			if(JsonGetInteger(info,&groupid))
 			{
 				info=json_object_get(json,"port");
 				if(JSON_ARRAY==json_typeof(info))
