@@ -3139,7 +3139,7 @@ uint8 GetSupportGroupPort(json_t *json,char *data,char *estr)
 			}
 			else
 			{
-				sprintf(str,"Get support group port error is %d",status);
+				sprintf(estr,"Get support group port error is %d",status);
 			}
 		}
 		else
@@ -3169,7 +3169,7 @@ uint8 SetGroupPragram(json_t *json,char *data,char *estr)
 			{
 				uint32 dat[256],len;
 				int32 status;
-				status=lig_matrix_get_switch_group(lighandle,(EM_MATRIX_PORT_TYPE)porttype,dat,(int32)GROUPPORT);
+				status=lig_matrix_get_switch_group(lighandle,(EM_MATRIX_PORT_TYPE)porttype,groupid,dat,(int32)GROUPPORT);
 				if(status>=0)
 				{
 					len=0;
@@ -3189,7 +3189,7 @@ uint8 SetGroupPragram(json_t *json,char *data,char *estr)
 			}
 			else
 			{
-				sprintf(str,"Get support group port error is %d",status);
+				sprintf(estr,"Get support group port error is %d",status);
 			}
 			}
 			else
@@ -3226,7 +3226,7 @@ uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 				info=json_object_get(json,"port");
 				if(JSON_ARRAY==json_typeof(info))
 				{
-					uint32 dat[256]
+					uint32 dat[256];
 					int32 len,i=0,j=0;
 					int32 status;
 					len=json_array_size(info);
@@ -3238,7 +3238,7 @@ uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 							j++;
 						}
 					}
-					status=lig_matrix_set_switch_group(lighandle,(EM_MATRIX_PORT_TYPE)porttype,dat,j);
+					status=lig_matrix_set_switch_group(lighandle,(EM_MATRIX_PORT_TYPE)porttype,groupid,dat,j);
 					if(0==status)
 					{
 						flag=1;
@@ -3251,7 +3251,7 @@ uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 			}
 			else
 			{
-				sprintf(str,"Get support group port error is %d",status);
+				sprintf(estr,"Get support group port error is %d",status);
 			}
 			}
 			else
