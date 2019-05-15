@@ -1,0 +1,1256 @@
+1.获取视频信息
+还缺少输入输出的label名
+请求数据格式
+{
+    	"cmd":" video_info"
+}
+成功返回
+{
+	"cmd":"video_info",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			"Port":
+			[
+				{
+					"index":xx,		//物理Id
+					"Dir":"In/Out",		//方向	
+					"status":"On/Off",	//连接负载状态
+					"switch":xxx/null,	//切换状态，输入无视此参数
+				},
+				{
+					.......
+				}
+			]
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"video_info",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+2.切换命令
+请求数据格式
+{
+    	"cmd":" routing",
+	"routing":
+	[
+		{
+			"in":xx,
+			"out":xx,
+			"type":"a/v/av"
+		},
+		{
+			.......
+		}
+	]
+
+}
+成功返回
+{
+	"cmd":"routing",
+	"status":"SUCCESS",
+	"echo":
+	{
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"routing",
+	"status":"ERROR",
+	"echo":
+	{
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+3.获取设备状态
+请求数据格式
+{
+    	"cmd":" matrix_status",
+}
+成功返回
+{
+	"cmd":"matrix_status",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result"
+		{
+			"name":"xxxxxxxxxxxxxxxxxxxx"
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"matrix_status",
+	"status":"ERROR",
+	"echo":
+	{
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+4.获取音频信息
+还缺少输入输出的label名
+请求数据格式
+{
+    	"cmd":" audio_info"
+}
+成功返回
+{
+	"cmd":"audio_info",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			"Port":
+			[
+				{
+					"index":xx,		//物理Id
+					"Dir":"In/Out",		//方向	
+					"status":"On/Off",	//连接负载状态
+					"switch":xxx/null,	//切换状态，输入无视此参数
+				},
+				{
+					.......
+				}
+			]
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"audio_info",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+5.获取端口EDID数据
+请求数据格式
+{
+    "cmd":" GetEDID",
+	"edid":
+	{
+		"index":xx,
+		"type":0,1,2			//0 in,1 out,2default
+	}
+	
+}
+成功返回
+{
+	"cmd":"GetEDID",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			EDID:"00FFFFFFFFFFFFFF"
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetEDID",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+6.设置输入端口EDID
+请求数据格式
+{
+    "cmd":" SetEDID",
+	"edid":
+	{
+		"in":[xx,xxx,xxxx,xxx,...],
+		"type":0			//0 in,1 out,2default
+		"data":"00ffffffffffff"  //edid字符串以大写的方式传过来
+	}
+	
+}
+全部设置成功返回
+{
+	"cmd":"SetEDID",
+	"status":"SUCCESS",
+	"echo":
+	{
+		
+	},
+	"error":null
+}
+非全部设置成功失败返回
+{
+	"cmd":"SetEDID",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"		//返回失败的端口
+}
+
+
+7.获取板卡在线状态
+发送：
+{
+    "cmd":"Card_list",
+}
+回送：
+
+{
+    "cmd":"Card_list",
+    "echo":{
+        "result":{
+            "solt":[
+                {
+                    "index":1,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":2,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":3,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":4,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":5,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":6,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":7,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":8,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":9,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":10,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":11,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":12,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":13,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":14,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":15,
+                    "status":"online",
+                    "name":"TUHDA"
+                },
+                {
+                    "index":16,
+                    "status":"offline",
+                    "name":"unknown"
+                },
+                {
+                    "index":17,
+                    "status":"online",
+                    "name":"unknown"
+                }
+            ]
+        }
+    },
+    "status":"SUCCESS"
+}
+
+8.获取板卡信息
+发送：
+{
+    "cmd":"Card_info",
+    "index": xx
+}
+回送：
+
+{
+    "cmd":"Card_info",
+    "status":"SUCCESS"
+    "echo":{
+        "result":{
+        		"index": xx,
+        		"Type":"Input/Output",
+        		"Model":"TUHDA",
+        		"Model_ID":50,
+        		"Direction":"IN/OUT",
+        		"Version":1092,
+        		"Ethernet":
+        		 {
+        			"MAC":"00-01-02-03-04-05",
+        			"IP":"192.168.001.001",
+        			"MASK":"255.255.255.0",
+        			"Gate":"192.168.001.001",
+        			"TCP":5000,
+        			"UDP":50000
+        		}
+        }
+
+    },
+}
+失败
+{
+	"cmd":"Card_info",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+9.设置板卡信息
+发送：
+{
+    "cmd":"Card_info_set",
+		"Ethernet":
+		{
+		  "index":1,
+			"MAC":"00-01-02-03-04-05",
+			"IP":"192.168.001.001",
+			"MASK":"255.255.255.0",
+			"Gate":"192.168.001.001",
+			"TCP":5000,
+			"UDP":50000
+		}
+}
+回送：
+
+{
+	"cmd":"Card_info_set",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+}
+
+错误回送：
+{
+	"cmd":"Card_info_set",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+
+
+reset card
+{
+    "cmd":"Card_reset",
+}
+
+回送：
+
+{
+	"cmd":"Card_reset",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+}
+
+错误回送：
+{
+	"cmd":"Card_reset",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+			
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+10.获取端口信息
+请求数据格式
+{
+    "cmd":" GetPortInfo",
+	"PortInfo":
+	{
+		"index":xx
+	}
+	
+}
+成功返回
+{
+	"cmd":"GetPortInfo",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"PortInfo":[
+			{
+				"name":"xxxx",
+				"value":xxx
+			},
+			{
+				.......
+			}
+		]
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetPortInfo",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+
+11.设置端口信息
+请求数据格式
+{
+    "cmd":" SetPortInfo",
+	"PortInfo":[
+		{
+			"index":xx,
+			"sid":xx,    //"看看是否在配置文件中是否有此参数"
+			"value":xx//
+		}
+		{
+			.........
+		}
+	]
+	
+}
+全部设置成功返回
+{
+	"cmd":"SetPortInfo",
+	"status":"SUCCESS",
+	"echo":
+	{
+		
+	},
+	"error":null
+}
+非全部设置成功失败返回
+{
+	"cmd":"SetPortInfo",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"	//返回失败的参数
+}
+12.文件上传
+请求数据格式
+{
+    "cmd":" Upload",
+	"file":
+		{
+			"name":xx,		//文件名及后缀现在限制在31个字符
+			"size":xx,    //文件字符数
+			"data"[xx,xx,xx,x,xxx,....] //文件数据转换为uint8型
+		}
+}
+全部设置成功返回
+{
+	"cmd":"Upload",
+	"status":"SUCCESS",
+	"echo":
+	{
+		
+	},
+	"error":null
+}
+非全部设置成功失败返回
+{
+	"cmd":"Upload",
+	"status":"ERROR",
+	"echo":
+	{
+
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"	//返回失败的参数
+}
+13.端口信息快照
+请求数据格式
+{
+    "cmd":"SnapshotPort",
+	"PortInfo":
+	{
+		"index":xx,
+		"Dir":"In/Out",
+		"type":"Audio/Video"
+	}
+	
+}
+视频输入成功返回
+{
+	"cmd":"SnapshotPort",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"PortInfo":
+			{
+				"Title":"xxxxxx",					//当前没有就不实现
+				"Port Type":"UHD/UHDA",				//端口类型
+				"Signal Type":"NONE/HDMI/DVI/unknown",	//信号类型
+				"6G":"Yes/No"						//是否是6G信号
+				"HDCP Status":"NO,1.4,2.2",			//信号的HDCP状态
+				"HDCP Mode":"NO,1.4,2.2"			//端口的HDCP能力
+			},
+	},
+	"error":null
+}
+视频输出成功返回
+{
+	"cmd":"SnapshotPort",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"PortInfo":
+			{
+				"Title":"xxxxxx",					//当前没有就不实现
+				"Port Type":"UHD/UHDA",				//端口类型
+				"Sink Type":"HDMI/DVI/unknown",		//负载类型
+				"6G":"Yes/No"						//负载是否支持6G
+				"HDCP Status":"NO,1.4,2.2",			//信号的HDCP状态
+				"Switch Speed":"Normal/fast/Ext-fast/Seamless"			//切换速度
+			},
+	},
+	"error":null
+}
+音频输入成功返回
+{
+	"cmd":"SnapshotPort",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"PortInfo":
+			{
+				"Title":"xxxxxx",					//当前没有就不实现
+				"Audio Source":{
+					"data":[
+						{
+							"Digital":0
+						},
+						{
+							"Analog":1
+						}
+						"Digital""Analog"
+						],
+						"value":xx
+						},	//音频源选择
+				"ARC":"On/Off"						//ARC状态
+				"Analog Audio":{					//只有在有音频上板时才具有此功能
+					"MUTE":"MUTE/UNMUTE",				//MUTE状态
+					"Volume":xxx						//音量设置
+					"Balance":xxx,					//平衡音
+					"Treble":xx							//高低音	
+				}
+			},
+	},
+	"error":null
+}
+音频输出成功返回
+{
+	"cmd":"SnapshotPort",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"PortInfo":
+			{
+				"Title":"xxxxxx",					//当前没有就不实现
+				"Audio Target":{
+					"data":[
+						{
+							"Digital":0
+						},
+						{
+							"Analog":1
+						}
+					],
+				"value":xx
+				},	//音频输出选择
+				"ARC":"On/Off"						//ARC状态
+				"Analog Audio":{					//只有在有音频上板时才具有此功能
+					"MUTE":"MUTE/UNMUTE",				//MUTE状态
+					"Volume":xxx						//音量设置
+					"Balance":xxx,					//平衡音
+					"Treble":xx							//高低音	
+				}
+			},
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SnapshotPort",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+14.设备网络参数设置
+请求数据格式
+{
+    "cmd": "SetDeviceNetwork",
+	"Network":[
+		{
+			"name":"xxx",			//网卡名称
+			"parameter":"xxxxxx",	//参数名称
+			"value":"xxxxxxxx"		//参数
+		}
+	]
+	
+}
+样例 IP
+{
+    "cmd": "SetDeviceNetwork",
+	"Network":[
+		"name":"eth0",			//网卡名称
+		"parameter":"IP"	//参数名称
+		"value":"192.168.20.157"		//参数
+	]
+	
+}
+样例 MASK
+{
+    "cmd": "SetDeviceNetwork",
+	"Network":[
+		"name":"eth0",			//网卡名称
+		"parameter":"MASK"	//参数名称
+		"value":"255.255.0.0"		//参数
+	]
+	
+}
+成功返回
+{
+	"cmd":"SetDeviceNetwork",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetDeviceNetwork",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+15.获取设备信息
+请求数据格式
+{
+    "cmd": "GetDeviceInfo"	
+}
+
+成功返回
+{
+	"cmd":"GetDeviceInfo",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			DeviceInfo:{
+				"BaseInfo":{
+					"Model":"xxxxxx",
+					"Name":"xxxxxx",
+					"SN":"xxxxx",
+					"Fireware version":"xxxxx",
+					"Moreinfo":[
+						{
+							"name":"xxxxx",
+							"value":"xxxx"
+						},
+						{
+							................
+						}
+					]
+				},
+				"Ethernet"
+				[
+					{
+						ifname:eth0,
+						.....
+					},
+					{
+						ifname:eth1,
+						......
+					}
+				]
+			}
+
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetDeviceInfo",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+16.设置设备reset
+{
+    "cmd": "SetDeviceReset"	
+}
+
+成功返回
+{
+	"cmd":"SetDeviceReset",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetDeviceInfo",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+17.设备板卡出厂复位
+发送命令
+{
+    "cmd": "SetCardFactory",
+	"CardInfo":{
+		"index":x,
+		"type":-1/0/1/2/3 //unknow,in,out,mix,ioundefine
+	}	
+}
+成功返回
+{
+	"cmd":"SetCardFactory",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetCardFactory",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+18.设置设备出厂复位
+发送命令
+{
+    "cmd": "SetDeviceFactory",
+}
+成功返回
+{
+	"cmd":"SetDeviceFactory",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetDeviceFactory",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+19.获取设备的电压状态
+{
+    "cmd": "GetVoltageStatus"
+}
+成功返回
+{
+	"cmd":"GetVoltageStatus",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			"Voltage":[
+				{
+					"name":"xxxx",
+					"standard":xxx,
+					"value":xxxx,
+					"status":"abnormal/normal"
+				},
+				...........................
+			]
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetVoltageStatus",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+20.获取设备的温度状态
+{
+    "cmd": "GetTemperatureStatus"
+}
+成功返回
+{
+	"cmd":"GetTemperatureStatus",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			"Temperature":[
+				{
+					"name":"xxxx",
+					"limit":xxx,
+					"value":xxxx,
+					"status":"abnormal/normal"
+				},
+				...........................
+			]
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetTemperatureStatus",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+21.获取设备的风扇状态
+{
+    "cmd": "GetFanStatus"
+}
+成功返回
+{
+	"cmd":"GetFanStatus",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			"Fan":[
+				{
+					"name":"xxxx",
+					"value":xxxx,
+					"status":"abnormal/normal"
+				},
+				...........................
+			]
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetFanStatus",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+22.获取设备警报状态
+{
+    "cmd": "GetAlertStatus"
+}
+成功返回
+{
+	"cmd":"GetAlertStatus",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			"Fan":[
+				{
+					"name":"xxxx",
+					"value":xxxx,
+					"status":"abnormal/normal"
+				},
+				...........................
+			]
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetAlertStatus",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+23.上传文件
+使用post方法 url=/cgi-bin/upload.cgi
+成功返回
+{
+	"cmd":"UploadFile",
+	"status":"SUCCESS",
+	"error":null
+}
+失败返回
+{
+	"cmd":"UploadFile",
+	"status":"ERROR",
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+24.升级程序
+{
+    "cmd": "SetUpgrade",
+	"file":"xxxxxx" //文件名称
+}
+成功返回
+{
+	"cmd":"SetUpgrade",
+	"status":"SUCCESS",
+	"echo":
+	{
+		reset:{}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetUpgrade",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+25.获取升级状态
+{
+    "cmd": "GetUpgradeStatus",
+}
+成功返回
+{
+	"cmd":"GetUpgradeStatus",
+	"status":"SUCCESS",
+	"echo":
+	{
+		reset:{
+			"status":"start/end"
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetUpgradeStatus",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+26.多板卡固件程序升级
+{
+    "cmd": "SetMoreUpgrade",
+	"UpgradeInfo":{
+		"oldfile":"xx",//旧文件名称
+		"newfile":"xxx",//新文件名称
+		"End":1/0
+	}
+}
+成功返回
+{
+	"cmd":"SetMoreUpgrade",
+	"status":"SUCCESS",
+	"echo":
+	{
+		reset:{}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetMoreUpgrade",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+27.解压文件
+{
+    "cmd": "UntarFile",
+	"FileName":"xxxx"
+	}
+}
+成功返回
+{
+	"cmd":"UntarFile",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			"FileName":"xxxxxxxx"
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"UntarFile",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+28.获取支持组操作的端口
+{
+    "cmd": "GetSupportGroupPort",
+    "porttype":xx   //0视频，1音频，2音视频
+	
+}
+成功返回
+{
+	"cmd":"GetSupportGroupPort",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			"port":[x,x,x]
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetSupportGroupPort",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+29.查询组信息
+{
+    "cmd": "GetGroupInfo",
+    "group":{
+        "groupid":xx//0表示查询未被分组的端口
+        "porttype":xx//0视频，1音频，2音视频
+    }	
+}
+成功返回
+{
+	"cmd":"GetGroupInfo",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+			"port":[x,x,x]
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetGroupInfo",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+30.设置组信息
+{
+    "cmd": "SetGroupInfo",
+    "group":{
+        "groupid":xx//0表示查询未被分组的端口
+        "porttype":xx//0视频，1音频，2音视频
+        "port":[x,x,xx,x,x,x]
+    }	
+}
+成功返回
+{
+	"cmd":"SetGroupInfo",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            ""
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetGroupInfo",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}

@@ -7,6 +7,7 @@
 #define DEBUG 0
 #define PORTNUM 35
 #define STRLEN 	20
+#define GROUPPORT 256
 typedef unsigned char uint8;
 typedef char int8;
 typedef unsigned int uint32;
@@ -61,6 +62,10 @@ static uint8 UntarUpgradeFile(json_t *json,char *data,char *estr);
 static uint8 SetFirmwareUpgrade(json_t * json,char *data,char *estr);
 static uint8 SetMoreFirmwareUpgrade(json_t * json,char *data,char *estr);
 static uint8 GetUpgradeStatus(char * data,char *estr);
+/**组操作*/
+static uint8 GetSupportGroupPort(json_t *json,char *data,char *estr);
+static uint8 SetGroupPragram(json_t *json,char *data,char *estr);
+static uint8 GetGroupPragram(json_t *json,char *data,char *estr);
 /**工具函数*/
 static uint8 JsonGetString(json_t *json,char *data);
 static uint8 JsonGetInteger(json_t *json,uint32 *data);
@@ -380,6 +385,47 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 			else if(!strcmp(str,"GetUpgradeStatus"))
 			{
 				flag=GetUpgradeStatus(data,estr);
+			}
+			else if(!strcmp(str,"GetSupportGroupPort"))
+			{
+				json_t *porttype;
+				porttype=json_object_get(jsonget,"porttype");
+				if(porttype)
+				{
+					flag=GetSupportGroupPort(porttype,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the port type Key");
+				}
+			}
+			else if(!strcmp(str,"GetGroupInfo"))
+			{
+				json_t *group;
+				group=json_object_get(jsonget,"group");
+				if(group)
+				{
+					flag=SetGroupPragram(group,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the group Key");
+				}
+				
+			}
+			else if(!strcmp(str,"SetGroupInfo"))
+			{
+				json_t *group;
+				group=json_object_get(jsonget,"group");
+				if(group)
+				{
+					flag=SetGroupPragram(group,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the group Key");
+				}
+				
 			}
 #if DEBUG
 			else if(!strcmp(str,"timeout"))
@@ -1644,8 +1690,6 @@ uint8 _GetVideoInputPortShapshot(uint32 input_port_id, char *data, char *estr)
 	status=lig_matrix_get_port_parameter_value(lighandle,input_port_id, 110, datalist,16, &datalen);
     if(!status)
     {
-        //static uint8 ligswitchspeed[em_para_sw_seamless+1][STRLEN]={"Normal", "fast", "Ext-fast", "Seamless"};
-        //json_object_set(port_info,"SwitchSpeed",json_string(ligswitchspeed[(EM_MATRIX_PARA_SWITCH_SPEED)datalist[0]]));
 		json_object_set(value,"Name",json_string("InHDCPVersion"));
 		json_object_set(value,"Value",json_integer(datalist[0]));
 		cpy=json_deep_copy(value);
@@ -3062,6 +3106,171 @@ uint8 GetUpgradeStatus(char * data,char *estr)
 	return flag;
 }
 
+
+uint8 GetSupportGroupPort(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	uint32 porttype;
+	json_t *result,*info;
+	result=json_array();
+	if(JsonGetInteger(json,&porttype))
+	{
+		if(result)
+		{
+			uint32 dat[GROUPPORT],len;
+			int32 status;
+			status=lig_matrix_get_support_group_enable_list(lighandle,(EM_MATRIX_PORT_TYPE)porttype,dat,(int32)GROUPPORT);
+			if(status>=0)
+			{
+				len=0;
+				while(len<status)
+				{
+					json_array_append(result,json_integer(dat[len]));
+					len++;
+				}
+				flag = 1;
+    			char *str;
+    			str=json_dumps(result,JSON_PRESERVE_ORDER);
+    			strcpy(data,str);
+    			free(str);
+    			if(str!=NULL) {
+        			str=NULL;
+    			}
+			}
+			else
+			{
+				sprintf(str,"Get support group port error is %d",status);
+			}
+		}
+		else
+		{
+			strcpy(estr,"Great Json failed");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Get Port type error");
+	}
+	return flag;
+}
+uint8 SetGroupPragram(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	json_t *result,*info;
+	result=json_array();
+	uint32 porttype,groupid;
+	if(result)
+	{
+		info=json_object_get(json,"porttype");
+		if(JsonGetInteger(info,&porttype))
+		{
+			info=json_object_get(json,"groupid");
+			if(JsonGetInteger(json,&groupid))
+			{
+				uint32 dat[256],len;
+				int32 status;
+				status=lig_matrix_get_switch_group(lighandle,(EM_MATRIX_PORT_TYPE)porttype,dat,(int32)GROUPPORT);
+				if(status>=0)
+				{
+					len=0;
+					while(len<status)
+					{
+						json_array_append(result,json_integer(dat[len]));
+						len++;
+					}
+					flag = 1;
+    				char *str;
+    				str=json_dumps(result,JSON_PRESERVE_ORDER);
+    				strcpy(data,str);
+    				free(str);
+    				if(str!=NULL) {
+        				str=NULL;
+    				}
+			}
+			else
+			{
+				sprintf(str,"Get support group port error is %d",status);
+			}
+			}
+			else
+			{
+				strcpy(estr,"Get Group id error");
+			}
+			
+		}
+		else
+		{
+			strcpy(estr,"Get Port type error");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Great Json failed");
+	}
+	return flag;
+}
+uint8 GetGroupPragram(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	json_t *result,*info,*jport;
+	result=json_array();
+	uint32 porttype,groupid;
+	if(result)
+	{
+		info=json_object_get(json,"porttype");
+		if(JsonGetInteger(info,&porttype))
+		{
+			info=json_object_get(json,"groupid");
+			if(JsonGetInteger(json,&groupid))
+			{
+				info=json_object_get(json,"port");
+				if(JSON_ARRAY==json_typeof(info))
+				{
+					uint32 dat[256]
+					int32 len,i=0,j=0;
+					int32 status;
+					len=json_array_size(info);
+					for(i;i<len;i++)
+					{
+						jport=json_array_get(info,i);
+						if(JsonGetInteger(jport,&dat[j]))
+						{
+							j++;
+						}
+					}
+					status=lig_matrix_set_switch_group(lighandle,(EM_MATRIX_PORT_TYPE)porttype,dat,j);
+					if(0==status)
+					{
+						flag=1;
+					}
+				}
+				else
+				{
+					strcpy(estr,"port type must be array");
+				}
+			}
+			else
+			{
+				sprintf(str,"Get support group port error is %d",status);
+			}
+			}
+			else
+			{
+				strcpy(estr,"Get Group id error");
+			}
+			
+		}
+		else
+		{
+			strcpy(estr,"Get Port type error");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Great Json failed");
+	}
+	return flag;
+}
 
 
 
