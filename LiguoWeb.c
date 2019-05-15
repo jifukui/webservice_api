@@ -3153,7 +3153,7 @@ uint8 GetSupportGroupPort(json_t *json,char *data,char *estr)
 	}
 	return flag;
 }
-uint8 SetGroupPragram(json_t *json,char *data,char *estr)
+uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 {
 	uint8 flag=0;
 	json_t *result,*info;
@@ -3209,7 +3209,7 @@ uint8 SetGroupPragram(json_t *json,char *data,char *estr)
 	}
 	return flag;
 }
-uint8 GetGroupPragram(json_t *json,char *data,char *estr)
+uint8 SetGroupPragram(json_t *json,char *data,char *estr)
 {
 	uint8 flag=0;
 	json_t *result,*info,*jport;
