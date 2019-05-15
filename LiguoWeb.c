@@ -405,7 +405,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				group=json_object_get(jsonget,"group");
 				if(group)
 				{
-					flag=SetGroupPragram(group,data,estr);
+					flag=GetGroupPragram(group,data,estr);
 				}
 				else
 				{
