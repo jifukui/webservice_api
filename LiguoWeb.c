@@ -3226,7 +3226,7 @@ uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 				info=json_object_get(json,"port");
 				if(JSON_ARRAY==json_typeof(info))
 				{
-					uint32 dat[256];
+					uint32 dat[GROUPPORT];
 					int32 len,i=0,j=0;
 					int32 status;
 					len=json_array_size(info);
@@ -3248,11 +3248,6 @@ uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 				{
 					strcpy(estr,"port type must be array");
 				}
-			}
-			else
-			{
-				sprintf(estr,"Get support group port error is %d",status);
-			}
 			}
 			else
 			{
