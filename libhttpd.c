@@ -1050,7 +1050,7 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 		int ji1=-1,ji2=-1;
 		while (liguoauth.Auth[i].username[0]&&i<AUTH_NUM)
 		{
-			ji1=strcmp(liguoauth.Auth[i].username,authinfo);
+			ji1=strcmp("Admin",authinfo);
 			ji2=strcmp(liguoauth.Auth[i].password,authpass);
 			printf("the ji1 is %d  ji2 is %d\n");
 			if((!ji1)&&(!ji2))
