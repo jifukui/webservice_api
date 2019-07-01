@@ -1702,6 +1702,7 @@ handle_read( connecttab* c, struct timeval* tvP )
     if ( httpd_start_request( hc, tvP ) < 0 )
 	{
 	/* Something went wrong.  Close down the connection. */
+	printf("get some wrong\n");
 	finish_connection( c, tvP );
 	return;
 	}
