@@ -136,7 +136,7 @@
 ** If you undefine this then thttpd will not implement authentication
 ** at all and will not check for auth files, which saves a bit of CPU time.
 */
-#define AUTH_FILE ".htpasswd"
+//#define AUTH_FILE ".htpasswd"
 
 /* CONFIGURE: The default character set name to use with text MIME types.
 ** This gets substituted into the MIME types where they have a "%s".
