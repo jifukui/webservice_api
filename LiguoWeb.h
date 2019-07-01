@@ -1,5 +1,6 @@
 #ifndef _LIGUO_WEB_H_
 #define _LIGUO_WEB_H_
+#include "config.h"
 typedef struct 
 {
     char username[15];

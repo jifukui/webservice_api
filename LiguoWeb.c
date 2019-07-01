@@ -5,7 +5,6 @@
 #include <lig_inner_sig_system_param_change.h>
 #include <sys/time.h>
 #include "LiguoWeb.h"
-#include "config.h"
 #define DEBUG 0
 #define PORTNUM 35
 #define STRLEN 	20
