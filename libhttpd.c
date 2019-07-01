@@ -1044,13 +1044,14 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 			printf("the ji1 is %d  ji2 is %d\n",ji1,ji2);
 			if(ji1||ji2)
 			{
-				
+				printf("have error\n");
 			}
 			else
 			{
 				printf("success\n");
 				return 1;
 			}
+			printf("the i is %d\n",i);
 			i++;
 		}
 		printf("error \n");
