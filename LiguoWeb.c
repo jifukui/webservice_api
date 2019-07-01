@@ -3438,9 +3438,9 @@ void writesecurityfile()
 			}
 			else
 			{
-				data=json_string(liguoauth.Auth[i].username)
+				data=json_string(liguoauth.Auth[i].username);
 				json_object_set(json,"username",data);
-				value=json_string(liguoauth.Auth[i].password)
+				value=json_string(liguoauth.Auth[i].password);
 				json_object_set(json,"username",value);
 				cpy=json_deep_copy(json);
 				json_array_append(userarray,cpy);
