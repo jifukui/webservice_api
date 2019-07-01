@@ -1002,7 +1002,6 @@ b64_decode( const char* str, unsigned char* space, int size )
 /* Returns -1 == unauthorized, 0 == no auth file, 1 = authorized. */
 static int auth_check( httpd_conn* hc, char* dirname  )
 {
-	printf("auth_check dirname is %s \n",dirname);
 	if(liguoauth.security)
 	{
 		printf("open security\n");
@@ -1027,31 +1026,18 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 			return -1;
 		}
     	*authpass++ = '\0';
-		/* 
-		if ( maxprevauthpath != 0 &&strcmp( authpath, prevauthpath ) == 0 &&sb.st_mtime == prevmtime &&strcmp( authinfo, prevuser ) == 0 )
-		{
-			
-			if ( strcmp( crypt( authpass, prevcryp ), prevcryp ) == 0 )
-	    	{
-	    		
-	    		httpd_realloc_str(&hc->remoteuser, &hc->maxremoteuser, strlen( authinfo ) );(void) strcpy( hc->remoteuser, authinfo );
-	    		return 1;
-	    	}
-			else
-	    	{
-	    		
-	    		send_authenticate( hc, dirname );
-	    		return -1;
-	    	}
-		} */
 		int i=0;
 		printf("the user name is %s\n",authinfo);
 		printf("The password is %s\n",authpass);
+		char str[30];
 		int ji1=-1,ji2=-1;
 		while (liguoauth.Auth[i].username[0]&&i<AUTH_NUM)
 		{
-			ji1=strcmp("Admin",authinfo);
-			ji2=strcmp(liguoauth.Auth[i].password,authpass);
+			strcpy(str,liguoauth.Auth[i].username);
+			ji1=strcmp(str,authinfo);
+			printf("The liguoauth.Auth[i].username is %s\n",str);
+			strcpy(str,liguoauth.Auth[i].password);
+			ji2=strcmp(str,authpass);
 			printf("the ji1 is %d  ji2 is %d\n");
 			if((!ji1)&&(!ji2))
 			{
