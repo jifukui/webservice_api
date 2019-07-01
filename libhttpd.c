@@ -907,7 +907,8 @@ send_authenticate( httpd_conn* hc, char* realm )
 
     httpd_realloc_str(
 	&header, &maxheader, sizeof(headstr) + strlen( realm ) + 3 );
-    (void) my_snprintf( header, maxheader, "%s%s\"\015\012", headstr, realm );
+    //(void) my_snprintf( header, maxheader, "%s%s\"\015\012", headstr, realm );
+	(void) my_snprintf( header, maxheader, "%s\"\015\012", headstr);
     httpd_send_err( hc, 401, err401title, header, err401form, hc->encodedurl );
     /* If the request was a POST then there might still be data to be read,
     ** so we need to do a lingering close.
@@ -1044,10 +1045,14 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 	    	}
 		} */
 		int i=0;
+		printf("the user name is %s\n",authinfo);
+		printf("The password is %s\n",authpass);
 		while (liguoauth.Auth[i].username[0]&&i<AUTH_NUM)
 		{
-			if(strcmp(liguoauth.Auth[i].username,authinfo)==0&&strcmp(liguoauth.Auth[i].password,authpass)==0)
+			if((strcmp(liguoauth.Auth[i].username,authinfo)==0)&&(strcmp(liguoauth.Auth[i].password,authpass)==0))
 			{
+				printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
+				printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
 				printf("success\n");
 				return 1;
 			}
