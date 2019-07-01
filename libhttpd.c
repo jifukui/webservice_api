@@ -3899,7 +3899,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	    return -1;
 	    }
 	}
-
+#if 0
 #ifdef AUTH_FILE
     /* Check authorization for this directory. */
     httpd_realloc_str( &dirname, &maxdirname, expnlen );
@@ -3943,7 +3943,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	return -1;
 	}
 #endif /* AUTH_FILE */
-
+#endif
     /* Referrer check. */
     if ( ! check_referrer( hc ) )
 	return -1;
