@@ -1038,8 +1038,12 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 			printf("The liguoauth.Auth[i].username is %s\n",str);
 			strcpy(str,liguoauth.Auth[i].password);
 			ji2=strcmp(str,authpass);
-			printf("the ji1 is %d  ji2 is %d\n");
-			if((!ji1)&&(!ji2))
+			printf("the ji1 is %d  ji2 is %d\n",ji1,ji2);
+			if(ji1||ji2)
+			{
+				continue;
+			}
+			else
 			{
 				printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
 				printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
