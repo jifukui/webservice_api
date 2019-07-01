@@ -775,7 +775,7 @@ send_response( httpd_conn* hc, int status, char* title, char* extraheads, char* 
 	    add_response( hc, "Padding so that MSIE deigns to show this error instead of its own canned one.\n");
 	add_response( hc, "-->\n" );
 	}
-    send_response_tail( hc );
+    //send_response_tail( hc );
     }
 
 
@@ -830,9 +830,8 @@ defang( char* str, char* dfstr, int dfsize )
     }
 
 
-void
-httpd_send_err( httpd_conn* hc, int status, char* title, char* extraheads, char* form, char* arg )
-    {
+void httpd_send_err( httpd_conn* hc, int status, char* title, char* extraheads, char* form, char* arg )
+{
 #ifdef ERR_DIR
 
     char filename[1000];
@@ -840,17 +839,20 @@ httpd_send_err( httpd_conn* hc, int status, char* title, char* extraheads, char*
     /* Try virtual host error page. */
     if ( hc->hs->vhost && hc->hostdir[0] != '\0' )
 	{
-	(void) my_snprintf( filename, sizeof(filename),
-	    "%s/%s/err%d.html", hc->hostdir, ERR_DIR, status );
-	if ( send_err_file( hc, status, title, extraheads, filename ) )
-	    return;
+		//printf("no this \n");
+		(void) my_snprintf( filename, sizeof(filename),"%s/%s/err%d.html", hc->hostdir, ERR_DIR, status );
+		if ( send_err_file( hc, status, title, extraheads, filename ) )
+	    {
+			return;
+		}
 	}
 
     /* Try server-wide error page. */
-    (void) my_snprintf( filename, sizeof(filename),
-	"%s/err%d.html", ERR_DIR, status );
+    (void) my_snprintf( filename, sizeof(filename),"%s/err%d.html", ERR_DIR, status );
     if ( send_err_file( hc, status, title, extraheads, filename ) )
-	return;
+	{
+		return;
+	}
 
     /* Fall back on built-in error page. */
     send_response( hc, status, title, extraheads, form, arg );
@@ -860,7 +862,7 @@ httpd_send_err( httpd_conn* hc, int status, char* title, char* extraheads, char*
     send_response( hc, status, title, extraheads, form, arg );
 
 #endif /* ERR_DIR */
-    }
+}
 
 
 #ifdef ERR_DIR
@@ -898,15 +900,12 @@ send_err_file( httpd_conn* hc, int status, char* title, char* extraheads, char* 
 
 #ifdef AUTH_FILE
 
-static void
-send_authenticate( httpd_conn* hc, char* realm )
-    {
+static void send_authenticate( httpd_conn* hc, char* realm )
+{
     static char* header;
     static size_t maxheader = 0;
     static char headstr[] = "WWW-Authenticate: Basic realm=\"";
-
-    httpd_realloc_str(
-	&header, &maxheader, sizeof(headstr) + strlen( realm ) + 3 );
+    httpd_realloc_str(&header, &maxheader, sizeof(headstr) + strlen( realm ) + 3 );
     //(void) my_snprintf( header, maxheader, "%s%s\"\015\012", headstr, realm );
 	(void) my_snprintf( header, maxheader, "%s\"\015\012", headstr);
     httpd_send_err( hc, 401, err401title, header, err401form, hc->encodedurl );
@@ -914,8 +913,10 @@ send_authenticate( httpd_conn* hc, char* realm )
     ** so we need to do a lingering close.
     */
     if ( hc->method == METHOD_POST )
-	hc->should_linger = 1;
-    }
+	{
+		hc->should_linger = 1;
+	}
+}
 
 
 /* Base-64 decoding.  This represents binary data as printable ASCII
