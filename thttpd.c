@@ -409,6 +409,8 @@ main( int argc, char** argv )
 	else
 	{
 		printf("The error is %s\n",error);
+		printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[0].username);
+		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
 		writesecurityfile();
 	}
 	
