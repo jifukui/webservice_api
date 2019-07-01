@@ -3857,6 +3857,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	    }
 #ifdef AUTH_FILE
 	/* Check authorization for this directory. */
+	printf("liguo auth1 \n");
 	if ( auth_check( hc, hc->expnfilename ) == -1 )
 	    return -1;
 #endif /* AUTH_FILE */
@@ -3904,7 +3905,6 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	    return -1;
 	    }
 	}
-#if 0
 #ifdef AUTH_FILE
     /* Check authorization for this directory. */
     httpd_realloc_str( &dirname, &maxdirname, expnlen );
@@ -3914,10 +3914,12 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	(void) strcpy( dirname, "." );
     else
 	*cp = '\0';
+	printf("liguo auth2 \n");
     if ( auth_check( hc, dirname ) == -1 )
 	return -1;
 
     /* Check if the filename is the AUTH_FILE itself - that's verboten. */
+	/* 
     if ( expnlen == sizeof(AUTH_FILE) - 1 )
 	{
 	if ( strcmp( hc->expnfilename, AUTH_FILE ) == 0 )
@@ -3946,9 +3948,8 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	    ERROR_FORM( err403form, "The requested URL '%.80s' is an authorization file, retrieving it is not permitted.\n" ),
 	    hc->encodedurl );
 	return -1;
-	}
+	}*/
 #endif /* AUTH_FILE */
-#endif
     /* Referrer check. */
     if ( ! check_referrer( hc ) )
 	return -1;
