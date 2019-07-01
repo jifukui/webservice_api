@@ -392,13 +392,13 @@ main( int argc, char** argv )
 		printf("liguoauth.security is %d\n",liguoauth.security);
 		authdata=json_object_get(authfile,"User");
 		int i=0;
-		for(i;i<AUTH_NUM&&i<authdata.json_array_size,i++)
+		for(i;i<AUTH_NUM&&i<json_array_size(authdata),i++)
 		{
 			authdata1=json_array_get(authdata,i);
 			authdata2=json_object_get(authdata1,"username");
-			liguoauth.Auth[i].username=json_string_value(authdata2);
+			&liguoauth.Auth[i].username=json_string_value(authdata2);
 			authdata2=json_object_get(authdata1,"password");
-			liguoauth.Auth[i].password=json_string_value(authdata2);
+			&liguoauth.Auth[i].password=json_string_value(authdata2);
 			printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
 			printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
 		}

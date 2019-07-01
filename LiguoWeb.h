@@ -6,8 +6,7 @@ typedef struct
 {
     char username[15];
     char password[PASSWORDLEN];
-}authenticate;
-
+}authenticate;              
 typedef struct{
     int security;
     authenticate Auth[AUTH_NUM];
