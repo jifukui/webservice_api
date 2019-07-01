@@ -1008,6 +1008,9 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 		int l;
 		char authinfo[500];
     	char* authpass;
+		int i=0;
+		char str[30];
+		int ji1,ji2;
 		if ( hc->authorization[0] == '\0' ||
 	 	strncmp( hc->authorization, "Basic ", 6 ) != 0 )
 		{
@@ -1026,11 +1029,9 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 			return -1;
 		}
     	*authpass++ = '\0';
-		int i=0;
+		
 		printf("the user name is %s\n",authinfo);
 		printf("The password is %s\n",authpass);
-		char str[30];
-		int ji1=-1,ji2=-1;
 		while (liguoauth.Auth[i].username[0]&&i<AUTH_NUM)
 		{
 			strcpy(str,liguoauth.Auth[i].username);
@@ -1054,7 +1055,7 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 			printf("the i is %d\n",i);
 			i++;
 		}
-		printf("error \n");
+		printf("jifuku error \n");
 		send_authenticate( hc, dirname );
 		return -1;
 	}	
