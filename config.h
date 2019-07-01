@@ -388,5 +388,6 @@
 /* CONFIGURE: You don't even want to know.
 */
 #define MIN_WOULDBLOCK_DELAY 100L
-
+#define AUTH_NUM 1
+#define PASSWORDLEN 20
 #endif /* _CONFIG_H_ */
