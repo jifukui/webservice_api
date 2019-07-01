@@ -1033,22 +1033,21 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 		int ji1=-1,ji2=-1;
 		while (liguoauth.Auth[i].username[0]&&i<AUTH_NUM)
 		{
-			//strcpy(str,liguoauth.Auth[i].username);
-			//ji1=strcmp(str,authinfo);
-			ji1=strcmp(liguoauth.Auth[i].username,authinfo);
-			//printf("The liguoauth.Auth[i].username is %s\n",str);
-			//strcpy(str,liguoauth.Auth[i].password);
-			//ji2=strcmp(str,authpass);
-			ji2=strcmp(liguoauth.Auth[i].password,authpass);
-			//printf("the ji1 is %d  ji2 is %d\n",ji1,ji2);
+			strcpy(str,liguoauth.Auth[i].username);
+			ji1=strcmp(str,authinfo);
+			//ji1=strcmp(liguoauth.Auth[i].username,authinfo);
+			printf("The liguoauth.Auth[i].username is %s\n",str);
+			strcpy(str,liguoauth.Auth[i].password);
+			ji2=strcmp(str,authpass);
+			printf("The liguoauth.Auth[i].password is %s\n",str);
+			//ji2=strcmp(liguoauth.Auth[i].password,authpass);
+			printf("the ji1 is %d  ji2 is %d\n",ji1,ji2);
 			if(ji1||ji2)
 			{
 				
 			}
 			else
 			{
-				printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
-				printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
 				printf("success\n");
 				return 1;
 			}
