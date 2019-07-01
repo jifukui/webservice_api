@@ -1003,6 +1003,9 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 {
 	if(liguoauth.security)
 	{
+		int l;
+		char authinfo[500];
+    	char* authpass;
 		if ( hc->authorization[0] == '\0' ||
 	 	strncmp( hc->authorization, "Basic ", 6 ) != 0 )
 		{
@@ -1058,6 +1061,7 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 
 
 /* Returns -1 == unauthorized, 0 == no auth file, 1 = authorized. */
+#if 0
 static int
 auth_check2( httpd_conn* hc, char* dirname  )
     {
@@ -1204,7 +1208,7 @@ auth_check2( httpd_conn* hc, char* dirname  )
     send_authenticate( hc, dirname );
     return -1;
     }
-
+#endif
 #endif /* AUTH_FILE */
 
 
