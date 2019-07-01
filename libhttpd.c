@@ -775,7 +775,7 @@ send_response( httpd_conn* hc, int status, char* title, char* extraheads, char* 
 	    add_response( hc, "Padding so that MSIE deigns to show this error instead of its own canned one.\n");
 	add_response( hc, "-->\n" );
 	}
-    //send_response_tail( hc );
+    send_response_tail( hc );
     }
 
 
@@ -783,7 +783,7 @@ static void
 send_response_tail( httpd_conn* hc )
     {
     char buf[1000];
-
+/* 
     (void) my_snprintf( buf, sizeof(buf), "\
     <hr>\n\
 \n\
@@ -792,7 +792,11 @@ send_response_tail( httpd_conn* hc )
   </body>\n\
 \n\
 </html>\n",
-	SERVER_ADDRESS, EXPOSED_SERVER_SOFTWARE );
+	SERVER_ADDRESS, EXPOSED_SERVER_SOFTWARE );*/
+	 (void) my_snprintf( buf, sizeof(buf), "\
+  	</body>\n\
+	\n\
+</html>\n");
     add_response( hc, buf );
     }
 
