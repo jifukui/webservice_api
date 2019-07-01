@@ -1052,7 +1052,7 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 			}
 			i++;
 		}
-		printf("error \n")
+		printf("error \n");
 		send_authenticate( hc, dirname );
 		return -1;
 	}	
