@@ -1001,6 +1001,7 @@ b64_decode( const char* str, unsigned char* space, int size )
 /* Returns -1 == unauthorized, 0 == no auth file, 1 = authorized. */
 static int auth_check( httpd_conn* hc, char* dirname  )
 {
+	printf("auth_check dirname is %s \n",dirname);
 	if(liguoauth.security)
 	{
 		printf("open security\n");
