@@ -70,6 +70,7 @@ typedef long long int64_t;
 #include<jansson.h>
 #include<lig_matrix_dll.h>
 #include"lig_pid_file.h"
+#include "LiguoWeb.h"
 static char* argv0;
 static int debug;
 static unsigned short port;
