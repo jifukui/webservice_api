@@ -120,6 +120,7 @@ typedef int socklen_t;
 #endif
 
 void *lighandle=NULL;
+Auth_liguo liguoauth;
 /* Forwards. */
 static void check_options( void );
 static void free_httpd_server( httpd_server* hs );
@@ -998,26 +999,62 @@ b64_decode( const char* str, unsigned char* space, int size )
 
 
 /* Returns -1 == unauthorized, 0 == no auth file, 1 = authorized. */
-static int
-auth_check( httpd_conn* hc, char* dirname  )
-    {
-    if ( hc->hs->global_passwd )
+static int auth_check( httpd_conn* hc, char* dirname  )
+{
+	if(liguoauth.security)
 	{
-	char* topdir;
-	if ( hc->hs->vhost && hc->hostdir[0] != '\0' )
-	    topdir = hc->hostdir;
+		if ( hc->authorization[0] == '\0' ||
+	 	strncmp( hc->authorization, "Basic ", 6 ) != 0 )
+		{
+		/* Nope, return a 401 Unauthorized. */
+			send_authenticate( hc, dirname );
+			return -1;
+		}
+		l = b64_decode(&(hc->authorization[6]), (unsigned char*) authinfo,sizeof(authinfo) - 1 );
+    	authinfo[l] = '\0';
+    	/* Split into user and password. */
+    	authpass = strchr( authinfo, ':' );
+    	if ( authpass == (char*) 0 )
+		{
+			/* No colon?  Bogus auth info. */
+			send_authenticate( hc, dirname );
+			return -1;
+		}
+    	*authpass++ = '\0';
+		/* 
+		if ( maxprevauthpath != 0 &&strcmp( authpath, prevauthpath ) == 0 &&sb.st_mtime == prevmtime &&strcmp( authinfo, prevuser ) == 0 )
+		{
+			
+			if ( strcmp( crypt( authpass, prevcryp ), prevcryp ) == 0 )
+	    	{
+	    		
+	    		httpd_realloc_str(&hc->remoteuser, &hc->maxremoteuser, strlen( authinfo ) );(void) strcpy( hc->remoteuser, authinfo );
+	    		return 1;
+	    	}
+			else
+	    	{
+	    		
+	    		send_authenticate( hc, dirname );
+	    		return -1;
+	    	}
+		} */
+		int i=0;
+		while (liguoauth.Auth[i].username[0]&&i<AUTH_NUM)
+		{
+			if(strcmp(liguoauth.Auth[i].username,authinfo)==0&&strcmp(liguoauth.Auth[i].password,authpass)==0)
+			{
+				return 1;
+			}
+			i++;
+		}
+		send_authenticate( hc, dirname );
+		return -1;
+	}	
 	else
-	    topdir = ".";
-	switch ( auth_check2( hc, topdir ) )
-	    {
-	    case -1:
-	    return -1;
-	    case 1:
-	    return 1;
-	    }
+	{
+		return 0;
 	}
-    return auth_check2( hc, dirname );
-    }
+}
 
 
 /* Returns -1 == unauthorized, 0 == no auth file, 1 = authorized. */
@@ -1043,8 +1080,7 @@ auth_check2( httpd_conn* hc, char* dirname  )
     static size_t maxprevcryp = 0;
 
     /* Construct auth filename. */
-    httpd_realloc_str(
-	&authpath, &maxauthpath, strlen( dirname ) + 1 + sizeof(AUTH_FILE) );
+    httpd_realloc_str(&authpath, &maxauthpath, strlen( dirname ) + 1 + sizeof(AUTH_FILE) );
     (void) my_snprintf( authpath, maxauthpath, "%s/%s", dirname, AUTH_FILE );
 
     /* Does this directory have an auth file? */

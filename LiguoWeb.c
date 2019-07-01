@@ -15,6 +15,7 @@ typedef int int32;
 typedef unsigned short int uint16;
 typedef short int int16;
 extern void *lighandle;
+extern Auth_liguo liguoauth;
 uint8 ligPorts=PORTNUM;
 static uint8 ligportinfo[2][STRLEN]={"In Port Info","Out Port Info"};
 static uint8 ligsignalinfo[em_matrix_input_signal_dvi+1][STRLEN]={"No Signal","Unknow","HDMI","DVI"};
@@ -3410,4 +3411,52 @@ uint8 SendCardIRQ(EM_MATRIX_CARD_PARAM_IRQ_TYPE sysparam)
 	sig_info.src_parameter=lig_sys_get_inner_param(sysparam);
 	lig_matrix_set_inner_signal_flag(lighandle,& sig_info);
 	return 1;
+}
+
+void writesecurityfile()
+{
+	json_t *file;
+	json_t *userarray;
+	json_t *json;
+	json_t *data;
+	json_t *cpy;
+	json_t *value;
+	json=json_object();
+	userarray=json_array();
+	file=json_object();
+	if(file&&userarray&&json)
+	{
+		data=json_integer(liguoauth.security);
+		json_object_set_new(file,"security",data);
+		int i=0;
+		for(i;i<AUTH_NUM;i++)
+		{
+			if(liguoauth.Auth[i].username[0]==0)
+			{
+				break;
+			}
+			else
+			{
+				data=json_string(liguoauth.Auth[i].username)
+				json_object_set(json,"username",data);
+				value=json_string(liguoauth.Auth[i].password)
+				json_object_set(json,"username",value);
+				cpy=json_deep_copy(json);
+				json_array_append(userarray,cpy);
+			}
+		}
+		json_object_set_new(file,"User",userarray);
+		json_dump_file(file,"./security.json",0);
+		json_decref(file);
+		json_decref(userarray);
+		json_decref(json);
+		json_decref(data);
+		json_decref(cpy);
+		json_decref(value);
+	}
+	else
+	{
+		printf("write file error\n");
+	}
+	
 }

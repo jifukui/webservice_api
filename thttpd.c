@@ -172,6 +172,7 @@ static void logstats( struct timeval* nowP );
 static void thttpd_logstats( long secs );
 
 extern void * lighandle;
+extern Auth_liguo liguoauth;
 /* SIGTERM and SIGINT say to exit immediately. */
 static void
 handle_term( int sig )
@@ -373,6 +374,40 @@ main( int argc, char** argv )
     lig_pidf_close(procfd);
 
     lighandle=lig_matrix_open(LIG_MATRIX_DLL_VER);
+
+	liguoauth.security=0;
+	strcpy(liguoauth.Auth[0].username,"Admin");
+	memset(liguoauth.Auth[0].password,0,PASSWORDLEN);
+	json_t *authfile;
+	json_error_t error;
+	authfile=json_load_file("./security.json",0,&error);
+	if(authfile)
+	{
+		json_t *authdata;
+		json_t *authdata1;
+		json_t *authdata2;
+		authdata=json_object_get(authfile,"security");
+		liguoauth.security=(unsigned int )json_integer_value(authdata);
+		printf("liguoauth.security is %d\n",liguoauth.security);
+		authdata=json_object_get(authfile,"User");
+		int i=0;
+		for(i;i<AUTH_NUM&&i<authdata.json_array_size,i++)
+		{
+			authdata1=json_array_get(authdata,i);
+			authdata2=json_object_get(authdata1,"username");
+			liguoauth.Auth[i].username=json_string_value(authdata2);
+			authdata2=json_object_get(authdata1,"password");
+			liguoauth.Auth[i].password=json_string_value(authdata2);
+			printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
+			printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
+		}
+	}
+	else
+	{
+		printf("The error is %s\n",error);
+		writesecurityfile();
+	}
+	
     argv0 = argv[0];
 
     cp = strrchr( argv0, '/' );
