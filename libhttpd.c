@@ -1032,7 +1032,7 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 		
 		printf("the user name is %s\n",authinfo);
 		printf("The password is %s\n",authpass);
-		while (i<AUTH_FILE&&liguoauth.Auth[i].username[0])
+		while (i<AUTH_NUM&&liguoauth.Auth[i].username[0])
 		{
 			strcpy(str,liguoauth.Auth[i].username);
 			ji1=strcmp(str,authinfo);
