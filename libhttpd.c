@@ -1003,6 +1003,7 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 {
 	if(liguoauth.security)
 	{
+		printf("open security\n");
 		int l;
 		char authinfo[500];
     	char* authpass;
@@ -1046,15 +1047,18 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 		{
 			if(strcmp(liguoauth.Auth[i].username,authinfo)==0&&strcmp(liguoauth.Auth[i].password,authpass)==0)
 			{
+				printf("success\n");
 				return 1;
 			}
 			i++;
 		}
+		printf("error \n")
 		send_authenticate( hc, dirname );
 		return -1;
 	}	
 	else
 	{
+		printf("close security\n");
 		return 0;
 	}
 }
