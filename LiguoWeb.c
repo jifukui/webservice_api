@@ -3617,7 +3617,7 @@ uint8 GetUserPassword(uint8 *user,uint8 *psw)
 		}
 		else
 		{
-			strcoy(psw,liguoauth.Auth[i].password);
+			strcpy(psw,liguoauth.Auth[i].password);
 			flag=i;
 			return flag;
 		}			
