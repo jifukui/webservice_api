@@ -78,7 +78,7 @@ static uint8 JsonGetUint8(json_t *json,uint8 *data);
 static void Uint8toString(int8 *str,uint8 *data,uint32 length);
 static void StringtoUint8(uint8 *dis,int8 *str);
 static uint8 JsonFromFile(uint8 *file,uint8 *data);
-static uint8  GetUserPassword(uint8 *user,uint8 *psw);
+static int8  GetUserPassword(uint8 *user,uint8 *psw);
 /**内部中断*/
 static uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam);
 static uint8 SendCardIRQ(EM_MATRIX_CARD_PARAM_IRQ_TYPE sysparam);
