@@ -2872,6 +2872,7 @@ uint8 GetSecurityStat(char *data,char *estr)
 	json=json_object();
 	if(json)
 	{
+		flag=1;
 		json_object_set(json,"securityStat",json_integer(liguoauth.security));
 		char *str;
 		str=json_dumps(json,JSON_PRESERVE_ORDER);
