@@ -3700,7 +3700,7 @@ void writesecurityfile()
 		str=json_dumps(file,JSON_PRESERVE_ORDER);
 		printf("The str is %s\n",str);
 		FILE *authfile=NULL;
-		authfile=fopen("./security.json","w+");
+		authfile=fopen("/nandflash/webserver/thttpd/bin/security.json","w+");
 		fwrite(str,1,strlen(str),authfile);
 		fclose(authfile);
 		free(str);
