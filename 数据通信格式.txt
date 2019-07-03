@@ -1255,6 +1255,7 @@ reset card
 	"error":"xxxxxxxxxxxxxxxxxx"
 }
 31.设置设备安全状态
+value={"cmd":"SetSecurityStat","Security":{"username":"Admin","password":"","Security":0}}
 {
     "cmd": "SetSecurityStat",
     "Security":{
@@ -1320,6 +1321,7 @@ reset card
 	"error":"xxxxxxxxxxxxxxxxxx"
 }
 33.设置用户密码
+value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"123","newpassword":""}}
 {
     "cmd": "SetUserPassword",
     "UserPassword":{
