@@ -2806,7 +2806,7 @@ uint8 SetSecurityStat(json_t *json,char *data,char *estr)
 			{
 				if(JsonGetString(value,password))
 				{
-					if(GetUserPassword(name,pws))
+					if(GetUserPassword(name,pws)>=0)
 					{
 						if(strcmp(password,pws))
 						{
@@ -2909,7 +2909,7 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 				if(JsonGetString(value,password))
 				{
 					index=GetUserPassword(name,pws);
-					if(index)
+					if(index>=0)
 					{
 						if(strcmp(password,pws))
 						{
@@ -3603,11 +3603,11 @@ uint8 JsonFromFile(uint8 *filepath,uint8 *data)
 	return flag;
 }
 
-uint8 GetUserPassword(uint8 *user,uint8 *psw)
+int8 GetUserPassword(uint8 *user,uint8 *psw)
 {
 	psw[0]=0;
 	uint8 i=0;
-	uint8 flag=0;
+	uint8 flag=-1;
 	uint8 str[PASSWORDLEN];
 	while (i<AUTH_NUM&&liguoauth.Auth[i].username[0])
 	{
