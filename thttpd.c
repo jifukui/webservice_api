@@ -796,7 +796,7 @@ main( int argc, char** argv )
     (void) gettimeofday( &tv, (struct timezone*) 0 );
     while ( ( ! terminate ) || num_connects > 0 )
 	{
-		jifile=stat("./security.json",&jifile);
+		stat("./security.json",&jifile);
 		if(jitime<jifile.st_mtime)
 		{
 			printf("have change \n");
