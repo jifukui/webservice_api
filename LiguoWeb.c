@@ -2915,7 +2915,7 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 					index=GetUserPassword(name,pws);
 					if(index>=0)
 					{
-						if(strcmp(password,pws))
+						if(!strcmp(password,pws))
 						{
 							value=json_object_get(json,"newpassword");
 							if(value)
