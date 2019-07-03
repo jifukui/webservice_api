@@ -381,7 +381,7 @@ main( int argc, char** argv )
 	memset(liguoauth.Auth[0].password,0,PASSWORDLEN);
 	json_t *authfile;
 	json_error_t error;
-	authfile=json_load_file("./security.json",0,&error);
+	authfile=json_load_file("/nandflash/webserver/thttpd/bin/security.json",0,&error);
 	struct stat jifile;
 	time_t jitime;
 	json_t *authdata;
@@ -416,7 +416,7 @@ main( int argc, char** argv )
 		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
 		writesecurityfile();
 	}
-	stat("./security.json",&jifile);
+	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 	jitime=jifile.st_mtime;
     argv0 = argv[0];
 
@@ -796,7 +796,7 @@ main( int argc, char** argv )
     (void) gettimeofday( &tv, (struct timezone*) 0 );
     while ( ( ! terminate ) || num_connects > 0 )
 	{
-		stat("./security.json",&jifile);
+		stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 		printf("The old time is %d\n",jitime);
 		printf("The new time is %d\n",jifile.st_mtime);
 		if(jitime<jifile.st_mtime)
