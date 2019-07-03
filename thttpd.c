@@ -802,6 +802,7 @@ main( int argc, char** argv )
 		if(jitime<jifile.st_mtime)
 		{
 			printf("have change \n");
+			authfile=json_load_file("/nandflash/webserver/thttpd/bin/security.json",0,&error);
 			authdata=json_object_get(authfile,"security");
 			liguoauth.security=(unsigned int )json_integer_value(authdata);
 			printf("liguoauth.security is %d\n",liguoauth.security);
