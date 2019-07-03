@@ -382,11 +382,14 @@ main( int argc, char** argv )
 	json_t *authfile;
 	json_error_t error;
 	authfile=json_load_file("./security.json",0,&error);
+	struct stat jifile;
+	time_t jitime;
+	json_t *authdata;
+	json_t *authdata1;
+	json_t *authdata2;
 	if(authfile)
 	{
-		json_t *authdata;
-		json_t *authdata1;
-		json_t *authdata2;
+		
 		authdata=json_object_get(authfile,"security");
 		liguoauth.security=(unsigned int )json_integer_value(authdata);
 		printf("liguoauth.security is %d\n",liguoauth.security);
@@ -413,7 +416,8 @@ main( int argc, char** argv )
 		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
 		writesecurityfile();
 	}
-	
+	jifile=stat("./security.json",&jifile);
+	jitime=jifile.st_mtime;
     argv0 = argv[0];
 
     cp = strrchr( argv0, '/' );
@@ -792,6 +796,34 @@ main( int argc, char** argv )
     (void) gettimeofday( &tv, (struct timezone*) 0 );
     while ( ( ! terminate ) || num_connects > 0 )
 	{
+		jifile=stat("./security.json",&jifile);
+		if(jitime<jifile.st_mtime)
+		{
+			printf("have change \n");
+			authdata=json_object_get(authfile,"security");
+			liguoauth.security=(unsigned int )json_integer_value(authdata);
+			printf("liguoauth.security is %d\n",liguoauth.security);
+			authdata=json_object_get(authfile,"User");
+			int i=0;
+			char *str;
+			for(i;i<AUTH_NUM&&i<json_array_size(authdata);i++)
+			{
+				authdata1=json_array_get(authdata,i);
+				authdata2=json_object_get(authdata1,"username");
+				str=json_string_value(authdata2);
+				strcpy(liguoauth.Auth[i].username,str);
+				authdata2=json_object_get(authdata1,"password");
+				str=json_string_value(authdata2);
+				strcpy(liguoauth.Auth[i].password,str);
+				printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
+				printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
+			}
+		}
+		else
+		{
+			printf("no change \n");
+		}
+		jitime=jifile.st_mtime;
 	/* Do we need to re-open the log file? */
 	if ( got_hup )
 	    {
