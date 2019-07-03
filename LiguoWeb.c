@@ -3699,7 +3699,7 @@ void writesecurityfile()
 		}
 		json_object_set_new(file,"User",userarray);
 		char *str=NULL;
-		str=json_dumps(file,,JSON_PRESERVE_ORDER);
+		str=json_dumps(file,JSON_PRESERVE_ORDER);
 		printf("The str is %s\n",str);
 		ji=json_dump_file(file,"./security.json",0);
 		printf("ji is %d\n",ji);
