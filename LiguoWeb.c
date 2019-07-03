@@ -457,7 +457,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				password=json_object_get(jsonget,"UserPassword");
 				if(password)
 				{
-					flag=SetSecurityStat(password,data,estr);
+					flag=SetUserPassword(password,data,estr);
 				}
 				else
 				{
