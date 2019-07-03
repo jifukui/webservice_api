@@ -797,6 +797,8 @@ main( int argc, char** argv )
     while ( ( ! terminate ) || num_connects > 0 )
 	{
 		stat("./security.json",&jifile);
+		printf("The old time is %d\n",jitime);
+		printf("The new time is %d\n",jifile.st_mtime);
 		if(jitime<jifile.st_mtime)
 		{
 			printf("have change \n");
