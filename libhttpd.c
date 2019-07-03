@@ -3058,8 +3058,7 @@ mode  links    bytes  last-changed  name\n\
 #endif /* GENERATE_INDEXES */
 
 
-static char*
-build_env( char* fmt, char* arg )
+static char*build_env( char* fmt, char* arg )
     {
     char* cp;
     size_t size;
