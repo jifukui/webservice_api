@@ -2808,7 +2808,7 @@ uint8 SetSecurityStat(json_t *json,char *data,char *estr)
 				{
 					if(GetUserPassword(name,pws)>=0)
 					{
-						if(strcmp(password,pws))
+						if(!strcmp(password,pws))
 						{
 							value=json_object_get(json,"Security");
 							if(value)
