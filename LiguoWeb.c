@@ -3672,6 +3672,7 @@ void writesecurityfile()
 	file=json_object();
 	if(file&&userarray&&json)
 	{
+		printf("The liguoauth.security is %d\n",liguoauth.security);
 		data=json_integer(liguoauth.security);
 		json_object_set_new(file,"security",data);
 		int i=0;
@@ -3683,6 +3684,8 @@ void writesecurityfile()
 			}
 			else
 			{
+				printf("username is %s\n",liguoauth.Auth[i].username);
+				printf("password is %s\n",liguoauth.Auth[i].password);
 				data=json_string(liguoauth.Auth[i].username);
 				json_object_set(json,"username",data);
 				value=json_string(liguoauth.Auth[i].password);
