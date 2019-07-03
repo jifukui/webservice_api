@@ -3607,11 +3607,11 @@ uint8 GetUserPassword(uint8 *user,uint8 *psw)
 	psw[0]=0;
 	uint8 i=0;
 	uint8 flag=0;
-	uint8 str[30];
+	uint8 str[PASSWORDLEN];
 	while (i<AUTH_NUM&&liguoauth.Auth[i].username[0])
 	{
 		strcpy(str,liguoauth.Auth[i].username);
-		if(strcmp(str,authinfo))
+		if(strcmp(str,user))
 		{
 
 		}
