@@ -3673,8 +3673,8 @@ void writesecurityfile()
 	if(file&&userarray&&json)
 	{
 		int ji=0;
-		ji=remove("./security.json");
-		printf("ji is %d\n",ji);
+		//ji=remove("./security.json");
+		//printf("ji is %d\n",ji);
 		data=json_integer(liguoauth.security);
 		printf("The liguoauth.security is %d\n",liguoauth.security);
 		json_object_set_new(file,"security",data);
@@ -3701,7 +3701,7 @@ void writesecurityfile()
 		char *str=NULL;
 		str=json_dumps(file,JSON_PRESERVE_ORDER);
 		printf("The str is %s\n",str);
-		ji=json_dump_file(file,"./security.json",0);
+		ji=json_dump_file(file,"./securityjj.json",0);
 		printf("ji is %d\n",ji);
 		json_decref(file);
 		json_decref(userarray);
