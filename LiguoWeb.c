@@ -54,6 +54,9 @@ static uint8 GetDeviceInfo(char *data,char *estr);
 static uint8 SetDeviceReset(char *data,char *estr);
 static uint8 SetDeviceFactory(char *data,char *estr);
 static uint8 SetCardFactory(json_t *json,char*data,char *estr);
+static uint8 SetSecurityStat(json_t *json,char *data,char *estr);
+static uint8 GetSecurityStat(char *data,char *estr);
+static uint8 SetUserPassword(json_t *json,char *data,char *estr);
 /**环境监控*/
 static uint8 GetVoltageStatus(char *data,char *estr);
 static uint8 GetTemperatureStatus(char *data,char *estr);
@@ -75,6 +78,7 @@ static uint8 JsonGetUint8(json_t *json,uint8 *data);
 static void Uint8toString(int8 *str,uint8 *data,uint32 length);
 static void StringtoUint8(uint8 *dis,int8 *str);
 static uint8 JsonFromFile(uint8 *file,uint8 *data);
+static uint8  GetUserPassword(uint8 *user,uint8 *psw);
 /**内部中断*/
 static uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam);
 static uint8 SendCardIRQ(EM_MATRIX_CARD_PARAM_IRQ_TYPE sysparam);
@@ -428,6 +432,37 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 					strcpy(estr,"not the group Key");
 				}
 				
+			}
+			else if(!strcmp(str,"SetSecurityStat"))
+			{
+				json_t *SecurityStat;
+				SecurityStat=json_object_get(jsonget,"Security");
+				if(SecurityStat)
+				{
+					flag=SetSecurityStat(SecurityStat,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the Security Key");
+				}
+				
+			}
+			else if(!strcmp(str,"GetSecurityStat"))
+			{
+				flag=GetSecurityStat(data,estr);
+			}
+			else if(!strcmp(str,"SetUserPassword"))
+			{
+				json_t *password;
+				password=json_object_get(jsonget,"Userpassword");
+				if(SecurityStat)
+				{
+					flag=SetSecurityStat(password,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the Userpassword Key");
+				}
 			}
 #if DEBUG
 			else if(!strcmp(str,"timeout"))
@@ -1548,13 +1583,13 @@ uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
 								}
 								else if(!strcmp(parameter,"TCP_PORT"))
 								{
-									system("kill -2 `ps | awk '{if($5~/lig_tcp/)printf $1}'`");
+									//system("kill -2 `ps | awk '{if($5~/lig_tcp/)printf $1}'`");
 									SendSysIRQ(em_lig_sys_param_eth0tcpport);
 									flag=1;
 								}
 								else if(!strcmp(parameter,"UDP_PORT"))
 								{
-									system("kill -2 `ps | awk '{if($5~/lig_udp/)printf $1}'`");
+									//system("kill -2 `ps | awk '{if($5~/lig_udp/)printf $1}'`");
 									SendSysIRQ(em_lig_sys_param_eth0udpport);
 									flag=1;
 								}
@@ -2753,6 +2788,186 @@ uint8 SetCardFactory(json_t *json,char *data,char *estr)
 	return  flag;
 }
 
+uint8 SetSecurityStat(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	json_t *value;
+	uint8 name[USERNAMELEN];
+	uint8 password[PASSWORDLEN];
+	uint8 pws[PASSWORDLEN];
+	int32 Security;
+	value=json_object_get(json,"username");
+	if(value)
+	{
+		if(JsonGetString(value,name))
+		{
+			value=json_object_get(json,"password");
+			if(value)
+			{
+				if(JsonGetString(value,password))
+				{
+					if(GetUserPassword(name,pws))
+					{
+						if(strcmp(password,pws))
+						{
+							value=json_object_get(json,"Security");
+							if(value)
+							{
+								if(JsonGetInteger(value,&Security))
+								{
+									if(Security!=liguoauth.security)
+									{
+										liguoauth.security=Security;
+										writesecurityfile();
+										SendSysIRQ(em_lig_sys_param_web_security);
+									}
+									flag=1;
+								}
+								else
+								{
+									strcpy(estr,"Security type error");
+								}
+								
+							}
+							else
+							{
+								strcpy(estr,"Get Security error");
+							}
+						}
+						else
+						{
+							strcpy(estr,"Password error");
+						}
+					}
+					else
+					{
+						strcpy(estr,"no this User");
+					}
+				}
+				else
+				{
+					strcpy(estr,"password type error");
+				}
+			}
+			else
+			{
+				strcpy(estr,"Get password error");
+			}
+		}
+		else
+		{
+			strcpy(estr,"Username type error");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Get Username error");
+	}
+	return flag;
+}
+uint8 GetSecurityStat(char *data,char *estr)
+{
+	uint8 flag=0;
+	json_t *json;
+	json=json_object();
+	if(json)
+	{
+		json_object_set(json,"securityStat",json_integer(liguoauth.security));
+		char *str;
+		str=json_dumps(json,JSON_PRESERVE_ORDER);
+		strcpy(data,str);
+		free(str);
+		if(str!=NULL)
+		{
+			str=NULL;
+		}
+	}
+	else
+	{
+		strcpy(estr,"Init Json Error");
+	}
+	return flag;
+}
+uint8 SetUserPassword(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	json_t *value;
+	uint8 name[USERNAMELEN];
+	uint8 password[PASSWORDLEN];
+	uint8 pws[PASSWORDLEN];
+	uint8 newpassword[PASSWORDLEN];
+	value=json_object_get(json,"username");
+	uint8 index=0;
+	if(value)
+	{
+		if(JsonGetString(value,name))
+		{
+			value=json_object_get(json,"password");
+			if(value)
+			{
+				if(JsonGetString(value,password))
+				{
+					index=GetUserPassword(name,pws);
+					if(index)
+					{
+						if(strcmp(password,pws))
+						{
+							value=json_object_get(json,"newpassword");
+							if(value)
+							{
+								if(JsonGetString(value,newpassword))
+								{
+									if(strcmp(password,newpassword))
+									{
+										strcpy(liguoauth.Auth[index].password,newpassword);
+										writesecurityfile();
+									}
+									flag=1;
+								}
+								else
+								{
+									strcpy(estr,"Security type error");
+								}
+								
+							}
+							else
+							{
+								strcpy(estr,"Get Security error");
+							}
+						}
+						else
+						{
+							strcpy(estr,"Password error");
+						}
+					}
+					else
+					{
+						strcpy(estr,"no this User");
+					}
+				}
+				else
+				{
+					strcpy(estr,"password type error");
+				}
+			}
+			else
+			{
+				strcpy(estr,"Get password error");
+			}
+		}
+		else
+		{
+			strcpy(estr,"Username type error");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Get Username error");
+	}
+	return flag;
+}
+
+
 uint8 GetVoltageStatus(char *data,char *estr)
 {
 	uint8 flag=0;
@@ -3386,6 +3601,31 @@ uint8 JsonFromFile(uint8 *filepath,uint8 *data)
 	}
 	return flag;
 }
+
+uint8 GetUserPassword(uint8 *user,uint8 *psw)
+{
+	psw[0]=0;
+	uint8 i=0;
+	uint8 flag=0;
+	uint8 str[30];
+	while (i<AUTH_NUM&&liguoauth.Auth[i].username[0])
+	{
+		strcpy(str,liguoauth.Auth[i].username);
+		if(strcmp(str,authinfo))
+		{
+
+		}
+		else
+		{
+			strcoy(psw,liguoauth.Auth[i].password);
+			flag=i;
+			return flag;
+		}			
+		i++;
+	}
+	return flag;
+}
+
 uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam)
 {
 	uint8 flag=0;

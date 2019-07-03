@@ -3555,6 +3555,7 @@ cgi_child( httpd_conn* hc )
 			json_object_set_new(jsonobj,"status",json_string("ERROR"));
 			json_object_set_new(jsonobj,"error",json_string("Device Init failed"));
 		}
+		//json_object_set_new(jsonobj,"security",json_integer(liguoauth.security));
 		str=json_dumps(jsonobj,JSON_PRESERVE_ORDER);
 		add_response(hc,str);
     	httpd_write_response( hc );

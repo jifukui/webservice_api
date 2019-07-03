@@ -1254,3 +1254,103 @@ reset card
 	},
 	"error":"xxxxxxxxxxxxxxxxxx"
 }
+31.设置设备安全状态
+{
+    "cmd": "SetSecurityStat",
+    "Security":{
+        "username":""//用户名
+        "password":""//密码
+        "Security":0 //0关闭非0打开
+    }	
+}
+成功返回
+{
+	"cmd":"SetSecurityStat",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            ""
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetSecurityStat",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+32.获取设备安全状态
+{
+    "cmd": "GetSecurityStat",
+}
+成功返回
+{
+	"cmd":"GetSecurityStat",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            "securityStat":xx
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"GetSecurityStat",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+33.设置用户密码
+{
+    "cmd": "SetUserPassword",
+    "UserPassword":{
+        "username":""
+        "password":""
+        "newpassword":""
+    }	
+}
+成功返回
+{
+	"cmd":"SetUserPassword",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            ""
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetUserPassword",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
