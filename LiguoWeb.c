@@ -2815,8 +2815,8 @@ uint8 SetSecurityStat(json_t *json,char *data,char *estr)
 							{
 								if(JsonGetInteger(value,&Security))
 								{
-									printf("The Security is %d",Security);
-									printf("The liguoauth.security is %d",liguoauth.security);
+									printf("The Security is %d\n",Security);
+									printf("The liguoauth.security is %d\n",liguoauth.security);
 									if(Security!=liguoauth.security)
 									{
 										printf("no equal\n");
@@ -2824,6 +2824,7 @@ uint8 SetSecurityStat(json_t *json,char *data,char *estr)
 										writesecurityfile();
 										SendSysIRQ(em_lig_sys_param_web_security);
 									}
+									printf("The liguoauth.security is %d\n",liguoauth.security);
 									flag=1;
 								}
 								else
