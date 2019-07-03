@@ -454,14 +454,14 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 			else if(!strcmp(str,"SetUserPassword"))
 			{
 				json_t *password;
-				password=json_object_get(jsonget,"Userpassword");
+				password=json_object_get(jsonget,"UserPassword");
 				if(password)
 				{
 					flag=SetSecurityStat(password,data,estr);
 				}
 				else
 				{
-					strcpy(estr,"not the Userpassword Key");
+					strcpy(estr,"not the UserPassword Key");
 				}
 			}
 #if DEBUG
