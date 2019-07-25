@@ -19,12 +19,12 @@ extern void *lighandle;
 extern Auth_liguo liguoauth;
 uint8 ligPorts=PORTNUM;
 static uint8 ligportinfo[2][STRLEN]={"In Port Info","Out Port Info"};
-static uint8 ligsignalinfo[em_matrix_input_signal_dvi+1][STRLEN]={"No Signal","Unknow","HDMI","DVI"};
-static uint8 ligHDCPstatus[em_matrix_HDCP_version_2_0+1][STRLEN]={"No Support","Support 1.x","Support 2.x"};
-static uint8 ligTMDSstatus[em_matrix_signal_TMDS_rates_8K+1][STRLEN]={"Less 4k30","4k30","4K60","8K"};
+static uint8 ligsignalinfo[em_matrix_input_signal_dvi+1][STRLEN]={"No Signal","Unknown","HDMI","DVI"};
+static uint8 ligHDCPstatus[em_matrix_HDCP_version_2_0+1][STRLEN]={"HDCP OFF","HDCP 1.4","HDCP 2.2"};
+static uint8 ligTMDSstatus[em_matrix_signal_TMDS_rates_8K+1][STRLEN]={"Less 4K30","4K30","4K60","8K"};
 static uint8 ligCSstatus[em_matrix_signal_cs_YUV420+1][STRLEN]={"RGB444","YUV444","YUV422","YUV420"};
 static uint8 ligDCstatus[em_matrix_signal_cd_48bit+1][STRLEN]={"24bits","30bits","36bits","48bits"};
-static uint8 ligDisplay[em_matrix_output_display_dvi+1][STRLEN]={"No Display","Unknow","HDMI","DVI"};
+static uint8 ligDisplay[em_matrix_output_display_dvi+1][STRLEN]={"No Display","Unknown","HDMI","DVI"};
 static uint8 ligSinkAbility[em_matrix_ssignal_support_8K+1][STRLEN]={"Support 2K","Support 4K30","Support 4K60","Support 8K"};
 static uint8 ligSinkCS[em_matrix_cs_support_YUV420+1][STRLEN]={"Support RGB444","Support YUV444","Support YUV422","Support YUV 420"};
 static uint8 ligSinkDC[em_matrix_cd_support_48bit+1][STRLEN]={"Support 24bits","Support 30bits","Support 36bits","Support 48bits"};
@@ -1155,7 +1155,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 		if(JsonGetInteger(value,&portindex))
 		{
 			flag=1;
-			json_object_set_new(portinfo,"Phy Index",json_integer(portindex));
+			json_object_set_new(portinfo,"Port Index",json_integer(portindex));
 			cardnum=(portindex+1)/2;
 #if DEBUG
 			printf("The card num is %d\n",cardnum);
@@ -1187,7 +1187,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 						//printf("in_info.hdcp_version is %d\n",in_info.hdcp_version);
 						if(in_info.hdcp_version>=em_matrix_HDCP_version_none&&in_info.hdcp_version<=em_matrix_HDCP_version_2_0)
 						{
-							json_object_set_new(portinfo,"HDCP Stat",json_string(ligHDCPstatus[in_info.hdcp_version]));
+							json_object_set_new(portinfo,"HDCP Status",json_string(ligHDCPstatus[in_info.hdcp_version]));
 						}
 						else
 						{
@@ -1209,7 +1209,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 						//printf("in_info.cs_status is %d \n",in_info.cs_status);
 						if(in_info.cs_status>=em_matrix_signal_cs_RGB444&&in_info.cs_status<=em_matrix_signal_cs_YUV420)
 						{
-							json_object_set_new(portinfo,"Color Space",json_string(ligCSstatus[in_info.cs_status]));
+							json_object_set_new(portinfo,"CS Status",json_string(ligCSstatus[in_info.cs_status]));
 						}
 						else
 						{
@@ -1220,7 +1220,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 						//printf("in_info.cd_status is %d\n",in_info.cd_status);
 						if(in_info.cd_status>=em_matrix_signal_cd_24bit&&in_info.cd_status<=em_matrix_signal_cd_48bit)
 						{
-							json_object_set_new(portinfo,"Deep Color",json_string(ligDCstatus[in_info.cd_status]));
+							json_object_set_new(portinfo,"DC Status",json_string(ligDCstatus[in_info.cd_status]));
 						}
 						else
 						{
@@ -1257,7 +1257,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 						//printf("out_info.hdcp_version is %d\n",out_info.hdcp_version);
 						if(out_info.hdcp_version>=em_matrix_HDCP_version_none&&out_info.hdcp_version<=em_matrix_HDCP_version_2_0)
 						{
-							json_object_set_new(portinfo,"HDCP Stat",json_string(ligHDCPstatus[out_info.hdcp_version]));
+							json_object_set_new(portinfo,"HDCP Status",json_string(ligHDCPstatus[out_info.hdcp_version]));
 						}
 						else
 						{
