@@ -3134,9 +3134,10 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 		sprintf(filename,"/tmp/%s",untarfilename);
 		stat(filename,file);
 		flag=1;
-
+		printf("jifukui file size is %d\n",file.st_size);
 		sprintf(data,"{\"FileName\":\"%s\",\"FileSize\":\"%d\"}",untarfilename,file.st_size);
-		//printf("The data is %s\n",data);
+
+		printf("The data is %s\n",data);
 	}
 	else
 	{
