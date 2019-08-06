@@ -3130,8 +3130,12 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 		}
 		pclose(fstream);
 		untarfilename[strlen(untarfilename)-1]=NULL;
+		struct stat file;
+		sprintf(filename,"/tmp/%s",untarfilename);
+		stat(filename,file);
 		flag=1;
-		sprintf(data,"{\"FileName\":\"%s\"}",untarfilename);
+
+		sprintf(data,"{\"FileName\":\"%s\",\"FileSize\":\"%d\"}",untarfilename,file.st_size);
 		//printf("The data is %s\n",data);
 	}
 	else
