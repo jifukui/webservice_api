@@ -763,7 +763,7 @@ uint8 GetDeviceAudioInfo(char *data,char *estr)
 		while(portinfo[i]>0)
 		{
 			json_object_set(port,"index",json_integer(portinfo[i]));
-			in=lig_matrix_get_audio_pipe_io(lighandle,portinfo[i]);
+			in=lig_matrix_get_active_audio_pipe_io(lighandle,portinfo[i]);
 			if(0==in)
 			{
 				//input
