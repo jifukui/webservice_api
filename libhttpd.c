@@ -3865,7 +3865,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	    }
 #ifdef AUTH_FILE
 	/* Check authorization for this directory. */
-	printf("liguo auth1 \n");
+	//printf("liguo auth1 \n");
 	if ( auth_check( hc, hc->expnfilename ) == -1 )
 	    return -1;
 #endif /* AUTH_FILE */
