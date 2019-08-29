@@ -1440,9 +1440,11 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 	uint32 sid;
 	uint32 val;
 	int32 status;
+	uint32 errorid[128];
+	uint8 error=0;
+	uint32 i;
 	if(json&&(JSON_ARRAY)==json_typeof(json))
-	{
-		uint32 i;
+	{	
 #if DEBUG
 		printf("The json size is %d\n",json_array_size(json));
 #endif
@@ -1468,6 +1470,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 						}
 						else
 						{
+							errorid[error++]=sid;
 #if DEBUG
 							printf("Set error is %d\n",status);
 #endif
@@ -1501,6 +1504,14 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 		printf("The json typs is %d\n",json_typeof(json));
 #endif
 		strcpy(estr,"Error josn type");
+	}
+	for(i=0;i<error;i++)
+	{
+		sprintf(estr+strlen(estr),"%d,",error[i]);
+	}
+	if(error!=0)
+	{
+		estr[strlen(estr)-1]=NULL;
 	}
 	return flag;
 }
