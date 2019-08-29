@@ -1507,11 +1507,12 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 	}
 	for(i=0;i<error;i++)
 	{
-		sprintf(estr+strlen(estr),"%d,",error[i]);
+		sprintf(estr+strlen(estr),"%d,",errorid[i]);
 	}
 	if(error!=0)
 	{
 		estr[strlen(estr)-1]=NULL;
+		printf("The error data is %s\r\n",estr);
 	}
 	return flag;
 }
