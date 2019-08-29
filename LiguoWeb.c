@@ -1471,6 +1471,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 						else
 						{
 							errorid[error++]=sid;
+							printf("Set error is %d\n",status);
 #if DEBUG
 							printf("Set error is %d\n",status);
 #endif

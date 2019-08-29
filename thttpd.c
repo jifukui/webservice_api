@@ -797,15 +797,15 @@ main( int argc, char** argv )
     while ( ( ! terminate ) || num_connects > 0 )
 	{
 		stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
-		printf("The old time is %d\n",jitime);
-		printf("The new time is %d\n",jifile.st_mtime);
+		//printf("The old time is %d\n",jitime);
+		//printf("The new time is %d\n",jifile.st_mtime);
 		if(jitime<jifile.st_mtime)
 		{
-			printf("have change \n");
+			//printf("have change \n");
 			authfile=json_load_file("/nandflash/webserver/thttpd/bin/security.json",0,&error);
 			authdata=json_object_get(authfile,"security");
 			liguoauth.security=(unsigned int )json_integer_value(authdata);
-			printf("liguoauth.security is %d\n",liguoauth.security);
+			//printf("liguoauth.security is %d\n",liguoauth.security);
 			authdata=json_object_get(authfile,"User");
 			int i=0;
 			char *str;
@@ -814,19 +814,19 @@ main( int argc, char** argv )
 				authdata1=json_array_get(authdata,i);
 				authdata2=json_object_get(authdata1,"username");
 				str=json_string_value(authdata2);
-				printf("The liguoauth.Auth[i].username is %s\n",str);
+				//printf("The liguoauth.Auth[i].username is %s\n",str);
 				strcpy(liguoauth.Auth[i].username,str);
 				authdata2=json_object_get(authdata1,"password");
 				str=json_string_value(authdata2);
 				strcpy(liguoauth.Auth[i].password,str);
-				printf("The liguoauth.Auth[i].password is %s\n",str);
-				printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
-				printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
+				//printf("The liguoauth.Auth[i].password is %s\n",str);
+				//printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
+				//printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
 			}
 		}
 		else
 		{
-			printf("no change \n");
+			//printf("no change \n");
 		}
 		jitime=jifile.st_mtime;
 	/* Do we need to re-open the log file? */
