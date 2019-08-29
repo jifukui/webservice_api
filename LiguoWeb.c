@@ -1466,7 +1466,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 						status=lig_matrix_set_port_parameter_value(lighandle,portindex,(EM_MATRIX_PARA_LIST)sid,val);
 						if(!status)
 						{
-							errorid[error++]=sid;
+							//errorid[error++]=sid;
 							flag=1;
 						}
 						else
