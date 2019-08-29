@@ -1009,7 +1009,7 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 {
 	if(liguoauth.security)
 	{
-		printf("open security\n");
+		//printf("open security\n");
 		int l;
 		char authinfo[500];
     	char* authpass;
@@ -1035,38 +1035,38 @@ static int auth_check( httpd_conn* hc, char* dirname  )
 		}
     	*authpass++ = '\0';
 		
-		printf("the user name is %s\n",authinfo);
-		printf("The password is %s\n",authpass);
+		//printf("the user name is %s\n",authinfo);
+		//printf("The password is %s\n",authpass);
 		while (i<AUTH_NUM&&liguoauth.Auth[i].username[0])
 		{
 			strcpy(str,liguoauth.Auth[i].username);
 			ji1=strcmp(str,authinfo);
 			//ji1=strcmp(liguoauth.Auth[i].username,authinfo);
-			printf("The liguoauth.Auth[i].username is %s\n",str);
+			//printf("The liguoauth.Auth[i].username is %s\n",str);
 			strcpy(str,liguoauth.Auth[i].password);
 			ji2=strcmp(str,authpass);
-			printf("The liguoauth.Auth[i].password is %s\n",str);
+			//printf("The liguoauth.Auth[i].password is %s\n",str);
 			//ji2=strcmp(liguoauth.Auth[i].password,authpass);
-			printf("the ji1 is %d  ji2 is %d\n",ji1,ji2);
+			//printf("the ji1 is %d  ji2 is %d\n",ji1,ji2);
 			if(ji1||ji2)
 			{
-				printf("have error\n");
+				//printf("have error\n");
 			}
 			else
 			{
-				printf("success\n");
+				//printf("success\n");
 				return 1;
 			}
-			printf("the i is %d\n",i);
+			//printf("the i is %d\n",i);
 			i++;
 		}
-		printf("jifuku error \n");
+		//printf("jifuku error \n");
 		send_authenticate( hc, dirname );
 		return -1;
 	}	
 	else
 	{
-		printf("close security\n");
+		//printf("close security\n");
 		return 0;
 	}
 }
@@ -3921,7 +3921,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	(void) strcpy( dirname, "." );
     else
 	*cp = '\0';
-	printf("liguo auth2 \n");
+	//printf("liguo auth2 \n");
     if ( auth_check( hc, dirname ) == -1 )
 	return -1;
 
