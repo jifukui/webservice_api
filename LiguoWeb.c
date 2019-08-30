@@ -2130,7 +2130,7 @@ uint8 GetDeviceCardlist(char *data,char *estr)
 				json_object_set(solt,"index",json_integer(i));
 				json_object_set(solt,"status",json_string("online"));
 				json_object_set(solt,"name",json_string((const char *)namebuf));
-				result=lig_matrix_get_card_information_fromHW(lighandle,i,&Card_Info);
+				result=lig_matrix_get_card_information(lighandle,i,&Card_Info);
 				if(result<0)
 				{
 					strcpy(estr,"Get Card info True error");
@@ -2195,7 +2195,7 @@ uint8 GetDeviceCardinfo(json_t *index_str ,char *data,char *estr)
 		{
 			//JsonGetInteger(index_str,card_index);
 			//card_index=atoi(index_str);
-			result=lig_matrix_get_card_information_fromHW(lighandle,(uint32)card_index,&Card_Info);
+			result=lig_matrix_get_card_information(lighandle,(uint32)card_index,&Card_Info);
 			if(result<0)
 				strcpy(estr,"Get Card info True error");
 			else
