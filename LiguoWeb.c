@@ -2113,7 +2113,8 @@ uint8 GetDeviceCardlist(char *data,char *estr)
 			{	
 				memset(namebuf,0x00,64);
 				n=lig_matrix_get_card_name(lighandle,(uint32)i,namebuf,64);
-			}else
+			}
+			else
 			{
 				n=-1;
 			}
@@ -2122,8 +2123,8 @@ uint8 GetDeviceCardlist(char *data,char *estr)
 				json_object_set(solt,"index",json_integer(i));
 				json_object_set(solt,"status",json_string("offline"));
 				json_object_set(solt,"name",json_string("UnKnown"));
-				json_object_set_new(solt,"Direction",json_null());
-				json_object_set_new(solt,"Model_ID",json_null());
+				json_object_set(solt,"Direction",json_null());
+				json_object_set(solt,"Model_ID",json_null());
 			}
 			else
 			{
@@ -2133,7 +2134,10 @@ uint8 GetDeviceCardlist(char *data,char *estr)
 				result=lig_matrix_get_card_information(lighandle,i,&Card_Info);
 				if(result<0)
 				{
-					strcpy(estr,"Get Card info True error");
+					//strcpy(estr,"Get Card info True error");
+					printf("Get card %d infor error",i);
+					json_object_set(solt,"Direction",json_null());
+					json_object_set(solt,"Model_ID",json_null());
 				}
 				else
 				{
@@ -2197,25 +2201,39 @@ uint8 GetDeviceCardinfo(json_t *index_str ,char *data,char *estr)
 			//card_index=atoi(index_str);
 			result=lig_matrix_get_card_information(lighandle,(uint32)card_index,&Card_Info);
 			if(result<0)
+			{
 				strcpy(estr,"Get Card info True error");
+			}
 			else
 			{
 				json_object_set_new(json,"Index",json_integer(card_index));
 				if(Card_Info.io_dir==em_matrix_in)
+				{
 					json_object_set_new(json,"Type",json_string("Input"));
+				}
 				else if(Card_Info.io_dir==em_matrix_out)
+				{
 					json_object_set_new(json,"Type",json_string("Output"));
+				}
 				else
+				{
 					json_object_set_new(json,"Type",json_string("Unknown"));
+				}
 				result=lig_matrix_get_card_name(lighandle,(uint32)card_index,namebuf,64);
 				json_object_set(json,"Model",json_string((const char *)namebuf));
 				json_object_set(json,"Model_ID",json_integer((int)Card_Info.type_id));
 				if(Card_Info.io_dir==em_matrix_in)
+				{
 					json_object_set_new(json,"Direction",json_string("In"));
+				}
 				else if(Card_Info.io_dir==em_matrix_out)
+				{
 					json_object_set_new(json,"Direction",json_string("Out"));
+				}
 				else
+				{
 					json_object_set_new(json,"Direction",json_string("Unknown"));
+				}
 				memset(namebuf,0,64);
 				sprintf(namebuf,"%d.%d.%d",Card_Info.ver_major,Card_Info.ver_minor,Card_Info.ver_build);
 				
@@ -2292,7 +2310,8 @@ uint8 GetDeviceCardinfo(json_t *index_str ,char *data,char *estr)
 				}*/
 				flag=1;
 			}
-		}else
+		}
+		else
 		{
 			strcpy(estr,"Get Card info Index error");
 		}		
