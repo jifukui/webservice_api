@@ -3011,7 +3011,7 @@ uint8 GetVoltageStatus(char *data,char *estr)
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/voltage_cfg.segment";
 	json_t *info;
-	uint8 jsonfile[4096];
+	uint8 jsonfile[8192];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
@@ -3046,7 +3046,7 @@ uint8 GetTemperatureStatus(char *data,char *estr)
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/temp_cfg.segment";
 	json_t *info;
-	uint8 jsonfile[4096];
+	uint8 jsonfile[8192];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
@@ -3080,7 +3080,7 @@ uint8 GetFanStatus(char *data,char *estr)
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/fan_cfg.segment";
 	json_t *info;
-	uint8 jsonfile[4096];
+	uint8 jsonfile[8192];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
