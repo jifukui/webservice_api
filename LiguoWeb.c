@@ -3632,7 +3632,7 @@ uint8 JsonFromFile(uint8 *filepath,uint8 *data)
 	if(file)
 	{
 		uint32 i;
-		for(i=0;i<4096;i++)
+		for(i=0;i<8192;i++)
 		{
 			*(data+i)=fgetc(file);
 			
