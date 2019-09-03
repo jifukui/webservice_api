@@ -9,6 +9,7 @@
 #define PORTNUM 35
 #define STRLEN 	20
 #define GROUPPORT 256
+#define READFILENUM 1024*2
 typedef unsigned char uint8;
 typedef char int8;
 typedef unsigned int uint32;
@@ -515,7 +516,7 @@ uint8 GetDeviceModuleName(char *data,char *estr)
 	json_t *json;
 	json_t *info;
 	json=json_object();
-	uint8 jsonfile[4096];
+	uint8 jsonfile[READFILENUM];
 	json_error_t error;
 	json_t *value;
 	if(JsonFromFile(filepath,jsonfile))
@@ -1373,7 +1374,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 			uint8 filepath[50];
 			sprintf(filepath,"/tmp/port_%d_cfg.segment",portindex);
 			//printf("The path is %s\n",filepath);
-			uint8 jsonfile[4096];
+			uint8 jsonfile[READFILENUM];
 			json_error_t error;
 			if(JsonFromFile(filepath,jsonfile))
 			{
@@ -2641,7 +2642,7 @@ uint8 GetDeviceInfo(char *data,char *estr)
 	device=json_object();
 	//ethinfo2=json_object();
 	//ETH=json_object();
-	uint8 jsonfile[4096];
+	uint8 jsonfile[READFILENUM];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
@@ -3011,7 +3012,7 @@ uint8 GetVoltageStatus(char *data,char *estr)
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/voltage_cfg.segment";
 	json_t *info;
-	uint8 jsonfile[8192];
+	uint8 jsonfile[READFILENUM];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
@@ -3046,7 +3047,7 @@ uint8 GetTemperatureStatus(char *data,char *estr)
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/temp_cfg.segment";
 	json_t *info;
-	uint8 jsonfile[8192];
+	uint8 jsonfile[READFILENUM];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
@@ -3080,7 +3081,7 @@ uint8 GetFanStatus(char *data,char *estr)
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/fan_cfg.segment";
 	json_t *info;
-	uint8 jsonfile[8192];
+	uint8 jsonfile[READFILENUM];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
@@ -3115,7 +3116,7 @@ uint8 GetAlertStatus(char *data,char *estr)
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/alert_cfg.segment";
 	json_t *info;
-	uint8 jsonfile[4096];
+	uint8 jsonfile[READFILENUM];
 	json_error_t error;
 	if(JsonFromFile(filepath,jsonfile))
 	{
@@ -3632,7 +3633,7 @@ uint8 JsonFromFile(uint8 *filepath,uint8 *data)
 	if(file)
 	{
 		uint32 i;
-		for(i=0;i<8192;i++)
+		for(i=0;i<READFILENUM-1;i++)
 		{
 			*(data+i)=fgetc(file);
 			
