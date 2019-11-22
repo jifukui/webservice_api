@@ -19,6 +19,7 @@ typedef short int int16;
 extern void *lighandle;
 extern Auth_liguo liguoauth;
 uint8 ligPorts=PORTNUM;
+key_t semid;
 static uint8 ligportinfo[2][STRLEN]={"In Port Info","Out Port Info"};
 static uint8 ligsignalinfo[em_matrix_input_signal_dvi+1][STRLEN]={"No Signal","Unknown","HDMI","DVI"};
 static uint8 ligHDCPstatus[em_matrix_HDCP_version_2_0+1][STRLEN]={"HDCP OFF","HDCP 1.4","HDCP 2.2"};
@@ -83,6 +84,43 @@ static int8  GetUserPassword(uint8 *user,uint8 *psw);
 /**内部中断*/
 static uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam);
 static uint8 SendCardIRQ(EM_MATRIX_CARD_PARAM_IRQ_TYPE sysparam);
+/****/
+int binary_semaphore_allocation(key_t key,int sem_flags)
+{
+    return semget(key,1,sem_flags);
+}
+int binary_semaphore_deallocate(int semid)
+{
+    union semun ignored_argument;
+    return semctl(semid,1,IPC_RMID,ignored_argument);
+}
+int binary_semaphore_initialize(int semid)
+{
+    union semun argument;
+    unsigned short values[1];
+    values[0]=1;
+    argument.array=values;
+    return semctl(semid,0,SETALL,argument);
+}
+int binary_semaphore_wait(int semid)
+{
+    struct sembuf operations[1];
+    operations[0].sem_num=0;
+    operations[0].sem_op=-1;
+    operations[0].sem_flg=SEM_UNDO;
+    printf("waitting is %d\n",(int)getpid());
+    return semop(semid,operations,1);
+}
+int binary_semaphore_post(int semid)
+{
+    struct sembuf operations[1];
+    operations[0].sem_num=0;
+    operations[0].sem_op=1;
+    operations[0].sem_flg=SEM_UNDO;
+    printf("process is %d\n",(int)getpid());
+    return semop(semid,operations,1);
+}
+/***/
 void Uint8toString(int8 *str,uint8 *data,uint32 length)
 {
 #if DEBUG
@@ -140,6 +178,7 @@ uint8 LiguoWeb_POST_Method(const unsigned char *sstr,json_t *json,json_t *ech,js
 }
 uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *estr)
 {
+	binary_semaphore_wait(semid);
 	json_error_t error;
     json_t *jsonget;
     jsonget=json_loads(sstr,0,&error);
@@ -505,6 +544,8 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 		json_object_set_new(json,"err",json_string(error.source));
 #endif
     }
+	printf("end of this %d\n",getpid());
+	binary_semaphore_post(semid);
     return flag;
 
 }
@@ -2493,7 +2534,7 @@ uint8 SetDeviceRouting(json_t *json,char *estr)
 	uint32 in,out;
 	int32 value;
 	char str[5];
-	value=lig_matrix_set_db_mode(lighandle,1);
+	//value=lig_matrix_set_db_mode(lighandle,1);
 #if DEBUG
 	printf("The open database value is %d\n",value);
 #endif
@@ -2617,7 +2658,7 @@ uint8 SetDeviceRouting(json_t *json,char *estr)
 		}
 		
 	}
-	value=lig_matrix_set_db_mode(lighandle,0);
+	//value=lig_matrix_set_db_mode(lighandle,0);
 #if DEBUG
 	printf("The ff91 status is %d\n",ff91);
 	printf("The close database value is %d\n",value);

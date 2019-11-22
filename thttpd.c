@@ -174,6 +174,7 @@ static void thttpd_logstats( long secs );
 
 extern void * lighandle;
 extern Auth_liguo liguoauth;
+extern key_t semid;
 /* SIGTERM and SIGINT say to exit immediately. */
 static void
 handle_term( int sig )
@@ -376,6 +377,22 @@ main( int argc, char** argv )
 
     lighandle=lig_matrix_open(LIG_MATRIX_DLL_VER);
 
+	key_t key;
+	key=ftok(".",1);
+	semid=binary_semaphore_allocation(key,IPC_CREAT |0666);
+	errno=0;
+	if(semid==-1)
+    {
+        printf("error of greated %d %s\n",errno,strerror(errno));
+		exit(1);
+    }
+	errno=0;
+    err=binary_semaphore_initialize(semid);
+    if(err==-1)
+    {
+        printf("init error %d %s\n",errno,strerror(errno));
+		exit(2);
+    }
 	liguoauth.security=0;
 	strcpy(liguoauth.Auth[0].username,"Admin");
 	memset(liguoauth.Auth[0].password,0,PASSWORDLEN);
