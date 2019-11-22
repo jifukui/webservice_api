@@ -1594,6 +1594,10 @@ shut_down( void )
     free( (void*) connects );
     if ( throttles != (throttletab*) 0 )
 	free( (void*) throttles );
+	if(semid!=-1)
+	{
+		binary_semaphore_deallocate(semid);
+	}
     }
 
 
