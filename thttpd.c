@@ -372,6 +372,7 @@ main( int argc, char** argv )
     httpd_sockaddr sa6;
     int gotv4, gotv6;
     struct timeval tv;
+	int err=0;
     int procfd = lig_pidf_open("matrix_app_kramer");
     lig_pidf_close(procfd);
 
