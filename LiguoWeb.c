@@ -602,7 +602,6 @@ uint8 GetDeviceModuleName(char *data,char *estr)
 	{
 		strcpy(estr,"Get file fail");
 	}
-	
 	return flag;
 }
 
@@ -1212,6 +1211,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 				{
 					LIG_MATRIX_OBJ_INPUT_SIGNAL in_info;
 					json_object_set_new(portinfo,"Direction",json_string("In"));
+#if DEBUG
 					status=lig_matrix_get_port_input_signal_information(lighandle,portindex,&in_info);
 					if(!status)
 					{
@@ -1277,11 +1277,13 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 						printf("Get in Port Info error %d\n",status);
 #endif
 					}
+#endif
 				}
 				else if(em_matrix_out==dir)
 				{
 					LIG_MATRIX_OBJ_OUTPUT_DISPLAY out_info;
 					json_object_set_new(portinfo,"Direction",json_string("Out"));
+#if DEBUG
 					status=lig_matrix_get_port_output_display_information(lighandle,portindex,&out_info);
 					if(!status)
 					{
@@ -1347,6 +1349,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 						printf("Get Out Port Info error %d\n",status);
 #endif
 					}
+#endif
 				}
 				else
 				{
@@ -1413,43 +1416,56 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 				}	
 			}*/
 			uint8 filepath[50];
+			uint8 jsonread=0;
 			sprintf(filepath,"/tmp/port_%d_cfg.segment",portindex);
 			//printf("The path is %s\n",filepath);
 			uint8 jsonfile[READFILENUM];
+			uint8 loopnum=1;
 			json_error_t error;
-			if(JsonFromFile(filepath,jsonfile))
-			{
-				info=json_loads(jsonfile,0,&error);
-				if(info)
+			do{
+				if(JsonFromFile(filepath,jsonfile))
 				{
-					json_object_set_new(abiltyinfo,"Name",json_string(""));
-					json_object_set_new(abiltyinfo,"Value",json_integer(1));
-					json_object_del(info,"datasize");
-					json_object_del(info,"index");
-					json_object_del(info,"dir");
-					json_object_del(info,"type");
-					json_object_del(info,"typeid");
-					json_object_del(info,"EDID");
-					void *iter;
-					json_t *temp;
-					const char *key;
-					json_t *value1;
-					iter=json_object_iter(info);
-					while(iter)
+					info=json_loads(jsonfile,0,&error);
+					if(info)
 					{
-						
-						key = json_object_iter_key(iter);
-						value1 = json_object_iter_value(iter);
-						json_object_set(abiltyinfo,"Name",json_string(key));
-						temp=json_object_get(value1,"value");
-						json_object_set(abiltyinfo,"Value",temp);
-						//printf("key is %s\n",key);
-						cpy=json_deep_copy(abiltyinfo);
-						json_array_append(arr1,cpy);
-						iter = json_object_iter_next(info, iter);
+						jsonread=1;
+						json_object_set_new(abiltyinfo,"Name",json_string(""));
+						json_object_set_new(abiltyinfo,"Value",json_integer(1));
+						json_object_del(info,"datasize");
+						json_object_del(info,"index");
+						json_object_del(info,"dir");
+						json_object_del(info,"type");
+						json_object_del(info,"typeid");
+						json_object_del(info,"EDID");
+						void *iter;
+						json_t *temp;
+						const char *key;
+						json_t *value1;
+						iter=json_object_iter(info);
+						while(iter)
+						{
+							
+							key = json_object_iter_key(iter);
+							value1 = json_object_iter_value(iter);
+							json_object_set(abiltyinfo,"Name",json_string(key));
+							temp=json_object_get(value1,"value");
+							json_object_set(abiltyinfo,"Value",temp);
+							//printf("key is %s\n",key);
+							cpy=json_deep_copy(abiltyinfo);
+							json_array_append(arr1,cpy);
+							iter = json_object_iter_next(info, iter);
+						}
+						break;
 					}
+					
+					
 				}
-			}
+				if(!jsonread)
+				{
+					sleep(3);
+				}
+				
+			}while (loopnum--);		
 			json_object_set_new(infoall,"Setting",arr1);
 			char *str;
 			str=json_dumps(infoall,JSON_PRESERVE_ORDER);
