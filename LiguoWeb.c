@@ -3213,6 +3213,7 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 	if(JsonGetString(json,filename))
 	{
 		FILE * fstream;
+		printf("file name is %s\n",filename);
 		sprintf(untarfilename,"unzip -o \"/tmp/%s\" -d /tmp  > /dev/null && ls -t /tmp/ | grep -i \".k[pm][pt][tw]\"",filename);
 		if(NULL==(fstream=popen(untarfilename,"r"))||NULL==fgets(untarfilename,sizeof(untarfilename), fstream))    
 		{    
