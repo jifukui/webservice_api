@@ -3249,6 +3249,9 @@ uint8 SetFirmwareUpgrade(json_t * json,char *data,char *estr)
 	uint8 * index=NULL;
 	FILE *fp=NULL;
 	fp=fopen(filepath,"w+");
+	JsonGetString(json,filename);
+	printf("The fp is %d\n",fp);
+	printf("The json is %s\n",filename);
 	if(fp&&json&&JsonGetString(json,filename))
 	{
 		/*fclose(fp);
