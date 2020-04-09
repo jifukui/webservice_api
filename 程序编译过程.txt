@@ -1,10 +1,14 @@
-¶ÔÓÚpowerpc
-£¨1£©½«½âÑ¹ÎÄ¼ş½âÑ¹ÔÚ/opt/Ä¿Â¼ÏÂ
-£¨2£©Í·ÎÄ¼şµÄµØÖ·ÔÚ/opt/eldk-5.5.2/powerpc/sysroots/powerpc-linux/usr/include
-£¨3£©¿âÎÄ¼şµÄµØÖ·ÔÚ/opt/eldk-5.5.2/powerpc/sysroots/powerpc-linux/usr/lib
-£¨4£©ÆäÊµ×îÖÕ½»²æ±àÒëÆ÷ÔÚ/opt/eldk-5.5.2/powerpc/sysroots/i686-eldk-linux/usr/bin/powerpc-linux/
-¶ÔÓÚĞÂµÄARM³ÌĞò
-£¨1£©½«½âÑ¹ÎÄ¼ş½âÑ¹ÔÚ/opt/Ä¿Â¼ÏÂ
-£¨2£©Í·ÎÄ¼şµÄµØÖ·ÔÚ/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/include
-£¨3£©¿âÎÄ¼şµÄµØÖ·ÔÚ/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/lib
-£¨4£©ÆäÊµ×îÖÕ½»²æ±àÒëÆ÷ÔÚ/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/i686-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi
+å¯¹äºpowerpc
+ï¼ˆ1ï¼‰å°†è§£å‹æ–‡ä»¶è§£å‹åœ¨/opt/ç›®å½•ä¸‹
+ï¼ˆ2ï¼‰å¤´æ–‡ä»¶çš„åœ°å€åœ¨/opt/eldk-5.5.2/powerpc/sysroots/powerpc-linux/usr/include
+ï¼ˆ3ï¼‰åº“æ–‡ä»¶çš„åœ°å€åœ¨/opt/eldk-5.5.2/powerpc/sysroots/powerpc-linux/usr/lib
+ï¼ˆ4ï¼‰å…¶å®æœ€ç»ˆäº¤å‰ç¼–è¯‘å™¨åœ¨/opt/eldk-5.5.2/powerpc/sysroots/i686-eldk-linux/usr/bin/powerpc-linux/
+ï¼ˆ5ï¼‰ç¼–è¯‘ç›¸å…³çš„åº“æ–‡ä»¶
+./configure --host=powerpc-linux --prefix=/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/
+å¯¹äºæ–°çš„ARMç¨‹åº
+ï¼ˆ1ï¼‰å°†è§£å‹æ–‡ä»¶è§£å‹åœ¨/opt/ç›®å½•ä¸‹
+ï¼ˆ2ï¼‰å¤´æ–‡ä»¶çš„åœ°å€åœ¨/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/include
+ï¼ˆ3ï¼‰åº“æ–‡ä»¶çš„åœ°å€åœ¨/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/lib
+ï¼ˆ4ï¼‰å…¶å®æœ€ç»ˆäº¤å‰ç¼–è¯‘å™¨åœ¨/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/i686-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi
+ï¼ˆ5ï¼‰ç¼–è¯‘ç›¸å…³çš„åº“æ–‡ä»¶
+CC="arm-poky-linux-gnueabi-gcc -march=armv7ve -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a7 --sysroot=/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi -fdiagnostics-color=auto"  ./configure --host=arm-poky-linux-gnueabi  --prefix=/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/  --with-sysroot=/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi
