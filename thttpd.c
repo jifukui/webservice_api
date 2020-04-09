@@ -373,9 +373,10 @@ main( int argc, char** argv )
     int gotv4, gotv6;
     struct timeval tv;
 	int err=0;
-    int procfd = lig_pidf_open("matrix_app_kramer");
+    int procfd ;
+	// printf("good start work\n");
+	procfd= lig_pidf_open("matrix_app_kramer");
     lig_pidf_close(procfd);
-
     lighandle=lig_matrix_open(LIG_MATRIX_DLL_VER);
 
 	key_t key;
@@ -394,6 +395,7 @@ main( int argc, char** argv )
         printf("init error %d %s\n",errno,strerror(errno));
 		exit(2);
     }
+	// printf("good start work 1\n");
 	liguoauth.security=0;
 	strcpy(liguoauth.Auth[0].username,"Admin");
 	memset(liguoauth.Auth[0].password,0,PASSWORDLEN);
@@ -405,6 +407,7 @@ main( int argc, char** argv )
 	json_t *authdata;
 	json_t *authdata1;
 	json_t *authdata2;
+	// printf("good start work 1.1\n");
 	if(authfile)
 	{
 		
@@ -413,7 +416,8 @@ main( int argc, char** argv )
 		printf("liguoauth.security is %d\n",liguoauth.security);
 		authdata=json_object_get(authfile,"User");
 		int i=0;
-		char *str;
+		char *str=NULL;
+		// printf("good start work 1.2\n");
 		for(i;i<AUTH_NUM&&i<json_array_size(authdata);i++)
 		{
 			authdata1=json_array_get(authdata,i);
@@ -429,11 +433,15 @@ main( int argc, char** argv )
 	}
 	else
 	{
-		printf("The error is %s\n",error);
+		// printf("good start work 1.3\n");
+		// printf("The error is %s\n",error);
 		printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[0].username);
 		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
+		// printf("good start work 1.4\n");
 		writesecurityfile();
+		// printf("good start work 1.5\n");
 	}
+	printf("good start work 2\n");
 	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 	jitime=jifile.st_mtime;
     argv0 = argv[0];

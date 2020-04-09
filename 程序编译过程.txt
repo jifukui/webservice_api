@@ -1,0 +1,10 @@
+对于powerpc
+（1）将解压文件解压在/opt/目录下
+（2）头文件的地址在/opt/eldk-5.5.2/powerpc/sysroots/powerpc-linux/usr/include
+（3）库文件的地址在/opt/eldk-5.5.2/powerpc/sysroots/powerpc-linux/usr/lib
+（4）其实最终交叉编译器在/opt/eldk-5.5.2/powerpc/sysroots/i686-eldk-linux/usr/bin/powerpc-linux/
+对于新的ARM程序
+（1）将解压文件解压在/opt/目录下
+（2）头文件的地址在/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/include
+（3）库文件的地址在/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/lib
+（4）其实最终交叉编译器在/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/i686-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi
