@@ -16,7 +16,7 @@ int main()
 	int flag=0;
 	char *val=NULL;
 	json_t *obj;
-	nice(0);
+	nice(-10);
 	obj=json_object();
 	val=getenv("CONTENT_LENGTH");
 	printf("Content-type: application/json; charset=utf-8\r\n");
