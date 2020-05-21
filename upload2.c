@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <jansson.h>
+#include <unistd.h>
 char uploadfilename[64];
 int contentlen;
 int codelength;
@@ -15,6 +16,7 @@ int main()
 	int flag=0;
 	char *val=NULL;
 	json_t *obj;
+	nice(0);
 	obj=json_object();
 	val=getenv("CONTENT_LENGTH");
 	printf("Content-type: application/json; charset=utf-8\r\n");
