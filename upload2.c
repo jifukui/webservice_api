@@ -160,7 +160,7 @@ int getfilecontent()
 			return 0;
 		}
 	}
-	return 3;
+	return readlength;
 }
 void getendcode()
 {
