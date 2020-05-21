@@ -181,28 +181,28 @@ int getdata(char *data)
 	int n=0;
 	char ch;
 	while(contentlen>0)
-        {
-                ch=getchar();
-                data[n]=ch;
-                n++;
+	{
+		ch=getchar();
+		data[n]=ch;
+		n++;
 		contentlen--;
-                if(flag)
-                {
-                        flag=0;
-                        if(ch==10)
-                        {
-                                data[n]=0;
-                        	return n;
-                        }
-                }
-                else
-                {
-                        if(ch==13)
-                        {
-                                flag=1;		
-                        }
-                }
-        }
+		if(flag)
+		{
+				flag=0;
+				if(ch==10)
+				{
+						data[n]=0;
+					return n;
+				}
+		}
+		else
+		{
+				if(ch==13)
+				{
+						flag=1;		
+				}
+		}
+	}
 	return 0;
 
 }
