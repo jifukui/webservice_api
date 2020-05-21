@@ -150,7 +150,7 @@ int getfilecontent()
 			}
 			else
 			{
-				return 1;
+				return 2;
 			}
 		}
 		getchar();
@@ -160,7 +160,7 @@ int getfilecontent()
 			return 0;
 		}
 	}
-	return 1;
+	return 3;
 }
 void getendcode()
 {
