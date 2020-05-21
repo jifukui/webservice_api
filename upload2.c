@@ -124,10 +124,9 @@ int getfilecontent()
 	{
 		for(i=0;i<nums;i++)
 		{
-			for(n=0;n<filesize;)
+			for(n=0;n<filesize;n++)
 			{
 				data[n]=getchar();
-				n++;
 			}
 			if(filesize==fwrite(data,1,filesize,fp))
 			{
@@ -140,13 +139,10 @@ int getfilecontent()
 		}
 		if(readlength<length)
 		{
-		
 			i=length-readlength;
-		
-			for(n=0;n<i;)
+			for(n=0;n<i;n++)
 			{
 				data[n]=getchar();
-				n++;
 			}
 			if(i==fwrite(data,1,i,fp))
 			{		
