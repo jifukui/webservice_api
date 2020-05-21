@@ -3214,23 +3214,26 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 	{
 		FILE * fstream;
 		printf("file name is %s\n",filename);
-		sprintf(untarfilename,"unzip -o \"/tmp/%s\" -d /tmp  > /dev/null && ls -t /tmp/ | grep -i \".k[pm][pt][tw]\"",filename);
+		sprintf(untarfilename,"unzip -o \"/tmp/%s\" -d /tmp  > /dev/null && ls -t /tmp/ | grep -i \".xml\"",filename);
 		if(NULL==(fstream=popen(untarfilename,"r"))||NULL==fgets(untarfilename,sizeof(untarfilename), fstream))    
 		{    
-				strcpy(estr,"untar file failed");
-				return flag;	
+			strcpy(estr,"untar file failed");
+			return flag;	
 		}
 		pclose(fstream);
 		untarfilename[strlen(untarfilename)-1]=NULL;
-		struct stat file;
+		//struct stat file;
 		sprintf(filename,"/tmp/%s",untarfilename);
-		printf("file name is %s\n",filename);
-		stat(filename,&file);
+		//printf("file name is %s\n",filename);
+		//stat(filename,&file);
+		sprintf(untarfilename,"mv %s /nandflash/thttpd/www/",filename);
+		printf("The value is %s\n",untarfilename);
+		system(untarfilename);
 		flag=1;
-		printf("jifukui file size is %d\n",file.st_size);
-		sprintf(data,"{\"FileName\":\"%s\",\"FileSize\":\"%d\"}",untarfilename,file.st_size);
+		//printf("jifukui file size is %d\n",file.st_size);
+		//sprintf(data,"{\"FileName\":\"%s\",\"FileSize\":\"%d\"}",untarfilename,file.st_size);
 
-		printf("The data is %s\n",data);
+		//printf("The data is %s\n",data);
 	}
 	else
 	{

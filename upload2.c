@@ -120,7 +120,7 @@ int getfilecontent()
 	nums=length/filesize;
 	FILE *fp=NULL;
 	int n;
-	sprintf(path,"/tmp/www/%s",uploadfilename);
+	sprintf(path,"/tmp/%s",uploadfilename);
 	fp=fopen(path,"wb+");
 	if(fp)
 	{
