@@ -3214,6 +3214,7 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 	{
 		FILE * fstream;
 		printf("file name is %s\n",filename);
+		//system("rm /te");
 		sprintf(untarfilename,"unzip -o \"/tmp/%s\" -d /tmp  > /dev/null && ls -t /tmp/ | grep -i \".xml\"",filename);
 		if(NULL==(fstream=popen(untarfilename,"r"))||NULL==fgets(untarfilename,sizeof(untarfilename), fstream))    
 		{    
@@ -3224,9 +3225,10 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 		untarfilename[strlen(untarfilename)-1]=NULL;
 		//struct stat file;
 		sprintf(filename,"/tmp/%s",untarfilename);
+		sprintf(data,"{\"FileName\":\"%s\"}",untarfilename);
 		//printf("file name is %s\n",filename);
 		//stat(filename,&file);
-		sprintf(untarfilename,"mv %s /nandflash/thttpd/www/",filename);
+		sprintf(untarfilename,"mv %s /nandflash/webserver/thttpd/www/",filename);
 		printf("The value is %s\n",untarfilename);
 		system(untarfilename);
 		flag=1;
