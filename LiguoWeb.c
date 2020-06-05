@@ -3622,7 +3622,7 @@ uint8 JsonGetString(json_t *json,char *data)
 	uint8 flag=0;
 	if(json)
 	{
-		if(==JSON_STRING)
+		if(json_typeof(json)==JSON_STRING)
 		{
 			strcpy(data,json_string_value(json));
 			flag=1;
