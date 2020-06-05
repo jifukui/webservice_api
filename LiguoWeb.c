@@ -3786,14 +3786,16 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 	{
 		sprintf(str,"#name %s\r",name);
 		printf(str);
-		printf("good set dns\r");
+		printf("good set dns\n");
 		flag=1;
 		//status=Mysystem("")
 	}
 	else
 	{
+		printf("have error\n");
 		strcpy(estr,"Error of json type");
 	}
+	printf("end of this %d\n",flag);
 	return flag;
 }
 uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
