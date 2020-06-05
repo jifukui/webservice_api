@@ -3766,8 +3766,11 @@ uint8 SetDHCPState(json_t *json,char *data,char *estr)
 	{
 		state%=2;
 		sprintf(str,"#net-DHCP %d\r",state);
-		printf("%s\n",str);
-		flag=1;
+		status=Mysystem(str);
+		if(!status)
+		{
+			flag=1;
+		}
 	}
 	else
 	{
@@ -3784,11 +3787,14 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 	printf("Hello this is dns\n");
 	if(JsonGetString(json,name))
 	{
-		printf("The name is %s\n",name);
+		//printf("The name is %s\n",name);
 		sprintf(str,"#name %s\r",name);
-		printf("%s\n",str);
-		flag=1;
-		//status=Mysystem("")
+		//printf("%s\n",str);
+		status=Mysystem(str);
+		if(!status)
+		{
+			flag=1;
+		}
 	}
 	else
 	{
@@ -3804,9 +3810,12 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 	uint8 str[256];
 	if(JsonGetString(json,filename))
 	{
-		sprintf(str,"#%s -R /tmp\r",filename);
-		printf("%s\n",str);
-		flag=1;
+		sprintf(str,"%s -R /tmp\r",filename);
+		status=Mysystem(str);
+		if(!status)
+		{
+			flag=1;
+		}
 	}
 	else
 	{
