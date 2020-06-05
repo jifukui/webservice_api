@@ -3766,7 +3766,7 @@ uint8 SetDHCPState(json_t *json,char *data,char *estr)
 	if(JsonGetInteger(json,&state))
 	{
 		state%=2;
-		sprintf(str,"#net-DHCP %d\r",state);
+		sprintf(str,"printf \"#net-DHCP %d\r\" >> /tmp/lig_com_in  /",state);
 		status=Mysystem(str);
 		if(!status)
 		{
@@ -3789,7 +3789,7 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 	if(JsonGetString(json,name))
 	{
 		//printf("The name is %s\n",name);
-		sprintf(str,"#name %s\r",name);
+		sprintf(str,"printf \"#name %s\r\" > /tmp/lig_com_in",name);
 		//printf("%s\n",str);
 		status=Mysystem(str);
 		if(!status)
