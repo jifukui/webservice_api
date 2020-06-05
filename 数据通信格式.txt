@@ -1357,18 +1357,14 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 	"error":"xxxxxxxxxxxxxxxxxx"
 }
 34.设置DNS名字
-
 {
-    "cmd": "SetUserPassword",
-    "UserPassword":{
-        "username":""
-        "password":""
-        "newpassword":""
+    "cmd": "setdnsname",
+    "name":"xxxxx"
     }	
 }
 成功返回
 {
-	"cmd":"SetUserPassword",
+	"cmd":"setdnsname",
 	"status":"SUCCESS",
 	"echo":
 	{
@@ -1382,7 +1378,72 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 }
 失败返回
 {
-	"cmd":"SetUserPassword",
+	"cmd":"setdnsname",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+35.设置DHCP状态
+{
+    "cmd": "setDHCPstate",
+    "dhcp":"1"//1 on ,0 off
+    }	
+}
+成功返回
+{
+	"cmd":"setDHCPstate",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            ""
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"setDHCPstate",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+
+36.json文件更新
+{
+    "cmd": "upgradejsonfile",
+    "filename":"xxxxx"
+    }	
+}
+成功返回
+{
+	"cmd":"upgradejsonfile"",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            ""
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"upgradejsonfile"",
 	"status":"ERROR",
 	"echo":
 	{
