@@ -3762,6 +3762,7 @@ uint8 SetDHCPState(json_t *json,char *data,char *estr)
 	uint8 flag=0;
 	uint32 state=0;
 	uint8 str[128];
+	int status=0;
 	if(JsonGetInteger(json,&state))
 	{
 		state%=2;
@@ -3808,6 +3809,7 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 	uint8 flag=0;
 	uint8 filename[128];
 	uint8 str[256];
+	int status=0;
 	if(JsonGetString(json,filename))
 	{
 		sprintf(str,"%s -R /tmp\r",filename);
