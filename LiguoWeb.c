@@ -3787,7 +3787,6 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 		printf("The name is %s\n",name);
 		sprintf(str,"#name %s\r",name);
 		printf(str);
-		printf("good set dns\n");
 		flag=1;
 		//status=Mysystem("")
 	}
