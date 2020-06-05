@@ -1356,3 +1356,39 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 	},
 	"error":"xxxxxxxxxxxxxxxxxx"
 }
+34.设置DNS名字
+
+{
+    "cmd": "SetUserPassword",
+    "UserPassword":{
+        "username":""
+        "password":""
+        "newpassword":""
+    }	
+}
+成功返回
+{
+	"cmd":"SetUserPassword",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            ""
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"SetUserPassword",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}

@@ -3471,6 +3471,7 @@ cgi_child( httpd_conn* hc )
     	(void) nice( CGI_NICE );
 #endif /* CGI_NICE */
 		char *instr=NULL,errstr[200];
+		errstr[0]=NULL;
 		json_t *jsonobj;
 		json_t *jsonecho;
 		json_t *jsonres;

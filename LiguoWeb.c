@@ -59,6 +59,9 @@ static uint8 SetCardFactory(json_t *json,char*data,char *estr);
 static uint8 SetSecurityStat(json_t *json,char *data,char *estr);
 static uint8 GetSecurityStat(char *data,char *estr);
 static uint8 SetUserPassword(json_t *json,char *data,char *estr);
+static uint8 SetDHCPState(json_t *json,char *data,char *estr);
+static uint8 SetDNSName(json_t *json,char *data,char *estr);
+static uint8 UPgreadJsonFile(json_t *json,char *data,char *estr);
 /**环境监控*/
 static uint8 GetVoltageStatus(char *data,char *estr);
 static uint8 GetTemperatureStatus(char *data,char *estr);
@@ -190,8 +193,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
         cmd=json_object_get(jsonget,"cmd");
 		char str[30];
         if(JsonGetString(cmd,str))
-        {
-			
+        {	
 			json_error_t error;
 			json_object_set_new(json,"cmd",json_string(str));
             if(!strcmp(str,"matrix_status"))
@@ -292,8 +294,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				else
 				{
 					strcpy(estr,"File no The key of file");
-				}
-				
+				}	
 			}	
 			else if(!strcmp(str,"GetPortInfo"))
 			{
@@ -306,8 +307,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				else
 				{
 					strcpy(estr,"not the PortInfo Key");
-				}
-				
+				}	
 			}
 			else if(!strcmp(str,"SetPortInfo"))
 			{
@@ -456,8 +456,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				else
 				{
 					strcpy(estr,"not the group Key");
-				}
-				
+				}	
 			}
 			else if(!strcmp(str,"SetGroupInfo"))
 			{
@@ -470,8 +469,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				else
 				{
 					strcpy(estr,"not the group Key");
-				}
-				
+				}	
 			}
 			else if(!strcmp(str,"SetSecurityStat"))
 			{
@@ -484,8 +482,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				else
 				{
 					strcpy(estr,"not the Security Key");
-				}
-				
+				}	
 			}
 			else if(!strcmp(str,"GetSecurityStat"))
 			{
@@ -504,6 +501,45 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 					strcpy(estr,"not the UserPassword Key");
 				}
 			}
+			else if(!strcmp(str,"setdnsname"))
+			{
+				json_t *name;
+				name=json_object_get(jsonget,"name");
+				if(name)
+				{
+					flag=SetDNSName(name,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the name Key");
+				}
+			}
+			else if(!strcmp(str,"setDHCPstate"))
+			{
+				json_t *dhcp;
+				dhcp=json_object_get(jsonget,"dhcp");
+				if(dhcp)
+				{
+					flag=SetDHCPState(dhcp,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the dhcp key");
+				}	
+			}
+			else if(!strcmp(str,"upgradejsonfile"))
+			{
+				json_t *filename;
+				filename=json_object_get(jsonget,"filename");
+				if(filename)
+				{
+					flag=UPgreadJsonFile(filename,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the filename key");
+				}	
+			}
 #if DEBUG
 			else if(!strcmp(str,"timeout"))
 			{
@@ -511,9 +547,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				while(1)
 				{
 					sleep(1);
-					//printf("good for job %d \n",n);
-					n++;
-					
+					n++;	
 				}
 				flag=1;
 			}
@@ -1580,14 +1614,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 static int Mysystem(const char* cmdstring)
 {
 	printf("The data is %s\n",cmdstring);
-	system(cmdstring);
-	/*FILE *fstream=NULL;
-	if(NULL==(fstream=popen(cmdstring,"r")))
-	{
-		return -1;
-	}
-	pclose(fstream);*/
-	return 0;
+	return system(cmdstring);;
 }
 
 uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
@@ -1622,10 +1649,6 @@ uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
 					{
 						memset(buf_ifconfig,0,128);
 						sprintf(buf_ifconfig,"lig_ifcfg %s %s %s",name,parameter,value);
-						//printf("The parameter is %s\n",parameter);
-						//printf("The parameter is %s\n",parameter);
-						
-						//sprintf(buf_ifconfig,"ifconfig %s %s",name,value);//
 #if DEBUG
 						printf("%s!!\n",buf_ifconfig);
 #endif 
@@ -2537,7 +2560,7 @@ uint8 SetDeviceCardinfo(json_t *Card_json ,char *data,char *estr)
 }
 
 
-/*只是截取数据并未对数据的正确性进行校�?*/
+/*只是截取数据并未对数据的正确性进行*/
 uint8 SetDeviceRouting(json_t *json,char *estr)
 {
 	uint8 flag=0;
@@ -3434,7 +3457,6 @@ uint8 GetUpgradeStatus(char * data,char *estr)
 	return flag;
 }
 
-
 uint8 GetSupportGroupPort(json_t *json,char *data,char *estr)
 {
 	uint8 flag=0;
@@ -3595,14 +3617,12 @@ uint8 SetGroupPragram(json_t *json,char *data,char *estr)
 	return flag;
 }
 
-
-
 uint8 JsonGetString(json_t *json,char *data)
 {
 	uint8 flag=0;
 	if(json)
 	{
-		if(json_typeof(json)==JSON_STRING)
+		if(==JSON_STRING)
 		{
 			strcpy(data,json_string_value(json));
 			flag=1;
@@ -3733,6 +3753,61 @@ int8 GetUserPassword(uint8 *user,uint8 *psw)
 			return flag;
 		}			
 		i++;
+	}
+	return flag;
+}
+
+uint8 SetDHCPState(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	uint32 state=0;
+	uint8 str[128];
+	if(JsonGetInteger(json,&state))
+	{
+		state%=2;
+		sprintf(str,"#net-DHCP %d\r",state);
+		printf(str);
+		flag=1;
+	}
+	else
+	{
+		strcpy(estr,"Error of json type");
+	}
+	return flag;
+}
+uint8 SetDNSName(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	uint8 name[128];
+	uint8 str[256];
+	int status=0;
+	if(JsonGetString(json,name))
+	{
+		sprintf(str,"#name %s\r",name);
+		printf(str);
+		flag=1;
+		//status=Mysystem("")
+	}
+	else
+	{
+		strcpy(estr,"Error of json type");
+	}
+	return flag;
+}
+uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	uint8 filename[128];
+	uint8 str[256];
+	if(JsonGetString(json,filename))
+	{
+		sprintf(str,"#%s -R /tmp\r",filename);
+		printf(str);
+		flag=1;
+	}
+	else
+	{
+		strcpy(estr,"Error of json type");
 	}
 	return flag;
 }
