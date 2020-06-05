@@ -3766,7 +3766,7 @@ uint8 SetDHCPState(json_t *json,char *data,char *estr)
 	{
 		state%=2;
 		sprintf(str,"#net-DHCP %d\r",state);
-		printf(str);
+		printf("%s\n",str);
 		flag=1;
 	}
 	else
@@ -3805,7 +3805,7 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 	if(JsonGetString(json,filename))
 	{
 		sprintf(str,"#%s -R /tmp\r",filename);
-		printf(str);
+		printf("%s\n",str);
 		flag=1;
 	}
 	else
