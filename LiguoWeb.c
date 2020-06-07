@@ -701,7 +701,11 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 #endif
 		for(i=0;i<ligPorts;i++)
 		{
-			printf("The port %d have online\n",i);
+			if(portinfo[i]>0)
+			{
+				printf("The port %d have online\n",i);
+			}
+			
 		}
 		while(portinfo[i]>0)
 		{
