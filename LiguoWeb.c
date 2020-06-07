@@ -688,6 +688,7 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 #endif
 			if(in)
 			{
+				printf("The solt %d have on line \n",i);
 				portinfo[index++]=2*i-1;
 				portinfo[index++]=2*i;
 			}
@@ -698,6 +699,10 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 #ifdef DEBUG
             json_object_set(port,"i",json_integer(i));
 #endif
+		for(i=0;i<ligPorts;i++)
+		{
+			printf("The port %d have online\n");
+		}
 		while(portinfo[i]>0)
 		{
 #if DEBUG
@@ -783,6 +788,7 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 			else
 			{
 				//now no support
+				printf("have another port online\n");
 			}
 			i++;
 		}
@@ -1490,9 +1496,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 							iter = json_object_iter_next(info, iter);
 						}
 						break;
-					}
-					
-					
+					}		
 				}
 				if(!jsonread)
 				{
