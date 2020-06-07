@@ -672,7 +672,7 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 		json_object_set_new(port,"switch",json_null());
 		flag=1;
 		int portinfo[ligPorts];
-		memset(portinfo,0,ligPorts);
+		memset(portinfo,0,(size_t)ligPorts);
 		//memset(switchinfo,0,ligPorts);
 		int i,in,index=0,iindex=0;
 		for(i=1;i<=(ligPorts/2);i++)
