@@ -693,7 +693,7 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 #endif
 			if(in)
 			{
-				printf("The solt %d have on line \n",i);
+				//printf("The solt %d have on line \n",i);
 				portinfo[index++]=2*i-1;
 				portinfo[index++]=2*i;
 			}
@@ -706,7 +706,7 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 #endif
 		while(portinfo[i]>0)
 		{
-			printf("The online port is %d and i is %d\n",portinfo[i],i);
+			//printf("The online port is %d and i is %d\n",portinfo[i],i);
 #if DEBUG
 			json_object_set(port,"i",json_integer(i));
 #endif		
