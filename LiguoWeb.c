@@ -797,12 +797,11 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 		{
 			str=NULL;
 		}
-		json_decref(json);
-		json_decref(port);
-		json_decref(arr);
-		json_decref(cpy);
-		}
-	
+		//json_decref(json);
+		//json_decref(port);
+		//json_decref(arr);
+		//json_decref(cpy);
+	}
 	return flag;
 }
 uint8 GetDeviceAudioInfo(char *data,char *estr)
