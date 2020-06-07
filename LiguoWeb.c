@@ -701,7 +701,7 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 #endif
 		while(portinfo[i]>0)
 		{
-			printf("The online port is %d\n",portinfo[i]);
+			printf("The online port is %d and i is %d\n",portinfo[i],i);
 #if DEBUG
 			json_object_set(port,"i",json_integer(i));
 #endif		
