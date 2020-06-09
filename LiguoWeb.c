@@ -3033,6 +3033,7 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 				if(JsonGetString(value,password))
 				{
 					status=CheckPassword(password);
+					printf("The status is %d\n",status);
 					if(!status)
 					{
 						index=GetUserPassword(name,pws);
