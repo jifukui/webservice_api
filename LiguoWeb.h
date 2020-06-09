@@ -23,6 +23,7 @@ union semun
     unsigned short int *array;
     struct seminfo *__buf;
 };
+typedef unsigned char uint8;
 int binary_semaphore_allocation(key_t key,int sem_flags);
 int binary_semaphore_deallocate(int semid);
 int binary_semaphore_initialize(int semid);
