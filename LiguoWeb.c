@@ -3835,7 +3835,7 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 	int status=0;
 	if(JsonGetString(json,filename))
 	{
-		sprintf(str,"%s -R /tmp\r",filename);
+		sprintf(str,"lig_matrix_config_json -R /tmp/%s\r",filename);
 		status=Mysystem(str);
 		if(!status)
 		{
