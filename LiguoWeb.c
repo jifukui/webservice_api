@@ -3945,6 +3945,7 @@ uint8 CheckPassword(uint8 *password)
 	printf("the password is %s\n",password);
 	if(strlen(password)>0&&strlen(password<=16))
 	{
+		printf("haahh\n");
 		uint8 i=0;
 		for(i;i<strlen(password);i++)
 		{
@@ -3952,11 +3953,13 @@ uint8 CheckPassword(uint8 *password)
 			{
 				break;
 			}
+			printf("checking\n");
 		}
 		if(i!=strlen(password))
 		{
 			flag=2;
 		}
+		printf("over check\n");
 	}
 	else
 	{
