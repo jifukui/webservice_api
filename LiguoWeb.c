@@ -84,6 +84,7 @@ static void Uint8toString(int8 *str,uint8 *data,uint32 length);
 static void StringtoUint8(uint8 *dis,int8 *str);
 static uint8 JsonFromFile(uint8 *file,uint8 *data);
 static int8  GetUserPassword(uint8 *user,uint8 *psw);
+static uint8 CheckPassword(uint8 *password);
 /**内部中断*/
 static uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam);
 static uint8 SendCardIRQ(EM_MATRIX_CARD_PARAM_IRQ_TYPE sysparam);
@@ -3022,6 +3023,7 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 	uint8 newpassword[PASSWORDLEN];
 	value=json_object_get(json,"username");
 	uint8 index=0;
+	uint8 status;
 	if(value)
 	{
 		if(JsonGetString(value,name))
@@ -3031,43 +3033,59 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 			{
 				if(JsonGetString(value,password))
 				{
-					index=GetUserPassword(name,pws);
-					if(index>=0)
+					status=CheckPassword(password);
+					if(!status)
 					{
-						if(!strcmp(password,pws))
+						index=GetUserPassword(name,pws);
+						if(index>=0)
 						{
-							value=json_object_get(json,"newpassword");
-							if(value)
+							if(!strcmp(password,pws))
 							{
-								if(JsonGetString(value,newpassword))
+								value=json_object_get(json,"newpassword");
+								if(value)
 								{
-									if(strcmp(password,newpassword))
+									if(JsonGetString(value,newpassword))
 									{
-										strcpy(liguoauth.Auth[index].password,newpassword);
-										writesecurityfile();
+										if(strcmp(password,newpassword))
+										{
+											strcpy(liguoauth.Auth[index].password,newpassword);
+											writesecurityfile();
+										}
+										flag=1;
 									}
-									flag=1;
+									else
+									{
+										strcpy(estr,"Security type error");
+									}
+									
 								}
 								else
 								{
-									strcpy(estr,"Security type error");
+									strcpy(estr,"Get Security error");
 								}
-								
 							}
 							else
 							{
-								strcpy(estr,"Get Security error");
+								strcpy(estr,"Password error");
 							}
 						}
 						else
 						{
-							strcpy(estr,"Password error");
+							strcpy(estr,"no this User");
 						}
 					}
 					else
 					{
-						strcpy(estr,"no this User");
+						if(status==1)
+						{
+							strcpy(estr,"length error");
+						}
+						else if(status==2)
+						{
+							strcpy(estr,"have Illegal character");
+						}
 					}
+					
 				}
 				else
 				{
@@ -3918,6 +3936,30 @@ void writesecurityfile()
 	else
 	{
 		printf("write file error\n");
+	}	
+}
+
+uint8 CheckPassword(uint8 *password)
+{
+	uint8 flag=0;
+	if(strlen(password)>0&&strlen(password<=16))
+	{
+		uint8 i=0;
+		for(i;i<strlen(password);i++)
+		{
+			if(!isalnum(password[i]))
+			{
+				break;
+			}
+		}
+		if(i!=strlen(password))
+		{
+			flag=2;
+		}
 	}
-	
+	else
+	{
+		flag=1;
+	}
+	return flag ;
 }
