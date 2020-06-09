@@ -427,7 +427,7 @@ main( int argc, char** argv )
 			strcpy(liguoauth.Auth[i].username,str);
 			authdata2=json_object_get(authdata1,"password");
 			str=json_string_value(authdata2);
-			if(!strcmp(str,""))
+			if(CheckPassword(str))
 			{
 				strcpy(str,"Admin");
 				strcpy(liguoauth.Auth[i].password,str);
