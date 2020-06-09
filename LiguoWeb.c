@@ -3085,9 +3085,6 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 						strcpy(estr,"no this User");
 					}
 				}
-				
-					
-				}
 				else
 				{
 					strcpy(estr,"password type error");
