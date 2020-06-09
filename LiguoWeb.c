@@ -10,7 +10,6 @@
 #define STRLEN 	20
 #define GROUPPORT 256
 #define READFILENUM 1024*12
-typedef unsigned char uint8;
 typedef char int8;
 typedef unsigned int uint32;
 typedef int int32;

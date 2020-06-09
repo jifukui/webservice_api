@@ -427,8 +427,10 @@ main( int argc, char** argv )
 			strcpy(liguoauth.Auth[i].username,str);
 			authdata2=json_object_get(authdata1,"password");
 			str=json_string_value(authdata2);
+			printf("the str is %s\n",str);
 			if(CheckPassword(str))
 			{
+				printf("have check error\n");
 				strcpy(str,"Admin");
 				strcpy(liguoauth.Auth[i].password,str);
 				writesecurityfile();
