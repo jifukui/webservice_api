@@ -3941,6 +3941,7 @@ void writesecurityfile()
 uint8 CheckPassword(uint8 *password)
 {
 	uint8 flag=0;
+	printf("start check\n");
 	if(strlen(password)>0&&strlen(password<=16))
 	{
 		uint8 i=0;
@@ -3960,5 +3961,6 @@ uint8 CheckPassword(uint8 *password)
 	{
 		flag=1;
 	}
+	printf("end check\n");
 	return flag ;
 }
