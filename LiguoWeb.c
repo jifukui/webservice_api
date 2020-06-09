@@ -3962,6 +3962,8 @@ uint8 CheckPassword(uint8 *password)
 	{
 		flag=1;
 	}
+	printf("The password is %s\n",password);
+	printf("The length is %d\n",strlen(password));
 	printf("The i is %d\n",i);
 	printf("The flag is %d\n",flag);
 	return flag ;
