@@ -3040,35 +3040,37 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 							value=json_object_get(json,"newpassword");
 							if(value)
 							{
-								status=CheckPassword(password);
 								if(!status)
 								{
 									if(JsonGetString(value,newpassword))
 									{
-										if(strcmp(password,newpassword))
+										status=CheckPassword(newpassword);
+										if(!status)
 										{
-											strcpy(liguoauth.Auth[index].password,newpassword);
-											writesecurityfile();
+											if(strcmp(password,newpassword))
+											{
+												strcpy(liguoauth.Auth[index].password,newpassword);
+												writesecurityfile();
+											}
+											flag=1;
 										}
-										flag=1;
+										else
+										{
+											if(status==1)
+											{
+												strcpy(estr,"length error");
+											}
+											else if(status==2)
+											{
+												strcpy(estr,"have Illegal character");
+											}
+										}	
 									}
 									else
 									{
 										strcpy(estr,"Security type error");
 									}
 								}
-								else
-								{
-									if(status==1)
-									{
-										strcpy(estr,"length error");
-									}
-									else if(status==2)
-									{
-										strcpy(estr,"have Illegal character");
-									}
-								}
-								
 							}
 							else
 							{
