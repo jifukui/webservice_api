@@ -3943,6 +3943,7 @@ uint8 CheckPassword(uint8 *password)
 	uint8 flag=0;
 	printf("start check\n");
 	printf("the password is %s\n",password);
+	printf("the password length is %d\n",strlen(password));
 	if(strlen(password)>0&&strlen(password<=16))
 	{
 		printf("haahh\n");
