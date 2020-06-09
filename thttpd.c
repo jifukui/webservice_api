@@ -398,7 +398,8 @@ main( int argc, char** argv )
 	// printf("good start work 1\n");
 	liguoauth.security=0;
 	strcpy(liguoauth.Auth[0].username,"Admin");
-	memset(liguoauth.Auth[0].password,0,PASSWORDLEN);
+	//memset(liguoauth.Auth[0].password,0,PASSWORDLEN);
+	strcpy(liguoauth.Auth[0].password,"Admin");
 	json_t *authfile;
 	json_error_t error;
 	authfile=json_load_file("/nandflash/webserver/thttpd/bin/security.json",0,&error);
@@ -426,6 +427,10 @@ main( int argc, char** argv )
 			strcpy(liguoauth.Auth[i].username,str);
 			authdata2=json_object_get(authdata1,"password");
 			str=json_string_value(authdata2);
+			if(!strcmp(str,""))
+			{
+				strcpy(str,"Admin");
+			}
 			strcpy(liguoauth.Auth[i].password,str);
 			printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
 			printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
