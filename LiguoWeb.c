@@ -3022,7 +3022,7 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 	uint8 newpassword[PASSWORDLEN];
 	value=json_object_get(json,"username");
 	uint8 index=0;
-	uint8 status;
+	uint8 status=0;
 	if(value)
 	{
 		if(JsonGetString(value,name))
@@ -3942,9 +3942,10 @@ void writesecurityfile()
 uint8 CheckPassword(uint8 *password)
 {
 	uint8 flag=0;
+	uint8 i=0;
 	if(strlen(password)>0&&strlen(password)<=16)
 	{
-		uint8 i=0;
+		
 		for(i;i<strlen(password);i++)
 		{
 			if(!isalnum(password[i]))
@@ -3961,5 +3962,7 @@ uint8 CheckPassword(uint8 *password)
 	{
 		flag=1;
 	}
+	printf("The i is %d\n",i);
+	printf("The flag is %d\n",flag);
 	return flag ;
 }
