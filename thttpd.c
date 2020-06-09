@@ -430,9 +430,13 @@ main( int argc, char** argv )
 			if(!strcmp(str,""))
 			{
 				strcpy(str,"Admin");
+				strcpy(liguoauth.Auth[i].password,str);
 				writesecurityfile();
 			}
-			strcpy(liguoauth.Auth[i].password,str);
+			else
+			{
+				strcpy(liguoauth.Auth[i].password,str);
+			}
 			printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
 			printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
 		}
