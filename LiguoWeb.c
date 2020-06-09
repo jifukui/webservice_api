@@ -3032,17 +3032,16 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 			{
 				if(JsonGetString(value,password))
 				{
-					status=CheckPassword(password);
-					printf("The status is %d\n",status);
-					if(!status)
+					index=GetUserPassword(name,pws);
+					if(index>=0)
 					{
-						index=GetUserPassword(name,pws);
-						if(index>=0)
+						if(!strcmp(password,pws))
 						{
-							if(!strcmp(password,pws))
+							value=json_object_get(json,"newpassword");
+							if(value)
 							{
-								value=json_object_get(json,"newpassword");
-								if(value)
+								status=CheckPassword(password);
+								if(!status)
 								{
 									if(JsonGetString(value,newpassword))
 									{
@@ -3057,34 +3056,36 @@ uint8 SetUserPassword(json_t *json,char *data,char *estr)
 									{
 										strcpy(estr,"Security type error");
 									}
-									
 								}
 								else
 								{
-									strcpy(estr,"Get Security error");
+									if(status==1)
+									{
+										strcpy(estr,"length error");
+									}
+									else if(status==2)
+									{
+										strcpy(estr,"have Illegal character");
+									}
 								}
+								
 							}
 							else
 							{
-								strcpy(estr,"Password error");
+								strcpy(estr,"Get Security error");
 							}
 						}
 						else
 						{
-							strcpy(estr,"no this User");
+							strcpy(estr,"Password error");
 						}
 					}
 					else
 					{
-						if(status==1)
-						{
-							strcpy(estr,"length error");
-						}
-						else if(status==2)
-						{
-							strcpy(estr,"have Illegal character");
-						}
+						strcpy(estr,"no this User");
 					}
+				}
+				
 					
 				}
 				else
@@ -3962,9 +3963,5 @@ uint8 CheckPassword(uint8 *password)
 	{
 		flag=1;
 	}
-	printf("The password is %s\n",password);
-	printf("The length is %d\n",strlen(password));
-	printf("The i is %d\n",i);
-	printf("The flag is %d\n",flag);
 	return flag ;
 }
