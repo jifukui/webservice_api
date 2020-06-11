@@ -3922,7 +3922,7 @@ uint8 Set48VStatus(json_t *json,char *data,char *estr)
 	int32 status=0;
 	if(json)
 	{
-		if(JsonGetUint8(josn,&data))
+		if(JsonGetUint8(json,&data))
 		{
 			printf("The data is %d\n",data);
 			status=lig_matrix_set_power_48V(lighandle,data);
