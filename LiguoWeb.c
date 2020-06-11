@@ -3889,7 +3889,7 @@ uint8 GetStaticNetWork(char data,char estr)
 	if(ethnet)
 	{
 		strcpy(str,"lig_ifcfg eth0 LASTIP 0");
-		if(NULL==(fstream=popen(str,"r"))||NULL==fgets(ip,sizeof(ip),fstram))
+		if(NULL==(fstream=popen(str,"r"))||NULL==fgets(ip,sizeof(ip),fstream))
 		{
 			printf("Have error\n");
 		}
