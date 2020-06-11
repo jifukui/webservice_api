@@ -3918,14 +3918,14 @@ uint8 Get48VStatus(char *data,char *estr)
 uint8 Set48VStatus(json_t *json,char *data,char *estr)
 {
 	uint8 flag=0;
-	uint8 data=0;
+	uint8 value=0;
 	int32 status=0;
 	if(json)
 	{
-		if(JsonGetUint8(json,&data))
+		if(JsonGetUint8(json,&value))
 		{
-			printf("The data is %d\n",data);
-			status=lig_matrix_set_power_48V(lighandle,data);
+			printf("The data is %d\n",value);
+			status=lig_matrix_set_power_48V(lighandle,value);
 			printf("The status is %d\n",status);
 			if(status)
 			{
