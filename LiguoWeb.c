@@ -61,6 +61,7 @@ static uint8 SetUserPassword(json_t *json,char *data,char *estr);
 static uint8 SetDHCPState(json_t *json,char *data,char *estr);
 static uint8 SetDNSName(json_t *json,char *data,char *estr);
 static uint8 UPgreadJsonFile(json_t *json,char *data,char *estr);
+static uint8 GetStaticNetWork(char data,char estr);
 /**环境监控*/
 static uint8 GetVoltageStatus(char *data,char *estr);
 static uint8 GetTemperatureStatus(char *data,char *estr);
@@ -558,6 +559,10 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				{
 					strcpy(estr,"Get status failed");
 				}
+			}
+			else if(!strcmp(str,"getstaticnetwork"))
+			{
+				flag=GetStaticNetWork(data,estr);
 			}
 #if DEBUG
 			else if(!strcmp(str,"timeout"))
@@ -3869,6 +3874,32 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 	else
 	{
 		strcpy(estr,"Error of json type");
+	}
+	return flag;
+}
+uint8 GetStaticNetWork(char data,char estr)
+{
+	uint8 flag=0;
+	int8 ip[24];
+	int8 mask[24];
+	int8 gateway[24];
+	FILE * fstream;
+	int8 str[72];
+	json_t *ethnet=json_object();
+	if(ethnet)
+	{
+		strcpy(str,"lig_ifcfg eth0 LASTIP 0");
+		if(NULL==(fstream=popen(str,"r"))||NULL==fgets(ip,sizeof(ip),fstram))
+		{
+			printf("Have error\n");
+		}
+		pclose(fstream);
+		ip[strlen(ip)-1]=NULL;
+		printf("The ip is %s\n",ip);
+	}
+	else
+	{
+		strcpy(estr,"creat json obejct failed");
 	}
 	return flag;
 }
