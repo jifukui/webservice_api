@@ -3880,9 +3880,9 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 uint8 GetStaticNetWork(char data,char estr)
 {
 	uint8 flag=0;
-	int8 ip[24]=0;
-	int8 mask[24]=0;
-	int8 gateway[24]=0;
+	int8 ip[24];
+	int8 mask[24];
+	int8 gateway[24];
 	FILE * fstream;
 	int8 str[72];
 	json_t *ethnet=json_object();
