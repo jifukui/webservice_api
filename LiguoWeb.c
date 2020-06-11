@@ -550,7 +550,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 			{
 				json_t *status;
 				status=json_object_get(jsonget,"status");
-				if(staus)
+				if(status)
 				{
 					flag=Set48VStatus(status,data,estr);
 				}
@@ -3876,27 +3876,27 @@ uint8 Get48VStatus(char *data,char *estr)
 {
 	uint8 flag=0;
 	int32 status=0;
-	json_t *data=json_object();
-	if(data)
+	json_t *value=json_object();
+	if(value)
 	{
 		status=lig_matrix_get_power_48V(lighandle);
 		if(status>=0)
 		{
 			if(status==0)
 			{
-				json_object_set(json,"48VStatus",json_string("OFF"));
+				json_object_set(value,"48VStatus",json_string("OFF"));
 			}
 			else if(status==1)
 			{
-				json_object_set(json,"48VStatus",json_string("ON"));
+				json_object_set(value,"48VStatus",json_string("ON"));
 			}
 			else
 			{
-				json_object_set(json,"48VStatus",json_string("Other"));
+				json_object_set(value,"48VStatus",json_string("Other"));
 			}
 			flag=1;
 			char *str;
-			str=json_dumps(json,JSON_PRESERVE_ORDER);
+			str=json_dumps(value,JSON_PRESERVE_ORDER);
 			strcpy(data,str);
 			free(str);
 			if(str!=NULL)
