@@ -66,6 +66,8 @@ static uint8 GetVoltageStatus(char *data,char *estr);
 static uint8 GetTemperatureStatus(char *data,char *estr);
 static uint8 GetFanStatus(char *data,char *estr);
 static uint8 GetAlertStatus(char *data,char *estr);
+static uint8 Get48VStatus(char *data,char *estr);
+static uint8 Set48VStatus(json_t *json,char *data,char *estr);
 /**程序升级*/
 static uint8 UntarUpgradeFile(json_t *json,char *data,char *estr);
 static uint8 SetFirmwareUpgrade(json_t * json,char *data,char *estr);
@@ -539,6 +541,23 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				{
 					strcpy(estr,"not the filename key");
 				}	
+			}
+			else if(!strcmp(str,"Get48VStatus"))
+			{
+				flag=Get48VStatus(data,estr);
+			}
+			else if(!strcmp(str,"Set48VStatus"))
+			{
+				json_t *status;
+				status=json_object_get(jsonget,"status");
+				if(staus)
+				{
+					flag=Set48VStatus(status,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"Get status failed");
+				}
 			}
 #if DEBUG
 			else if(!strcmp(str,"timeout"))
@@ -3841,6 +3860,11 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 		{
 			flag=1;
 		}
+		else
+		{
+			strcpy(estr,"File content error");
+		}
+		
 	}
 	else
 	{
@@ -3848,7 +3872,81 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 	}
 	return flag;
 }
-
+uint8 Get48VStatus(char *data,char *estr)
+{
+	uint8 flag=0;
+	int32 status=0;
+	json_t *data=json_object();
+	if(data)
+	{
+		status=lig_matrix_get_power_48V(lighandle);
+		if(status>=0)
+		{
+			if(status==0)
+			{
+				json_object_set(json,"48VStatus",json_string("OFF"));
+			}
+			else if(status==1)
+			{
+				json_object_set(json,"48VStatus",json_string("ON"));
+			}
+			else
+			{
+				json_object_set(json,"48VStatus",json_string("Other"));
+			}
+			flag=1;
+			char *str;
+			str=json_dumps(json,JSON_PRESERVE_ORDER);
+			strcpy(data,str);
+			free(str);
+			if(str!=NULL)
+			{
+				str=NULL;
+			}
+		}
+		else
+		{
+			strcpy(estr,"Get 48V infomation failed");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Creat json file error");
+	}
+	return flag;
+}
+uint8 Set48VStatus(json_t *json,char *data,char *estr)
+{
+	uint8 flag=0;
+	uint8 data=0;
+	int32 status=0;
+	if(json)
+	{
+		if(JsonGetUint8(josn,&data))
+		{
+			printf("The data is %d\n",data);
+			status=lig_matrix_set_power_48V(lighandle,data);
+			printf("The status is %d\n",status);
+			if(status)
+			{
+				flag=1;
+			}
+			else
+			{
+				strcpy(estr,"Set 48v status error");
+			}
+		}
+		else
+		{
+			strcpy(estr,"Get json data failed");
+		}
+	}
+	else
+	{
+		strcpy(estr,"json Object  error");
+	}
+	return flag;
+}
 uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam)
 {
 	uint8 flag=0;
