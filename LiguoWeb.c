@@ -3880,6 +3880,7 @@ uint8 Get48VStatus(char *data,char *estr)
 	if(value)
 	{
 		status=lig_matrix_get_power_48V(lighandle);
+		printf("The status is %d\n",status);
 		if(status>=0)
 		{
 			if(status==0)
