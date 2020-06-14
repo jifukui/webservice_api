@@ -3911,7 +3911,7 @@ uint8 GetStaticNetWork(char data,char estr)
 			json_object_set_new(ethnet,"IP",json_string(ip));
 			json_object_set_new(ethnet,"MASK",json_string(mask));
 			json_object_set_new(ethnet,"GATEWAY",json_string(gateway));
-			json_object_set_new(info,"StaticNetwork",json_object(ethnet));
+			json_object_set_new(info,"StaticNetwork",ethnet);
 			flag=1;
 			char *value;
 			value=json_dumps(info,JSON_PRESERVE_ORDER);
