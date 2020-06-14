@@ -3911,14 +3911,15 @@ uint8 GetStaticNetWork(char data,char estr)
 			json_object_set_new(ethnet,"IP",json_string(ip));
 			json_object_set_new(ethnet,"MASK",json_string(mask));
 			json_object_set_new(ethnet,"GATEWAY",json_string(gateway));
+			json_object_set_new(info,"StaticNetwork",json_object(ethnet));
 			flag=1;
-			char *str1;
-			str1=json_dumps(ethnet,JSON_PRESERVE_ORDER);
-			strcpy(data,str1);
-			free(str1);
-			if(str1!=NULL)
+			char *value;
+			value=json_dumps(info,JSON_PRESERVE_ORDER);
+			strcpy(data,value);
+			free(value);
+			if(value!=NULL)
 			{
-				str1=NULL;
+				value=NULL;
 			}
 		}
 		else
