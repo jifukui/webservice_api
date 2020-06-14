@@ -3912,7 +3912,7 @@ uint8 GetStaticNetWork(char data,char estr)
 			json_object_set_new(ethnet,"GATEWAY",json_string(gateway));
 			flag=1;
 			char *str;
-			str=json_dumps(value,JSON_PRESERVE_ORDER);
+			str=json_dumps(ethnet,JSON_PRESERVE_ORDER);
 			strcpy(data,str);
 			free(str);
 			if(str!=NULL)
