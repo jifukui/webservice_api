@@ -3915,6 +3915,7 @@ uint8 GetStaticNetWork(char data,char estr)
 			flag=1;
 			char *value;
 			value=json_dumps(info,JSON_PRESERVE_ORDER);
+			printf("The value is %s\n",value);
 			strcpy(data,value);
 			free(value);
 			if(value!=NULL)
