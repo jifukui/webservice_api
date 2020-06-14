@@ -3893,7 +3893,8 @@ uint8 GetStaticNetWork(char data,char estr)
     memset(mask,0,sizeof(mask));
     memset(gateway,0,sizeof(gateway));
 	json_t *ethnet=json_object();
-	if(ethnet)
+	json_t *info=json_object();
+	if(ethnet&&info)
 	{
 		strcpy(str,"lig_ifcfg eth0 LASTIP 0 |awk '{print $1,$3}'");
 		if(NULL==(fstream=popen(str,"r"))||NULL==fread(str,1,sizeof(str),fstream))
@@ -3911,13 +3912,13 @@ uint8 GetStaticNetWork(char data,char estr)
 			json_object_set_new(ethnet,"MASK",json_string(mask));
 			json_object_set_new(ethnet,"GATEWAY",json_string(gateway));
 			flag=1;
-			char *str;
-			str=json_dumps(ethnet,JSON_PRESERVE_ORDER);
-			strcpy(data,str);
-			free(str);
-			if(str!=NULL)
+			char *str1;
+			str1=json_dumps(ethnet,JSON_PRESERVE_ORDER);
+			strcpy(data,str1);
+			free(str1);
+			if(str1!=NULL)
 			{
-				str=NULL;
+				str1=NULL;
 			}
 		}
 		else
