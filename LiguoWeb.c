@@ -61,7 +61,7 @@ static uint8 SetUserPassword(json_t *json,char *data,char *estr);
 static uint8 SetDHCPState(json_t *json,char *data,char *estr);
 static uint8 SetDNSName(json_t *json,char *data,char *estr);
 static uint8 UPgreadJsonFile(json_t *json,char *data,char *estr);
-static uint8 GetStaticNetWork(char data,char estr);
+static uint8 GetStaticNetWork(char *data,char *estr);
 /**环境监控*/
 static uint8 GetVoltageStatus(char *data,char *estr);
 static uint8 GetTemperatureStatus(char *data,char *estr);
@@ -3877,7 +3877,7 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 	}
 	return flag;
 }
-uint8 GetStaticNetWork(char data,char estr)
+uint8 GetStaticNetWork(char *data,char *estr)
 {
 	uint8 flag=0;
 	int8 mac[48];
