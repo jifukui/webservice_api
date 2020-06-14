@@ -3880,38 +3880,50 @@ uint8 UPgreadJsonFile(json_t *json,char *data,char *estr)
 uint8 GetStaticNetWork(char data,char estr)
 {
 	uint8 flag=0;
+	int8 mac[48];
 	int8 ip[24];
 	int8 mask[24];
 	int8 gateway[24];
 	FILE * fstream;
-	int8 str[72];
+	int8 str[512];
+	int32 status;
+	memset(str,0,sizeof(str));
+    memset(mac,0,sizeof(mac));
+    memset(ip,0,sizeof(ip));
+    memset(mask,0,sizeof(mask));
+    memset(gateway,0,sizeof(gateway))
 	json_t *ethnet=json_object();
 	if(ethnet)
 	{
-		strcpy(str,"lig_ifcfg eth0 LASTIP 0");
-		if(NULL==(fstream=popen(str,"r"))||NULL==fgets(ip,sizeof(ip),fstream))
-		{
-			printf("Have  IP error\n");
-		}
-		pclose(fstream);
-		ip[strlen(ip)-1]=NULL;
-		printf("The mask is %s\n",ip);
-		strcpy(str,"lig_ifcfg eth0 MASK");
-		if(NULL==(fstream=popen(str,"r"))||NULL==fgets(mask,sizeof(mask),fstream))
+		strcpy(str,"lig_ifcfg eth0 LASTIP 0 |awk '{print $1,$3}'");
+		if(NULL==(fstream=popen(str,"r"))||NULL==fread(str,1,sizeof(str),fstream))
 		{
 			printf("Have error\n");
 		}
 		pclose(fstream);
-		mask[strlen(mask)-1]=NULL;
-		printf("The mask is %s\n",mask);
-		strcpy(str,"lig_ifcfg eth0 GATEWAY");
-		if(NULL==(fstream=popen(str,"r"))||NULL==fgets(gateway,sizeof(gateway),fstream))
+		str[strlen(str)-1]=NULL;
+		printf("The str is%s\n",str);
+		status=sscanf(str,"MAC %s\nIP %s\nMASK %s\nGATEWAY %s\n",mac,ip,mask,gateway);
+		printf("The status is %d\n",status);
+		if(4==status)
 		{
-			printf("Have error\n");
+			json_object_set_new(ethnet,"IP",json_string(ip));
+			json_object_set_new(ethnet,"MASK",json_string(mask));
+			json_object_set_new(ethnet,"GATEWAY",json_string(gateway));
+			flag=1;
+			char *str;
+			str=json_dumps(value,JSON_PRESERVE_ORDER);
+			strcpy(data,str);
+			free(str);
+			if(str!=NULL)
+			{
+				str=NULL;
+			}
 		}
-		pclose(fstream);
-		gateway[strlen(gateway)-1]=NULL;
-		printf("The gateway is %s\n",gateway);
+		else
+		{
+			strcpy(estr,"Get network failed");
+		}
 	}
 	else
 	{
