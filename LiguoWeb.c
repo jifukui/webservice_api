@@ -3891,7 +3891,7 @@ uint8 GetStaticNetWork(char data,char estr)
     memset(mac,0,sizeof(mac));
     memset(ip,0,sizeof(ip));
     memset(mask,0,sizeof(mask));
-    memset(gateway,0,sizeof(gateway))
+    memset(gateway,0,sizeof(gateway));
 	json_t *ethnet=json_object();
 	if(ethnet)
 	{
