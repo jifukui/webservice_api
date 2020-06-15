@@ -1495,7 +1495,8 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 					{
 						jsonread=1;
 						json_object_set_new(abiltyinfo,"Name",json_string(""));
-						json_object_set_new(abiltyinfo,"Value",json_integer(1));
+						json_object_set_new(abiltyinfo,"Value",json_integer(0));
+						json_object_set_new(abiltyinfo,"sid",json_integer(0));
 						json_object_del(info,"datasize");
 						json_object_del(info,"index");
 						json_object_del(info,"dir");
@@ -1506,15 +1507,17 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 						json_t *temp;
 						const char *key;
 						json_t *value1;
+						json_t *value2;
 						iter=json_object_iter(info);
 						while(iter)
 						{
-							
 							key = json_object_iter_key(iter);
 							value1 = json_object_iter_value(iter);
 							json_object_set(abiltyinfo,"Name",json_string(key));
 							temp=json_object_get(value1,"value");
 							json_object_set(abiltyinfo,"Value",temp);
+							value2=json_object_get(value1,"sid");
+							json_object_set(abiltyinfo,"sid",value2);
 							//printf("key is %s\n",key);
 							cpy=json_deep_copy(abiltyinfo);
 							json_array_append(arr1,cpy);

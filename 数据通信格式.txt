@@ -1391,8 +1391,7 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 35.设置DHCP状态
 {
     "cmd": "setDHCPstate",
-    "dhcp":"1"//1 on ,0 off
-    }	
+    "dhcp":"1"//1 on ,0 off	
 }
 成功返回
 {
@@ -1424,8 +1423,7 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 36.json文件更新
 {
     "cmd": "upgradejsonfile",
-    "filename":"xxxxx"
-    }	
+    "filename":"xxxxx"	
 }
 成功返回
 {
@@ -1444,6 +1442,41 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 失败返回
 {
 	"cmd":"upgradejsonfile"",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+37.获取设备上次一的静态网路参数
+{
+    "cmd": "getstaticnetwork",
+}
+成功返回
+{
+	"cmd":"getstaticnetwork",
+	"status":"SUCCESS",
+	"echo":
+	{
+		"result":
+		{
+            "StaticNetwork": 
+			{
+				"IP": "192.168.20.147", 
+				"MASK": "255.255.0.0", 
+				"GATEWAY": "192.168.0.1"
+			}
+		}
+		
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"getstaticnetwork",
 	"status":"ERROR",
 	"echo":
 	{
