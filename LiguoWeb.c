@@ -1657,8 +1657,9 @@ uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
 	uint8 name[5];
 	uint8 parameter[10];
 	uint8 value[64];
-	
+	uint8 changeflag=0;
 	char buf_ifconfig[128]={0};
+	uint8 oldflag;
 #if DEBUG
 	struct timeval start,end;
 	unsigned long time;
@@ -1698,27 +1699,47 @@ uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
 							{
 								if(!strcmp(parameter,"IP"))
 								{
-									flag=SendSysIRQ(em_lig_sys_param_eth0ip);
+									//flag=SendSysIRQ(em_lig_sys_param_eth0ip);
+									changeflag|=(1<<0);
 								}
 								else if(!strcmp(parameter,"MASK"))
 								{
-									flag=SendSysIRQ(em_lig_sys_param_eth0mask);
+									//flag=SendSysIRQ(em_lig_sys_param_eth0mask);
+									changeflag|=(1<<1);
 								}
 								else if(!strcmp(parameter,"GATEWAY"))
 								{
-									flag=SendSysIRQ(em_lig_sys_param_eth0gateway);
+									//flag=SendSysIRQ(em_lig_sys_param_eth0gateway);
+									changeflag|=(1<<2);
 								}
 								else if(!strcmp(parameter,"TCP_PORT"))
 								{
 									//system("kill -2 `ps | awk '{if($5~/lig_tcp/)printf $1}'`");
-									SendSysIRQ(em_lig_sys_param_eth0tcpport);
-									flag=1;
+									oldflag=SendSysIRQ(em_lig_sys_param_eth0tcpport);
+									if(oldflag)
+									{
+										flag|=(1<<0);
+									}
+									else
+									{
+										strcat(estr,parameter);
+										strcat(estr," IRQ error ");
+									}
+									
 								}
 								else if(!strcmp(parameter,"UDP_PORT"))
 								{
 									//system("kill -2 `ps | awk '{if($5~/lig_udp/)printf $1}'`");
-									SendSysIRQ(em_lig_sys_param_eth0udpport);
-									flag=1;
+									oldflag=SendSysIRQ(em_lig_sys_param_eth0udpport);
+									if(oldflag)
+									{
+										flag|=(1<<1);
+									}
+									else
+									{
+										strcat(estr,parameter);
+										strcat(estr," IRQ error ");
+									}
 								}
 								else
 								{
@@ -1741,7 +1762,7 @@ uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
 								}
 								else
 								{
-									strcpy(estr,"ETH0 Not this");
+									strcpy(estr,"ETH1 Not this");
 								}
 							}
 							
@@ -1751,6 +1772,8 @@ uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
 #if DEBUG
 							printf("set ERR!!!\n");
 #endif 
+							strcat(estr,parameter);
+							strcat(estr," set error ");
 						}
 					}
 					else
@@ -1772,6 +1795,19 @@ uint8 SetDeviceNetwork(json_t * json,char *data,char* estr)
 #if DEBUG
 				printf("NO Name!!!\n");
 #endif 
+			}
+		}
+		printf("The change flag is %d\n",changeflag);
+		if(changeflag)
+		{
+			oldflag=SendSysIRQ(em_lig_sys_param_eth0);
+			if(oldflag)
+			{
+				flag|=(1<<3);
+			}
+			else
+			{
+				strcat(estr," ETH0 IRQ error ");
 			}
 		}
 	}
