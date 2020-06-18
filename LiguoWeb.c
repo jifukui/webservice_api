@@ -3087,16 +3087,8 @@ uint8 GetSecurityStat(char *data,char *estr)
 	json=json_object();
 	if(json)
 	{
-		flag=1;
 		json_object_set(json,"securityStat",json_integer(liguoauth.security));
-		char *str;
-		str=json_dumps(json,JSON_PRESERVE_ORDER);
-		strcpy(data,str);
-		free(str);
-		if(str!=NULL)
-		{
-			str=NULL;
-		}
+		JsonInfoSetting(&flag,data,json);
 	}
 	else
 	{
@@ -3214,16 +3206,8 @@ uint8 GetVoltageStatus(char *data,char *estr)
 		info=json_loads(jsonfile,0,&error);
 		if(info)
 		{
-			char *str;
-			str=json_dumps(info,JSON_PRESERVE_ORDER);
-			strcpy(data,str);
-			free(str);
-			if(str!=NULL)
-			{
-				str=NULL;
-			}
+			JsonInfoSetting(&flag,data,info);
 			json_decref(info);
-			flag=1;
 		}
 		else
 		{
@@ -3249,16 +3233,8 @@ uint8 GetTemperatureStatus(char *data,char *estr)
 		info=json_loads(jsonfile,0,&error);
 		if(info)
 		{
-			char *str;
-			str=json_dumps(info,JSON_PRESERVE_ORDER);
-			strcpy(data,str);
-			free(str);
-			if(str!=NULL)
-			{
-				str=NULL;
-			}
+			JsonInfoSetting(&flag,data,info);
 			json_decref(info);
-			flag=1;
 		}
 		else
 		{
@@ -3283,16 +3259,9 @@ uint8 GetFanStatus(char *data,char *estr)
 		info=json_loads(jsonfile,0,&error);
 		if(info)
 		{
-			char *str;
-			str=json_dumps(info,JSON_PRESERVE_ORDER);
-			strcpy(data,str);
-			free(str);
-			if(str!=NULL)
-			{
-				str=NULL;
-			}
+			JsonInfoSetting(&flag,data,info);
 			json_decref(info);
-			flag=1;
+			
 		}
 		else
 		{
@@ -3318,16 +3287,7 @@ uint8 GetAlertStatus(char *data,char *estr)
 		info=json_loads(jsonfile,0,&error);
 		if(info)
 		{
-			char *str;
-			str=json_dumps(info,JSON_PRESERVE_ORDER);
-			strcpy(data,str);
-			free(str);
-			if(str!=NULL)
-			{
-				str=NULL;
-			}
-			json_decref(info);
-			flag=1;
+			JsonInfoSetting(&flag,data,info);
 		}
 		else
 		{
@@ -3593,14 +3553,7 @@ uint8 GetSupportGroupPort(json_t *json,char *data,char *estr)
 					json_array_append(result,json_integer(dat[len]));
 					len++;
 				}
-				flag = 1;
-    			char *str;
-    			str=json_dumps(result,JSON_PRESERVE_ORDER);
-    			strcpy(data,str);
-    			free(str);
-    			if(str!=NULL) {
-        			str=NULL;
-    			}
+				JsonInfoSetting(&flag,data,result);
 			}
 			else
 			{
@@ -3643,14 +3596,7 @@ uint8 GetGroupPragram(json_t *json,char *data,char *estr)
 						json_array_append(result,json_integer(dat[len]));
 						len++;
 					}
-					flag = 1;
-    				char *str;
-    				str=json_dumps(result,JSON_PRESERVE_ORDER);
-    				strcpy(data,str);
-    				free(str);
-    				if(str!=NULL) {
-        				str=NULL;
-    				}
+					JsonInfoSetting(&flag,data,result);
 			}
 			else
 			{
@@ -3971,25 +3917,14 @@ uint8 GetStaticNetWork(char *data,char *estr)
 		}
 		pclose(fstream);
 		str[strlen(str)-1]=NULL;
-		printf("The str is%s\n",str);
 		status=sscanf(str,"MAC %s\nIP %s\nMASK %s\nGATEWAY %s\n",mac,ip,mask,gateway);
-		printf("The status is %d\n",status);
 		if(4==status)
 		{
 			json_object_set_new(ethnet,"IP",json_string(ip));
 			json_object_set_new(ethnet,"MASK",json_string(mask));
 			json_object_set_new(ethnet,"GATEWAY",json_string(gateway));
 			json_object_set_new(info,"StaticNetwork",ethnet);
-			flag=1;
-			char *value;
-			value=json_dumps(info,JSON_PRESERVE_ORDER);
-			printf("The value is %s\n",value);
-			strcpy(data,value);
-			free(value);
-			if(value!=NULL)
-			{
-				value=NULL;
-			}
+			JsonInfoSetting(&flag,data,info);
 		}
 		else
 		{
