@@ -4013,7 +4013,7 @@ uint8 GetSerialPaud(json_t *json,char *data,char *estr)
 		if(JsonGetInteger(json,&slot))
 		{
 			value=lig_matrix_get_card_uart_maxspeed(lighandle,slot);
-			json_object_set(paud,"paud",json_integer(slot));
+			json_object_set(paud,"paud",json_integer(value));
 			json_object_set(info,"Uartinfo",paud);
 			JsonInfoSetting(&flag,data,info);
 		}
@@ -4021,7 +4021,6 @@ uint8 GetSerialPaud(json_t *json,char *data,char *estr)
 		{
 			strcpy(estr,"slot id get error");
 		}
-		strcpy(estr,JI_JsonCreatFailed);
 	}
 	else
 	{
