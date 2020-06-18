@@ -4006,7 +4006,7 @@ uint8 GetSerialPaud(json_t *json,char *data,char *estr)
 {
 	int32 value=0,slot=0;
 	uint8 flag=0;
-	json_t *paud=json_object_set();
+	json_t *paud=json_object();
 	json_t *info=json_object();
 	if(info&&paud)
 	{
