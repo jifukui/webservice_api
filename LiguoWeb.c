@@ -4004,13 +4004,13 @@ uint8 GetStaticNetWork(char *data,char *estr)
 }
 uint8 GetSerialPaud(json_t *json,char *data,char *estr)
 {
-	int32 value=0,solt=0;
+	int32 value=0,slot=0;
 	uint8 flag=0;
 	json_t *paud=json_object_set();
 	json_t *info=json_object();
 	if(info&&paud)
 	{
-		if(JsonGetInteger(json,&solt))
+		if(JsonGetInteger(json,&slot))
 		{
 			value=lig_matrix_get_card_uart_maxspeed(lighandle,slot);
 			json_object_set(paud,"paud",json_integer(slot));
