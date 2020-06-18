@@ -18,6 +18,7 @@ typedef short int int16;
 extern void *lighandle;
 extern Auth_liguo liguoauth;
 uint8 ligPorts=PORTNUM;
+static uint8 JI_JsonCreatFailed[]="Creat JSON Failed";
 key_t semid;
 static uint8 ligportinfo[2][STRLEN]={"In Port Info","Out Port Info"};
 static uint8 ligsignalinfo[em_matrix_input_signal_dvi+1][STRLEN]={"No Signal","Unknown","HDMI","DVI"};
@@ -62,6 +63,8 @@ static uint8 SetDHCPState(json_t *json,char *data,char *estr);
 static uint8 SetDNSName(json_t *json,char *data,char *estr);
 static uint8 UPgreadJsonFile(json_t *json,char *data,char *estr);
 static uint8 GetStaticNetWork(char *data,char *estr);
+static uint8 GetSerialPaud(json_t *json,char *data,char *estr);
+
 /**环境监控*/
 static uint8 GetVoltageStatus(char *data,char *estr);
 static uint8 GetTemperatureStatus(char *data,char *estr);
@@ -86,6 +89,7 @@ static void Uint8toString(int8 *str,uint8 *data,uint32 length);
 static void StringtoUint8(uint8 *dis,int8 *str);
 static uint8 JsonFromFile(uint8 *file,uint8 *data);
 static int8  GetUserPassword(uint8 *user,uint8 *psw);
+static void JsonInfoSetting(uint8 *flag,uint8 *info,json_t *json);
 uint8 CheckPassword(uint8 *password);
 /**内部中断*/
 static uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam);
@@ -159,6 +163,18 @@ void StringtoUint8(uint8 *dis,int8 *str)
 		*dis=test%256;
 		dis++;
     }
+}
+void JsonInfoSetting(uint8 *flag,uint8 *info,json_t *json)
+{
+	uint8 *str=NULL;
+	str=json_dumps(json,JSON_PRESERVE_ORDER);
+	strcpy(info,str);
+	free(str);
+	if(str)
+	{
+		str=NULL;
+	}
+	*flag=1;
 }
 uint8 LiguoWeb_GET_Method(const char *sstr,json_t *json,json_t *ech,json_t *res,char *estr)
 {
@@ -563,6 +579,19 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 			else if(!strcmp(str,"getstaticnetwork"))
 			{
 				flag=GetStaticNetWork(data,estr);
+			}
+			else if(!strcmp(str,"GetSerialPaud"))
+			{
+				json_t *paud;
+				paud=json_object_get(jsonget,"slot_id");
+				if(paud)
+				{
+					flag=GetSerialPaud(paud,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"Get Slot ID Failed");
+				}
 			}
 #if DEBUG
 			else if(!strcmp(str,"timeout"))
@@ -3972,6 +4001,34 @@ uint8 GetStaticNetWork(char *data,char *estr)
 		strcpy(estr,"creat json obejct failed");
 	}
 	return flag;
+}
+uint8 GetSerialPaud(json_t *json,char *data,char *estr)
+{
+	int32 value=0,solt=0;
+	uint8 flag=0;
+	json_t *paud=json_object_set();
+	json_t *info=json_object();
+	if(info&&paud)
+	{
+		if(JsonGetInteger(json,&solt))
+		{
+			value=lig_matrix_get_card_uart_maxspeed(lighandle,slot);
+			json_object_set(paud,"paud",json_integer(slot));
+			json_object_set(info,"Uartinfo",paud);
+			JsonInfoSetting(&flag,data,info);
+		}
+		else
+		{
+			strcpy(estr,"slot id get error");
+		}
+		strcpy(estr,JI_JsonCreatFailed);
+	}
+	else
+	{
+		strcpy(estr,JI_JsonCreatFailed);
+	}
+	return flag;
+
 }
 uint8 Get48VStatus(char *data,char *estr)
 {
