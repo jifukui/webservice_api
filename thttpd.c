@@ -431,7 +431,7 @@ main( int argc, char** argv )
 			{
 				strcpy(str,"Admin");
 				strcpy(liguoauth.Auth[i].password,str);
-				writesecurityfile();
+				//writesecurityfile();
 			}
 			else
 			{
@@ -448,9 +448,10 @@ main( int argc, char** argv )
 		printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[0].username);
 		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
 		// printf("good start work 1.4\n");
-		writesecurityfile();
+		//writesecurityfile();
 		// printf("good start work 1.5\n");
 	}
+	writesecurityfile();
 	printf("good start work 2\n");
 	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 	jitime=jifile.st_mtime;

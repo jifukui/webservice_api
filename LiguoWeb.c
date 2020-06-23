@@ -802,8 +802,6 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 			}				
 			else if(1==in)
 			{
-				//output
-				//switchinfoswitchinfo[iindex]=portinfo[i];
 #if DEBUG
 				//json_object_set(port,"routting",json_integer(switchinfo[iindex]));
 #endif

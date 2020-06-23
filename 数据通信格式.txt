@@ -1487,10 +1487,9 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 	"error":"xxxxxxxxxxxxxxxxxx"
 }
 38获取串口波特率
-37.获取设备上次一的静态网路参数
 {
     "cmd": "GetSerialPaud",
-	"paud_id": xx
+	"slot_id": xx
 }
 成功返回
 {
