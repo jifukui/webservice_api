@@ -443,13 +443,9 @@ main( int argc, char** argv )
 	}
 	else
 	{
-		// printf("good start work 1.3\n");
-		// printf("The error is %s\n",error);
 		printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[0].username);
 		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
-		// printf("good start work 1.4\n");
 		//writesecurityfile();
-		// printf("good start work 1.5\n");
 	}
 	writesecurityfile();
 	printf("good start work 2\n");
@@ -834,8 +830,6 @@ main( int argc, char** argv )
     while ( ( ! terminate ) || num_connects > 0 )
 	{
 		stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
-		//printf("The old time is %d\n",jitime);
-		//printf("The new time is %d\n",jifile.st_mtime);
 		if(jitime<jifile.st_mtime)
 		{
 			//printf("have change \n");
@@ -851,14 +845,10 @@ main( int argc, char** argv )
 				authdata1=json_array_get(authdata,i);
 				authdata2=json_object_get(authdata1,"username");
 				str=json_string_value(authdata2);
-				//printf("The liguoauth.Auth[i].username is %s\n",str);
 				strcpy(liguoauth.Auth[i].username,str);
 				authdata2=json_object_get(authdata1,"password");
 				str=json_string_value(authdata2);
 				strcpy(liguoauth.Auth[i].password,str);
-				//printf("The liguoauth.Auth[i].password is %s\n",str);
-				//printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[i].username);
-				//printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[i].password);
 			}
 		}
 		else

@@ -3024,8 +3024,8 @@ uint8 SetSecurityStat(json_t *json,char *data,char *estr)
 							{
 								if(JsonGetInteger(value,&Security))
 								{
-									printf("The Security is %d\n",Security);
-									printf("The liguoauth.security is %d\n",liguoauth.security);
+									//printf("The Security is %d\n",Security);
+									//printf("The liguoauth.security is %d\n",liguoauth.security);
 									if(Security!=liguoauth.security)
 									{
 										printf("no equal\n");
