@@ -1686,7 +1686,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 		oldflag=flag;
 		json_object_set(stamp,"timestamp",json_integer(time1));
 		JsonInfoSetting(&flag,data,stamp);
-		//flag=oldflag;
+		flag=oldflag;
 	}
 	else
 	{
