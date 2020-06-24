@@ -405,6 +405,7 @@ main( int argc, char** argv )
 	authfile=json_load_file("/nandflash/webserver/thttpd/bin/security.json",0,&error);
 	struct stat jifile;
 	time_t jitime;
+	//time_t jiconftime;
 	json_t *authdata;
 	json_t *authdata1;
 	json_t *authdata2;
@@ -448,9 +449,11 @@ main( int argc, char** argv )
 		//writesecurityfile();
 	}
 	writesecurityfile();
-	printf("good start work 2\n");
 	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 	jitime=jifile.st_mtime;
+	//stat("/nandflash/webserver/thttpd/www/configuration.json",&jifile);
+	//jiconftime=jifile.st_mtime;
+	printf("the data time is %d\n",jiconftime);
     argv0 = argv[0];
 
     cp = strrchr( argv0, '/' );
@@ -589,15 +592,15 @@ main( int argc, char** argv )
 	    }
 #else /* HAVE_DAEMON */
 	switch ( fork() )
-	    {
-	    case 0:
-	    break;
-	    case -1:
-	    syslog( LOG_CRIT, "fork - %m" );
-	    exit( 1 );
-	    default:
-	    exit( 0 );
-	    }
+	{
+		case 0:
+		break;
+		case -1:
+		syslog( LOG_CRIT, "fork - %m" );
+		exit( 1 );
+		default:
+		exit( 0 );
+	}
 #ifdef HAVE_SETSID
         (void) setsid();
 #endif /* HAVE_SETSID */
@@ -615,14 +618,14 @@ main( int argc, char** argv )
     if ( pidfile != (char*) 0 )
 	{
 	/* Write the PID file. */
-	FILE* pidfp = fopen( pidfile, "w" );
-	if ( pidfp == (FILE*) 0 )
-	    {
-	    syslog( LOG_CRIT, "%.80s - %m", pidfile );
-	    exit( 1 );
-	    }
-	(void) fprintf( pidfp, "%d\n", (int) getpid() );
-	(void) fclose( pidfp );
+		FILE* pidfp = fopen( pidfile, "w" );
+		if ( pidfp == (FILE*) 0 )
+		{
+			syslog( LOG_CRIT, "%.80s - %m", pidfile );
+			exit( 1 );
+		}
+		(void) fprintf( pidfp, "%d\n", (int) getpid() );
+		(void) fclose( pidfp );
 	}
 
     /* Initialize the fdwatch package.  Have to do this before chroot,
@@ -631,8 +634,8 @@ main( int argc, char** argv )
     max_connects = fdwatch_get_nfiles();
     if ( max_connects < 0 )
 	{
-	syslog( LOG_CRIT, "fdwatch initialization failure" );
-	exit( 1 );
+		syslog( LOG_CRIT, "fdwatch initialization failure" );
+		exit( 1 );
 	}
     max_connects -= SPARE_FDS;
     /* Chroot if requested. */
@@ -667,23 +670,23 @@ main( int argc, char** argv )
 	    }
 	(void) strcpy( cwd, "/" );
 	/* Always chdir to / after a chroot. */
-	if ( chdir( cwd ) < 0 )
-	    {
-	    syslog( LOG_CRIT, "chroot chdir - %m" );
-	    perror( "chroot chdir" );
-	    exit( 1 );
-	    }
+		if ( chdir( cwd ) < 0 )
+		{
+			syslog( LOG_CRIT, "chroot chdir - %m" );
+			perror( "chroot chdir" );
+			exit( 1 );
+		}
 	}
 	
     /* Switch directories again if requested. */
     if ( data_dir != (char*) 0 )
 	{
-	if ( chdir( data_dir ) < 0 )
-	    {
-	    syslog( LOG_CRIT, "data_dir chdir - %m" );
-	    perror( "data_dir chdir" );
-	    exit( 1 );
-	    }
+		if ( chdir( data_dir ) < 0 )
+		{
+			syslog( LOG_CRIT, "data_dir chdir - %m" );
+			perror( "data_dir chdir" );
+			exit( 1 );
+		}
 	}
 	
     /* Set up to catch signals. */
@@ -729,23 +732,23 @@ main( int argc, char** argv )
     /* Set up the occasional timer. */
     if ( tmr_create( (struct timeval*) 0, occasional, JunkClientData, OCCASIONAL_TIME * 1000L, 1 ) == (Timer*) 0 )
 	{
-	syslog( LOG_CRIT, "tmr_create(occasional) failed" );
-	exit( 1 );
+		syslog( LOG_CRIT, "tmr_create(occasional) failed" );
+		exit( 1 );
 	}
     /* Set up the idle timer. */
     if ( tmr_create( (struct timeval*) 0, idle, JunkClientData, 5 * 1000L, 1 ) == (Timer*) 0 )
 	{
-	syslog( LOG_CRIT, "tmr_create(idle) failed" );
-	exit( 1 );
+		syslog( LOG_CRIT, "tmr_create(idle) failed" );
+		exit( 1 );
 	}
     if ( numthrottles > 0 )
 	{
 	/* Set up the throttles timer. */
-	if ( tmr_create( (struct timeval*) 0, update_throttles, JunkClientData, THROTTLE_TIME * 1000L, 1 ) == (Timer*) 0 )
-	    {
-	    syslog( LOG_CRIT, "tmr_create(update_throttles) failed" );
-	    exit( 1 );
-	    }
+		if ( tmr_create( (struct timeval*) 0, update_throttles, JunkClientData, THROTTLE_TIME * 1000L, 1 ) == (Timer*) 0 )
+		{
+			syslog( LOG_CRIT, "tmr_create(update_throttles) failed" );
+			exit( 1 );
+		}
 	}
 #ifdef STATS_TIME
     /* Set up the stats timer. */
@@ -803,14 +806,14 @@ main( int argc, char** argv )
     connects = NEW( connecttab, max_connects );
     if ( connects == (connecttab*) 0 )
 	{
-	syslog( LOG_CRIT, "out of memory allocating a connecttab" );
-	exit( 1 );
+		syslog( LOG_CRIT, "out of memory allocating a connecttab" );
+		exit( 1 );
 	}
     for ( cnum = 0; cnum < max_connects; ++cnum )
 	{
-	connects[cnum].conn_state = CNST_FREE;
-	connects[cnum].next_free_connect = cnum + 1;
-	connects[cnum].hc = (httpd_conn*) 0;
+		connects[cnum].conn_state = CNST_FREE;
+		connects[cnum].next_free_connect = cnum + 1;
+		connects[cnum].hc = (httpd_conn*) 0;
 	}
     connects[max_connects - 1].next_free_connect = -1;	/* end of link list */
     first_free_connect = 0;
@@ -819,10 +822,10 @@ main( int argc, char** argv )
 
     if ( hs != (httpd_server*) 0 )
 	{
-	if ( hs->listen4_fd != -1 )
-	    fdwatch_add_fd( hs->listen4_fd, (void*) 0, FDW_READ );
-	if ( hs->listen6_fd != -1 )
-	    fdwatch_add_fd( hs->listen6_fd, (void*) 0, FDW_READ );
+		if ( hs->listen4_fd != -1 )
+			fdwatch_add_fd( hs->listen4_fd, (void*) 0, FDW_READ );
+		if ( hs->listen6_fd != -1 )
+			fdwatch_add_fd( hs->listen6_fd, (void*) 0, FDW_READ );
 	}
 	
     /* Main loop. */
@@ -832,11 +835,9 @@ main( int argc, char** argv )
 		stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 		if(jitime<jifile.st_mtime)
 		{
-			//printf("have change \n");
 			authfile=json_load_file("/nandflash/webserver/thttpd/bin/security.json",0,&error);
 			authdata=json_object_get(authfile,"security");
 			liguoauth.security=(unsigned int )json_integer_value(authdata);
-			//printf("liguoauth.security is %d\n",liguoauth.security);
 			authdata=json_object_get(authfile,"User");
 			int i=0;
 			char *str;
@@ -858,67 +859,67 @@ main( int argc, char** argv )
 		jitime=jifile.st_mtime;
 	/* Do we need to re-open the log file? */
 	if ( got_hup )
-	    {
-	    re_open_logfile();
-	    got_hup = 0;
-	    }
+	{
+		re_open_logfile();
+		got_hup = 0;
+	}
 
 	/* Do the fd watch. */
 	num_ready = fdwatch( tmr_mstimeout( &tv ) );
 	if ( num_ready < 0 )
-	    {
-	    if ( errno == EINTR || errno == EAGAIN )
+	{
+		if ( errno == EINTR || errno == EAGAIN )
 		continue;       /* try again */
-	    syslog( LOG_ERR, "fdwatch - %m" );
-	    exit( 1 );
-	    }
+		syslog( LOG_ERR, "fdwatch - %m" );
+		exit( 1 );
+	}
 	(void) gettimeofday( &tv, (struct timezone*) 0 );
 
 	if ( num_ready == 0 )
-	    {
-	    /* No fd's are ready - run the timers. */
-	    tmr_run( &tv );
-	    continue;
-	    }
+	{
+		/* No fd's are ready - run the timers. */
+		tmr_run( &tv );
+		continue;
+	}
 
 	/* Is it a new connection? */
 	if ( hs != (httpd_server*) 0 && hs->listen6_fd != -1 &&
 	     fdwatch_check_fd( hs->listen6_fd ) )
-	    {
-	    if ( handle_newconnect( &tv, hs->listen6_fd ) )
+	{
+		if ( handle_newconnect( &tv, hs->listen6_fd ) )
 		/* Go around the loop and do another fdwatch, rather than
 		** dropping through and processing existing connections.
 		** New connections always get priority.
 		*/
 		continue;
-	    }
+	}
 	if ( hs != (httpd_server*) 0 && hs->listen4_fd != -1 &&
 	     fdwatch_check_fd( hs->listen4_fd ) )
-	    {
-	    if ( handle_newconnect( &tv, hs->listen4_fd ) )
+	{
+		if ( handle_newconnect( &tv, hs->listen4_fd ) )
 		/* Go around the loop and do another fdwatch, rather than
 		** dropping through and processing existing connections.
 		** New connections always get priority.
 		*/
 		continue;
-	    }
+	}
 	/* Find the connections that need servicing. */
 	while ( ( c = (connecttab*) fdwatch_get_next_client_data() ) != (connecttab*) -1 )
-	    {
-	    if ( c == (connecttab*) 0 )
+	{
+		if ( c == (connecttab*) 0 )
 		continue;
-	    hc = c->hc;
-	    if ( ! fdwatch_check_fd( hc->conn_fd ) )
+		hc = c->hc;
+		if ( ! fdwatch_check_fd( hc->conn_fd ) )
 		/* Something went wrong. */
 		clear_connection( c, &tv );
-	    else
+		else
 		switch ( c->conn_state )
-		    {
-		    case CNST_READING: handle_read( c, &tv ); break;
-		    case CNST_SENDING: handle_send( c, &tv ); break;
-		    case CNST_LINGERING: handle_linger( c, &tv ); break;
-		    }
-	    }
+		{
+			case CNST_READING: handle_read( c, &tv ); break;
+			case CNST_SENDING: handle_send( c, &tv ); break;
+			case CNST_LINGERING: handle_linger( c, &tv ); break;
+		}
+	}
 	tmr_run( &tv );
 
 	if ( got_usr1 && ! terminate )
