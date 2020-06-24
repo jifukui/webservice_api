@@ -1285,7 +1285,7 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 	json_t *stamp;
 	time_t timestamp;
 	LIG_MATRIX_OBJ_PARA_ATTRIBUTE ainfo;
-	stamp=json_object_get("stamp");
+	stamp=json_object_get(json,"stamp");
 	if(JsonGetInteger(stamp,&timestamp))
 	{
 		time_t time2;
