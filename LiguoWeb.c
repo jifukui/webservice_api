@@ -1663,7 +1663,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 		//jifukuistamp
 		oldflag=flag;
 		json_object_set(stamp,"timestamp",json_integer(5124));
-		JsonInfoSetting(&flag,data,stamp);
+		//JsonInfoSetting(&flag,data,stamp);
 		flag=oldflag;
 	}
 	else
