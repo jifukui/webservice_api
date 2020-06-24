@@ -1290,8 +1290,10 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 	{
 		time_t time2;
 		struct stat jifile;
-		stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
+		stat("/nandflash/webserver/thttpd/www/configuration.json",&jifile);
 		time2=jifile.st_mtime;
+		printf("The timestat is %d\n",timestamp);
+		printf("The file time is %d\n",time2)
 		if(time2<=timestamp)
 		{
 			json_object_set_new(infoall,"Waitting",json_true());
