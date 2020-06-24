@@ -1282,7 +1282,29 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 	uint32 i,j;
 	uint16 datalen;
 	uint32 datalist[16];
+	json_t *stamp;
+	time_t timestamp;
 	LIG_MATRIX_OBJ_PARA_ATTRIBUTE ainfo;
+	stamp=json_object_get("stamp");
+	if(JsonGetInteger(stamp,&timestamp))
+	{
+		time_t time2;
+		struct stat jifile;
+		stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
+		time2=jifile.st_mtime;
+		if(time2<=timestamp)
+		{
+			json_object_set_new(infoall,"Waitting",json_true());
+			JsonInfoSetting(&flag,data,infoall);
+			return 1;
+		}
+	}
+	else
+	{
+		strcpy(estr,"Get timestamp Failed");
+		return 0;
+	}
+	
 	if(json&&(JSON_OBJECT==json_typeof(json))&&portinfo&&portsetting&&infoall&&arr)
 	{
 		value=json_object_get(json,"index");

@@ -1,4 +1,4 @@
-1.获取视频信息
+﻿1.获取视频信息
 还缺少输入输出的label名
 请求数据格式
 {
@@ -506,7 +506,12 @@ reset card
 	"status":"SUCCESS",
 	"echo":
 	{
-		
+		{
+			"result": 
+				{
+					"timestamp": 1402557947
+				}
+		}	
 	},
 	"error":null
 }
