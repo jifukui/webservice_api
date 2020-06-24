@@ -632,7 +632,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 		json_object_set_new(json,"err",json_string(error.source));
 #endif
     }
-	printf("end of this %d\n",getpid());
+	//printf("end of this %d\n",getpid());
 	binary_semaphore_post(semid);
     return flag;
 
@@ -1662,7 +1662,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 		}
 		//jifukuistamp
 		oldflag=flag;
-		json_object_set(stamp,"timestamp",json_integer(time1));
+		json_object_set(stamp,"timestamp",json_integer(5124));
 		JsonInfoSetting(&flag,data,stamp);
 		flag=oldflag;
 	}
