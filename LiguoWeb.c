@@ -168,6 +168,7 @@ void JsonInfoSetting(uint8 *flag,uint8 *info,json_t *json)
 {
 	uint8 *str=NULL;
 	str=json_dumps(json,JSON_PRESERVE_ORDER);
+	printf("The str is %s\n",str);
 	strcpy(info,str);
 	free(str);
 	if(str)
