@@ -1594,14 +1594,15 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 	int32 status;
 	uint32 errorid[128];
 	uint8 error=0;
+	uint8 oldflag=0;
 	uint32 i;
-	time_t time1=time(NULL);
-	time_t time2;
-	struct stat jifile;
-	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
-	time2=jifile.st_mtime;
-	printf("the time 1 is %d\n",time1);
-	printf("the time 2 is %d\n",time2);
+	time_t time=time(NULL);
+	//time_t time2;
+	//struct stat jifile;
+	//stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
+	//time2=jifile.st_mtime;
+	//printf("the time 1 is %d\n",time1);
+	//printf("the time 2 is %d\n",time2);
 	if(stamp&&json&&(JSON_ARRAY)==json_typeof(json))
 	{	
 #if DEBUG
@@ -1659,6 +1660,10 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 			}
 		}
 		//jifukuistamp
+		oldflag=flag;
+		json_object_set(stamp,"timestamp",json_integer(time));
+		JsonInfoSetting(flag,data,stamp);
+		flag=oldflag;
 	}
 	else
 	{
