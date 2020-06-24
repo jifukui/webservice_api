@@ -1596,7 +1596,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 	uint8 error=0;
 	uint8 oldflag=0;
 	uint32 i;
-	time_t time=time(NULL);
+	time_t time1=time(NULL);
 	//time_t time2;
 	//struct stat jifile;
 	//stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
@@ -1661,7 +1661,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 		}
 		//jifukuistamp
 		oldflag=flag;
-		json_object_set(stamp,"timestamp",json_integer(time));
+		json_object_set(stamp,"timestamp",json_integer(time1));
 		JsonInfoSetting(flag,data,stamp);
 		flag=oldflag;
 	}
