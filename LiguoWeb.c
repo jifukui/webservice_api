@@ -118,7 +118,7 @@ int binary_semaphore_wait(int semid)
     operations[0].sem_num=0;
     operations[0].sem_op=-1;
     operations[0].sem_flg=SEM_UNDO;
-    printf("waitting is %d\n",(int)getpid());
+    //printf("waitting is %d\n",(int)getpid());
     return semop(semid,operations,1);
 }
 int binary_semaphore_post(int semid)
@@ -127,7 +127,7 @@ int binary_semaphore_post(int semid)
     operations[0].sem_num=0;
     operations[0].sem_op=1;
     operations[0].sem_flg=SEM_UNDO;
-    printf("process is %d\n",(int)getpid());
+    //printf("process is %d\n",(int)getpid());
     return semop(semid,operations,1);
 }
 /***/
@@ -1292,8 +1292,8 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 		struct stat jifile;
 		stat("/nandflash/webserver/thttpd/www/configuration.json",&jifile);
 		time2=jifile.st_mtime;
-		printf("The timestat is %d\n",timestamp);
-		printf("The file time is %d\n",time2);
+		//printf("The timestat is %d\n",timestamp);
+		//printf("The file time is %d\n",time2);
 		if(time2<=timestamp)
 		{
 			json_object_set_new(infoall,"Waitting",json_true());
@@ -1622,12 +1622,12 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 	uint8 oldflag=0;
 	uint32 i;
 	time_t time1=time(NULL);
-	time_t time2;
-	struct stat jifile;
-	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
-	time2=jifile.st_mtime;
-	printf("the time 1 is %d\n",time1);
-	printf("the time 2 is %d\n",time2);
+	//time_t time2;
+	//struct stat jifile;
+	//stat("/nandflash/webserver/thttpd/www/configuration.json",&jifile);
+	//time2=jifile.st_mtime;
+	//printf("the time 1 is %d\n",time1);
+	//printf("the time 2 is %d\n",time2);
 	if(stamp&&json&&(JSON_ARRAY)==json_typeof(json))
 	{	
 #if DEBUG
@@ -1706,7 +1706,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 		estr[strlen(estr)-1]=NULL;
 		printf("The error data is %s\r\n",estr);
 	}
-	printf("the data is %s\n",data);
+	//printf("the data is %s\n",data);
 	return flag;
 }
 
