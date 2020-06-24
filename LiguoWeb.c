@@ -1682,6 +1682,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 		estr[strlen(estr)-1]=NULL;
 		printf("The error data is %s\r\n",estr);
 	}
+	printf("the data is %s\n",data);
 	return flag;
 }
 
