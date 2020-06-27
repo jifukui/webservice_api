@@ -1144,7 +1144,7 @@ uint8 SetPortEDID(json_t* json,char *data,char *estr)
 									val2=json_object_get(json,"out");
 									uint32 out;
 									printf("The out is %d\n",out);
-									if(JsonGetInteger(val2,&out)
+									if(JsonGetInteger(val2,&out))
 									{
 										sprintf(cmdbuf, "lig_echo_cpedid %d %d %d 0", origintype,out,in);
 									}
