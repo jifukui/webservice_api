@@ -1112,7 +1112,7 @@ uint8 SetPortEDID(json_t* json,char *data,char *estr)
 		uint8 ediddata[256];
 		val=json_object_get(json,"type");
 		val1=json_object_get(json,"origintype");
-		if(JsonGetInteger(val,&type)&&JsonGetInteger(val1,origintype))
+		if(JsonGetInteger(val,&type)&&JsonGetInteger(val1,&origintype))
 		{
 			if(0==type)
 			{
