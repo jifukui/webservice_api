@@ -1139,7 +1139,7 @@ uint8 SetPortEDID(json_t* json,char *data,char *estr)
 								int8 cmdbuf[64];
 								if(3!=origintype)
 								{
-									josn_t *val2;
+									json_t *val2;
 									val2=json_object_get(json,"out");
 									uint32 out;
 									printf("The out is %d\n",out);
