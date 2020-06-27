@@ -1102,30 +1102,24 @@ uint8 GetPortEDID(json_t* json,char *data,char *estr)
 }
 uint8 SetPortEDID(json_t* json,char *data,char *estr)
 {
-	json_t *val,*edata;
+	json_t *val,*edata,*val1;
 	uint8 flag=0;
 	if((json_t*)0!=json&&JSON_OBJECT==json_typeof(json))
 	{
-		uint32 type,in;
+		uint32 type,in,origintype;
 		uint8 edidstr[513];
 		uint8 ediddata[256];
 		val=json_object_get(json,"type");
-		if(JsonGetInteger(val,&type))
+		val1=json_object_get(json,"origintype");
+		if(JsonGetInteger(val,&type)&&JsonGetInteger(val1,origintype))
 		{
 			if(0==type)
 			{
 				val=json_object_get(json,"data");
-				//uint8 status=JsonGetString(val,edidstr);
-				//printf("The status is %d\n",status);
 				if((512>=json_string_length(val))&&(json_string_length(val)%128==0)&&JsonGetString(val,edidstr))//(512==json_string_length(val)&&
 				{
 					memset(ediddata,0xFF,sizeof(ediddata));
 					StringtoUint8(ediddata,edidstr);
-					/*uint32 j;
-					for(j=0;j<256;j++)
-					{
-						printf("The %d is %d\n",j,ediddata[j]);
-					}*/
 					val=json_object_get(json,"in");
 					if(JSON_ARRAY==json_typeof(val))
 					{
@@ -1141,9 +1135,35 @@ uint8 SetPortEDID(json_t* json,char *data,char *estr)
 #if DEBUG
 								printf("The in is %d type is %d\n",in,type);
 #endif
+								printf("The origin type is %d\n",origintype);
+								int8 cmdbuf[64];
+								if(3!=origintype)
+								{
+									josn_t *val2;
+									val2=json_object_get(json,"out");
+									uint32 out;
+									printf("The out is %d\n",out);
+									if(JsonGetInteger(val2),&out)
+									{
+										sprintf(cmdbuf, "lig_echo_cpedid %d %d %d 0", origintype,out,in);
+									}
+									else
+									{
+										strcpy(estr,"Get out port error");
+										return flag;
+									}
+									
+								}
+								else
+								{
+									sprintf(cmdbuf, "lig_echo_ldedid 256 %d 0", in);
+								}
+								Mysystem(cmdbuf);
 								status=lig_matrix_set_port_edid(lighandle,in,(EM_MATRIX_EDID_TYPE)type,ediddata,sizeof(ediddata));
 								if(0!=status)
 								{
+									sprintf(cmdbuf, "lig_echo_clean_edid");
+									Mysystem(cmdbuf);
 									strcpy(estr,"COPY EDID failed ");
 								}
 								else
