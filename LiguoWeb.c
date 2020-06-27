@@ -82,6 +82,7 @@ static uint8 GetSupportGroupPort(json_t *json,char *data,char *estr);
 static uint8 SetGroupPragram(json_t *json,char *data,char *estr);
 static uint8 GetGroupPragram(json_t *json,char *data,char *estr);
 /**工具函数*/
+static int Mysystem(const char* cmdstring);
 static uint8 JsonGetString(json_t *json,char *data);
 static uint8 JsonGetInteger(json_t *json,uint32 *data);
 static uint8 JsonGetUint8(json_t *json,uint8 *data);
@@ -1730,7 +1731,7 @@ uint8 SetPortInfo(json_t * json,char *data,char* estr)
 	return flag;
 }
 
-static int Mysystem(const char* cmdstring)
+int Mysystem(const char* cmdstring)
 {
 	printf("The data is %s\n",cmdstring);
 	return system(cmdstring);;
