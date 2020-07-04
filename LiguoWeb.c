@@ -1143,9 +1143,9 @@ uint8 SetPortEDID(json_t* json,char *data,char *estr)
 									json_t *val2;
 									val2=json_object_get(json,"out");
 									uint32 out;
-									printf("The out is %d\n",out);
 									if(JsonGetInteger(val2,&out))
 									{
+										printf("The out is %d\n",out);
 										sprintf(cmdbuf, "lig_echo_cpedid %d %d %d 0", origintype,out,in);
 									}
 									else
@@ -3457,8 +3457,7 @@ uint8 SetFirmwareUpgrade(json_t * json,char *data,char *estr)
 		else 
 		{
 			strcpy(estr,"upgrade error");	
-		}
-		
+		}		
 	}
 	else
 	{

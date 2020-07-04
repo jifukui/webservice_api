@@ -94,7 +94,7 @@
 
 /* CONFIGURE: How many seconds before an idle connection gets closed.
 */
-#define IDLE_SEND_TIMELIMIT 300
+#define IDLE_SEND_TIMELIMIT 800
 
 /* CONFIGURE: The syslog facility to use.  Using this you can set up your
 ** syslog.conf so that all thttpd messages go into a separate file.  Note
