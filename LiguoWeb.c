@@ -3446,6 +3446,7 @@ uint8 SetFirmwareUpgrade(json_t * json,char *data,char *estr)
 #endif
 		pid_t status=0;
 		status=system(codepath);
+		printf("end of upgrade file\n");
 		//printf("The one status is %s\n",status);
 #if DEBUG
 		printf("The status is %s\n",status);

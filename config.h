@@ -75,7 +75,7 @@
 ** or whatever.  If you don't want any limit, comment this out, but that's
 ** probably a really bad idea.
 */
-#define CGI_TIMELIMIT 200
+#define CGI_TIMELIMIT 600
 
 /* CONFIGURE: Maximum number of simultaneous CGI programs allowed.
 ** If this many are already running, then attempts to run more will
@@ -94,7 +94,7 @@
 
 /* CONFIGURE: How many seconds before an idle connection gets closed.
 */
-#define IDLE_SEND_TIMELIMIT 1000
+#define IDLE_SEND_TIMELIMIT 2000
 
 /* CONFIGURE: The syslog facility to use.  Using this you can set up your
 ** syslog.conf so that all thttpd messages go into a separate file.  Note
