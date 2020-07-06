@@ -761,7 +761,6 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
 #endif
 		while(portinfo[i]>0)
 		{
-			printf("The online port is %d and i is %d\n",portinfo[i],i);
 #if DEBUG
 			json_object_set(port,"i",json_integer(i));
 #endif		
@@ -770,6 +769,7 @@ uint8 GetDeviceVideoInfo(char *data,char *estr)
             gettimeofday(&start,NULL);
 #endif
 			in=lig_matrix_get_active_video_pipe_io(lighandle,portinfo[i]);
+			printf("The online port is %d and i is %d and dir is %d\n",portinfo[i],i,in);
 #if DEBUG
             gettimeofday(&end,NULL);
             time=1000000*(end.tv_sec-start.tv_sec)+end.tv_usec-start.tv_usec;
@@ -1344,7 +1344,6 @@ uint8 GetPortInfo(json_t * json,char *data,char* estr)
 			{
 				json_object_set_new(portinfo,"Port Type",json_string(cardname));
 				dir=lig_matrix_get_active_video_pipe_io(lighandle,portindex);
-				
 				if(em_matrix_in==dir)
 				{
 					LIG_MATRIX_OBJ_INPUT_SIGNAL in_info;
