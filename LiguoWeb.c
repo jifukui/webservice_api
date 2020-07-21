@@ -3365,33 +3365,57 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 	uint8 filename[1024];
 	uint8 untarfilename[1024];
 	json_t *untar;
-
+	uint8 xmlflag=0;
+	uint8 fileflag=0;
 	if(JsonGetString(json,filename))
 	{
 		FILE * fstream;
 		printf("file name is %s\n",filename);
 		//system("rm /te");
 		sprintf(untarfilename,"unzip -o \"/tmp/%s\" -d /tmp  > /dev/null && ls -t /tmp/ | grep -i \".xml\"",filename);
-		if(NULL==(fstream=popen(untarfilename,"r"))||NULL==fgets(untarfilename,sizeof(untarfilename), fstream))    
+		if(NULL==(fstream=popen(untarfilename,"r")))    
 		{    
 			strcpy(estr,"untar file failed");
 			return flag;	
 		}
-		pclose(fstream);
-		untarfilename[strlen(untarfilename)-1]=NULL;
-		//struct stat file;
-		sprintf(filename,"/tmp/%s",untarfilename);
-		sprintf(data,"{\"FileName\":\"%s\"}",untarfilename);
-		//printf("file name is %s\n",filename);
-		//stat(filename,&file);
-		sprintf(untarfilename,"mv %s /nandflash/webserver/thttpd/www/",filename);
-		printf("The value is %s\n",untarfilename);
-		system(untarfilename);
-		flag=1;
-		//printf("jifukui file size is %d\n",file.st_size);
-		//sprintf(data,"{\"FileName\":\"%s\",\"FileSize\":\"%d\"}",untarfilename,file.st_size);
-
-		//printf("The data is %s\n",data);
+		else
+		{
+			while (fgets(untarfilename,sizeof(untarfilename), fstream))
+			{
+				fileflag++;
+				printf("the file name is %s\r\n",untarfilename);
+				if(!strcmp("vs-xxfd-info.xml",untarfilename))
+				{
+					break;
+				}
+				else if(!strcmp("info.xml",untarfilename))
+				{
+					xmlflag=1;
+				}
+			}
+			pclose(fstream);	
+		}
+		printf("the file num is %d\r\n",fileflag);
+		if(fileflag)
+		{
+			untarfilename[strlen(untarfilename)-1]=NULL;
+			printf("the finish file name is %s\r\n",untarfilename);
+			//struct stat file;
+			//printf("file name is %s\n",filename);
+			//stat(filename,&file);
+			//printf("jifukui file size is %d\n",file.st_size);
+			//sprintf(data,"{\"FileName\":\"%s\",\"FileSize\":\"%d\"}",untarfilename,file.st_size);
+			if(strcmp("vs-xxfd-info.xml",untarfilename)&&xmlflag)
+			{
+				sprintf(untarfilename,"info.xml");
+			}
+			sprintf(filename,"/tmp/%s",untarfilename);
+			sprintf(untarfilename,"cp %s /nandflash/webserver/thttpd/www/info.xml",filename);
+			printf("The value is %s\n",untarfilename);
+			system(untarfilename);
+			sprintf(data,"{\"FileName\":\"info.xml\"}");
+			flag=1;
+		}
 	}
 	else
 	{
