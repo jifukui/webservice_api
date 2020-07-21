@@ -3384,7 +3384,7 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 			{
 				fileflag++;
 				printf("the file name is %s\r\n",untarfilename);
-				if(!strcmp("vs-xxfd-info.xml",untarfilename))
+				if(!strcmp("matrix-update-info.xml",untarfilename))
 				{
 					break;
 				}
@@ -3405,9 +3405,9 @@ uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 			//stat(filename,&file);
 			//printf("jifukui file size is %d\n",file.st_size);
 			//sprintf(data,"{\"FileName\":\"%s\",\"FileSize\":\"%d\"}",untarfilename,file.st_size);
-			if(strcmp("vs-xxfd-info.xml",untarfilename)&&xmlflag)
+			if(strcmp("matrix-update-info.xml",untarfilename)&&xmlflag)
 			{
-				sprintf(untarfilename,"info.xml");
+				strcpy(untarfilename,"info.xml");
 			}
 			sprintf(filename,"/tmp/%s",untarfilename);
 			sprintf(untarfilename,"cp %s /nandflash/webserver/thttpd/www/info.xml",filename);
