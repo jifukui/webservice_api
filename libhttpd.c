@@ -4019,6 +4019,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
     else if ( hc->if_modified_since != (time_t) -1 &&
 	 hc->if_modified_since >= hc->sb.st_mtime )
 	{
+		printf("the file name is %s\r\n",hc->expnfilename);
 	send_mime(
 	    hc, 304, err304title, hc->encodings, "", hc->type, (off_t) -1,
 	    hc->sb.st_mtime );
