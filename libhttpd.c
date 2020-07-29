@@ -4017,7 +4017,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	    hc->sb.st_mtime );
 	}
     else if ( hc->if_modified_since != (time_t) -1 &&
-	 hc->if_modified_since >= hc->sb.st_mtime )
+	 hc->if_modified_since >= hc->sb.st_mtime && strcmp(hc->expnfilename,"index.html"))
 	{
 		printf("the file name is %s\r\n",hc->expnfilename);
 	send_mime(
