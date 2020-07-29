@@ -4009,7 +4009,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	hc->last_byte_index = hc->sb.st_size - 1;
 
     figure_mime( hc );
-	printf("the file name is %s and value is \r\n",hc->expnfilename,strcmp(hc->expnfilename,"index.html"));
+	printf("the file name is %s and value is %d\r\n",hc->expnfilename,strcmp(hc->expnfilename,"index.html"));
     if ( hc->method == METHOD_HEAD )
 	{
 	send_mime(
