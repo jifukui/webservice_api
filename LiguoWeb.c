@@ -64,7 +64,7 @@ static uint8 SetDNSName(json_t *json,char *data,char *estr);
 static uint8 UPgreadJsonFile(json_t *json,char *data,char *estr);
 static uint8 GetStaticNetWork(char *data,char *estr);
 static uint8 GetSerialPaud(json_t *json,char *data,char *estr);
-
+static uint8 SetBuzzerStatus(json_t *json,char *data,char *estr);
 /**环境监控*/
 static uint8 GetVoltageStatus(char *data,char *estr);
 static uint8 GetTemperatureStatus(char *data,char *estr);
@@ -72,6 +72,7 @@ static uint8 GetFanStatus(char *data,char *estr);
 static uint8 GetAlertStatus(char *data,char *estr);
 static uint8 Get48VStatus(char *data,char *estr);
 static uint8 Set48VStatus(json_t *json,char *data,char *estr);
+static uint8 GetPoEStatus(char *data,char *estr);
 /**程序升级*/
 static uint8 UntarUpgradeFile(json_t *json,char *data,char *estr);
 static uint8 SetFirmwareUpgrade(json_t * json,char *data,char *estr);
@@ -594,6 +595,22 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				{
 					strcpy(estr,"Get Slot ID Failed");
 				}
+			}
+			else if(!strcmp(str,"SetBuzzerStatus"))
+			{
+				json_t *poe;
+				poe=json_object_get(jsonget,"poestatus");
+				if(dhcp)
+				{
+					flag=SetBuzzerStatus(poe,data,estr);
+				}
+				else
+				{
+					strcpy(estr,"not the poestatus key");
+				}	
+			}
+			else if(!strcmp(str,"GetPoEStatus")){
+				flag=GetPoEStatus(data,estr);
 			}
 #if DEBUG
 			else if(!strcmp(str,"timeout"))
@@ -3358,7 +3375,33 @@ uint8 GetAlertStatus(char *data,char *estr)
 	}
 	return flag;
 }
-
+uint8 GetPoEStatus(char *data,char *estr)uint8 GetFanStatus(char *data,char *estr)
+{
+	uint8 flag=0;
+	uint8 filepath[50]="/tmp/portpoe_cfg.segment";
+	json_t *info;
+	uint8 jsonfile[READFILENUM];
+	json_error_t error;
+	if(JsonFromFile(filepath,jsonfile))
+	{
+		info=json_loads(jsonfile,0,&error);
+		if(info)
+		{
+			JsonInfoSetting(&flag,data,info);
+			json_decref(info);
+			
+		}
+		else
+		{
+			strcpy(estr,"Get fan data error");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Get file error,Please try again later.");
+	}
+	return flag;
+}
 uint8 UntarUpgradeFile(json_t *json,char *data,char *estr)
 {
 	uint8 flag=0;
@@ -4046,6 +4089,27 @@ uint8 GetSerialPaud(json_t *json,char *data,char *estr)
 	return flag;
 
 }
+uint8 SetBuzzerStatus(json_t *json,char *data,char *estr){
+	uint8 flag=0;
+	int status=0;
+	uint8 poe=0;
+	if(JsonGetUint8(json,&poe))
+	{
+		poe=poe?1:0;
+		status=lig_matrix_set_power_buzzer(lighandle,poe);
+		if(status>=0){
+			flag=1;
+		}
+		else{
+			strcpy(estr,"Set failed");
+		}
+	}
+	else
+	{
+		strcpy(estr,"Error of json type");
+	}
+	return flag;
+}
 uint8 Get48VStatus(char *data,char *estr)
 {
 	uint8 flag=0;
@@ -4132,12 +4196,7 @@ uint8 SendSysIRQ(EM_LIG_SYS_PARAM sysparam)
 	status=lig_matrix_set_inner_signal_flag(lighandle,& sig_info);
 	if(!status)
 	{
-		//printf("Good for this \n");
 		flag=1;
-	}
-	else
-	{
-		//printf("Error for this is %d\n",status);
 	}
 	return flag;
 }
