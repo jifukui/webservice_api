@@ -598,11 +598,11 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 			}
 			else if(!strcmp(str,"SetBuzzerStatus"))
 			{
-				json_t *poe;
-				poe=json_object_get(jsonget,"buzzer");
-				if(dhcp)
+				json_t *buzzer;
+				buzzer=json_object_get(jsonget,"buzzer");
+				if()
 				{
-					flag=SetBuzzerStatus(poe,data,estr);
+					flag=SetBuzzerStatus(buzzer,data,estr);
 				}
 				else
 				{
@@ -3375,7 +3375,7 @@ uint8 GetAlertStatus(char *data,char *estr)
 	}
 	return flag;
 }
-uint8 GetPoEStatus(char *data,char *estr)uint8 GetFanStatus(char *data,char *estr)
+uint8 GetPoEStatus(char *data,char *estr)
 {
 	uint8 flag=0;
 	uint8 filepath[50]="/tmp/portpoe_cfg.segment";
