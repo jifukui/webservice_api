@@ -600,7 +600,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 			{
 				json_t *buzzer;
 				buzzer=json_object_get(jsonget,"buzzer");
-				if()
+				if(buzzer)
 				{
 					flag=SetBuzzerStatus(buzzer,data,estr);
 				}
