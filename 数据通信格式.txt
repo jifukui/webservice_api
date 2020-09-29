@@ -1528,7 +1528,7 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 39设置蜂鸣器状态
 {
     "cmd": "SetBuzzerStatus",
-	"poestatus":x//0关闭，1打开
+	"buzzer":x//0关闭，1打开
 }
 成功返回
 {

@@ -599,14 +599,14 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 			else if(!strcmp(str,"SetBuzzerStatus"))
 			{
 				json_t *poe;
-				poe=json_object_get(jsonget,"poestatus");
+				poe=json_object_get(jsonget,"buzzer");
 				if(dhcp)
 				{
 					flag=SetBuzzerStatus(poe,data,estr);
 				}
 				else
 				{
-					strcpy(estr,"not the poestatus key");
+					strcpy(estr,"not the buzzer key");
 				}	
 			}
 			else if(!strcmp(str,"GetPoEStatus")){
