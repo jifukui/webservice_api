@@ -501,7 +501,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				json_t * id;
 				id = json_object_get(jsonget,"id");
 				if(id){
-					flag = SavePreset(id,data,estr)
+					flag = SavePreset(id,data,estr);
 				}else{
 					strcpy(estr,"not the group id");
 				}
