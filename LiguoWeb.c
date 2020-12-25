@@ -82,6 +82,10 @@ static uint8 GetUpgradeStatus(char * data,char *estr);
 static uint8 GetSupportGroupPort(json_t *json,char *data,char *estr);
 static uint8 SetGroupPragram(json_t *json,char *data,char *estr);
 static uint8 GetGroupPragram(json_t *json,char *data,char *estr);
+/**宏操作*/
+static uint8 SavePreset(json_t *json,char *data,char *estr);
+static uint8 CallPreset(json_t *json,char *data,char *estr);
+static uint8 GetAllPresetStatue(char *data,char *estr);
 /**工具函数*/
 static int Mysystem(const char* cmdstring);
 static uint8 JsonGetString(json_t *json,char *data);
@@ -492,6 +496,26 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				{
 					strcpy(estr,"not the group Key");
 				}	
+			}
+			else if(!strcmp(str,"SavePreset")){
+				json *id;
+				id = json_object_get(jsonget,"id");
+				if(id){
+					flag = SavePreset(id,data,estr)
+				}else{
+					strcpy(estr,"not the group id");
+				}
+				
+			}
+			else if(!strcmp(str,"CallPreset")){
+				if(id){
+					flag = CallPreset(id,data,estr);
+				}else{
+					strcpy(estr,"not the group id");
+				}
+			}
+			else if(!strcmp(str,"GetAllPresetStatues")){
+				flag = GetAllPresetStatue(data,estr);
 			}
 			else if(!strcmp(str,"SetSecurityStat"))
 			{
@@ -3802,7 +3826,75 @@ uint8 SetGroupPragram(json_t *json,char *data,char *estr)
 	}
 	return flag;
 }
-
+uint8 SavePreset(json_t *json,char *data,char *estr){
+	uint8 flag = 0;
+	int32 id = 0;
+	int32 result = 0;
+	if(josn){
+		if(JsonGetInteger(json,&id)){
+			printf("the id is %d\r\n",id);
+			if(id>0&&id<=60){
+				result = lig_matrix_app_set_preset_used(id,1);
+				if(result>=0){
+					result = lig_matrix_app_set_cursw2preset(lighandle,id);
+				}else{
+					if(result>=0){
+						flag = 1;
+					}else{
+						stpcpy(estr,"set have error");
+					}
+				}
+			}else{
+				stpcpy(estr,"the id error");
+			}
+		}else{
+			strcpy(estr,"error to get id");
+		}
+	}
+	return flag;
+}
+uint8 CallPreset(json_t *json,char *data,char *estr){
+	uint8 flag = 0;
+	int32 id = 0;
+	int32 result = 0;
+	if(josn){
+		if(JsonGetInteger(json,&id)){
+			printf("the id is %d\r\n",id);
+			if(id>0&&id<=60){
+				result = lig_matrix_app_set_preset2cursw(lighandle,id);
+				if(result>=0){
+					flag =1;
+				}else{
+					stpcpy(estr,"call preset have error");
+				}
+			}else{
+				stpcpy(estr,"the id error");
+			}
+		}else{
+			strcpy(estr,"error to get id");
+		}
+	}
+	return flag;
+}
+uint8 GetAllPresetStatue(char *data,char *estr){
+	uint8 flag = 0;
+	int32 id = 0;
+	int32 result = 0;
+	uint32 len;
+	len = lig_matrix_app_get_preset_max();
+	int8 buf[len];
+	result = lig_matrix_app_get_preset_allused(buf,sizeof(buf));
+	json_t * preset ;
+	preset = json_array();
+	if(preset){
+		uint8 i = 0;
+		for(i;i<len;i++){
+			printf("the %d is %d\r\n",i,buf[i]);
+		}
+		flag = 1;
+	}
+	return flag;
+}
 uint8 JsonGetString(json_t *json,char *data)
 {
 	uint8 flag=0;

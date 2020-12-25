@@ -1557,30 +1557,52 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 }
 40.获取设备的端口POE状态
 {
-    "cmd": "GetFanStatus"
+    "cmd": "GetPoEStatus"
 }
 成功返回
 {
-	"cmd":"GetFanStatus",
+	"cmd":"GetPoEStatus",
 	"status":"SUCCESS",
 	"echo":
 	{
 		result:{
-			"Fan":[
-				{
-					"name":"xxxx",
-					"value":xxxx,
-					"status":"abnormal/normal"
-				},
-				...........................
-			]
+			
 		}
 	},
 	"error":null
 }
 失败返回
 {
-	"cmd":"GetFanStatus",
+	"cmd":"GetPoEStatus",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+41.设置将当前状态保存为指定的宏
+{
+	"cmd": "SavePreset"，
+	"id":int
+}
+成功返回
+{
+	"cmd":"Setpreset",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"Setpreset",
 	"status":"ERROR",
 	"echo":
 	{
