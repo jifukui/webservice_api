@@ -498,7 +498,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				}	
 			}
 			else if(!strcmp(str,"SavePreset")){
-				json *id;
+				json_t * id;
 				id = json_object_get(jsonget,"id");
 				if(id){
 					flag = SavePreset(id,data,estr)
@@ -508,6 +508,8 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				
 			}
 			else if(!strcmp(str,"CallPreset")){
+				json_t * id;
+				id = json_object_get(jsonget,"id");
 				if(id){
 					flag = CallPreset(id,data,estr);
 				}else{
