@@ -3892,13 +3892,15 @@ uint8 GetAllPresetStatue(char *data,char *estr){
 	result = lig_matrix_app_get_preset_allused(buf,sizeof(buf));
 	json_t * preset,*cpy ;
 	preset = json_array();
-	if(preset&&result>=0){
+	json_t *obj = json_object();
+	if(preset&&result>=0&&obj){
 		uint8 i = 0;
 		for(i;i<result;i++){
 			json_array_append(preset,json_integer(buf[i]));
 		}
+		json_object_set_new(obj,"preset",preset);
 		char *str;
-		str=json_dumps(preset,JSON_PRESERVE_ORDER);
+		str=json_dumps(obj,JSON_PRESERVE_ORDER);
 		strcpy(data,str);
 		free(str);
 		if(str!=NULL)

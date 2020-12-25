@@ -1586,11 +1586,11 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 41.设置将当前状态保存为指定的宏
 {
 	"cmd": "SavePreset"，
-	"id":int
+	"id":1//1~60
 }
 成功返回
 {
-	"cmd":"Setpreset",
+	"cmd":"SavePreset",
 	"status":"SUCCESS",
 	"echo":
 	{
@@ -1602,7 +1602,64 @@ value={"cmd":"SetUserPassword","UserPassword":{"username":"Admin","password":"12
 }
 失败返回
 {
-	"cmd":"Setpreset",
+	"cmd":"SavePreset",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+42.调用指定的宏
+{
+	"cmd": "CallPreset"，
+	"id":1//1~60
+}
+成功返回
+{
+	"cmd":"CallPreset",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"CallPreset",
+	"status":"ERROR",
+	"echo":
+	{
+		"result":
+		{
+		}
+	},
+	"error":"xxxxxxxxxxxxxxxxxx"
+}
+43.查看可以使用的宏
+{
+	"cmd": "GetAllPresetStatues"
+}
+成功返回
+{
+	"cmd":"GetAllPresetStatues",
+	"status":"SUCCESS",
+	"echo":
+	{
+		result:{
+			"preset":[1, 5, 15, 16, 56, 60]
+		}
+	},
+	"error":null
+}
+失败返回
+{
+	"cmd":"CallPreset",
 	"status":"ERROR",
 	"echo":
 	{
