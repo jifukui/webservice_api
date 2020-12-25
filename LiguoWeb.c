@@ -221,6 +221,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
         if(JsonGetString(cmd,str))
         {	
 			json_error_t error;
+			
 			json_object_set_new(json,"cmd",json_string(str));
             if(!strcmp(str,"matrix_status"))
 			{
@@ -503,7 +504,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				if(id){
 					flag = SavePreset(id,data,estr);
 				}else{
-					strcpy(estr,"not the group id");
+					strcpy(estr,"not the  id");
 				}
 				
 			}
@@ -513,7 +514,7 @@ uint8 CommandHandle(const char *sstr,json_t *json,json_t *ech,json_t *res,char *
 				if(id){
 					flag = CallPreset(id,data,estr);
 				}else{
-					strcpy(estr,"not the group id");
+					strcpy(estr,"not the  id");
 				}
 			}
 			else if(!strcmp(str,"GetAllPresetStatues")){
@@ -3841,12 +3842,13 @@ uint8 SavePreset(json_t *json,char *data,char *estr){
 					printf("set use ok \r\n");
 					result = lig_matrix_app_set_cursw2preset(lighandle,id);
 					printf("set preset error %d\r\n",result);
-				}else{
 					if(result>=0){
 						flag = 1;
 					}else{
 						strcpy(estr,"set have error");
 					}
+				}else{
+					strcpy(estr,"set have error for set used");
 				}
 			}else{
 				stpcpy(estr,"the id error");
@@ -3888,12 +3890,20 @@ uint8 GetAllPresetStatue(char *data,char *estr){
 	len = lig_matrix_app_get_preset_max();
 	int8 buf[len];
 	result = lig_matrix_app_get_preset_allused(buf,sizeof(buf));
-	json_t * preset ;
+	json_t * preset,*cpy ;
 	preset = json_array();
-	if(preset){
+	if(preset&&result>=0){
 		uint8 i = 0;
 		for(i;i<result;i++){
-			printf("the %d is %d\r\n",i,buf[i]);
+			json_array_append(preset,json_integer(buf[i]));
+		}
+		char *str;
+		str=json_dumps(preset,JSON_PRESERVE_ORDER);
+		strcpy(data,str);
+		free(str);
+		if(str!=NULL)
+		{
+			str=NULL;
 		}
 		flag = 1;
 	}
