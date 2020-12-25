@@ -3835,9 +3835,10 @@ uint8 SavePreset(json_t *json,char *data,char *estr){
 	if(json){
 		if(JsonGetInteger(json,&id)){
 			printf("the id is %d\r\n",id);
-			if(id>0&&id<=60){
+			if(id>0 && id<=60){
 				result = lig_matrix_app_set_preset_used(id,1);
 				if(result>=0){
+					printf("set use ok \r\n");
 					result = lig_matrix_app_set_cursw2preset(lighandle,id);
 				}else{
 					if(result>=0){
@@ -3890,7 +3891,7 @@ uint8 GetAllPresetStatue(char *data,char *estr){
 	preset = json_array();
 	if(preset){
 		uint8 i = 0;
-		for(i;i<len;i++){
+		for(i;i<result;i++){
 			printf("the %d is %d\r\n",i,buf[i]);
 		}
 		flag = 1;
