@@ -3830,7 +3830,7 @@ uint8 SavePreset(json_t *json,char *data,char *estr){
 	uint8 flag = 0;
 	int32 id = 0;
 	int32 result = 0;
-	if(josn){
+	if(json){
 		if(JsonGetInteger(json,&id)){
 			printf("the id is %d\r\n",id);
 			if(id>0&&id<=60){
@@ -3857,7 +3857,7 @@ uint8 CallPreset(json_t *json,char *data,char *estr){
 	uint8 flag = 0;
 	int32 id = 0;
 	int32 result = 0;
-	if(josn){
+	if(json){
 		if(JsonGetInteger(json,&id)){
 			printf("the id is %d\r\n",id);
 			if(id>0&&id<=60){
