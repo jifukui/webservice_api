@@ -3840,11 +3840,12 @@ uint8 SavePreset(json_t *json,char *data,char *estr){
 				if(result>=0){
 					printf("set use ok \r\n");
 					result = lig_matrix_app_set_cursw2preset(lighandle,id);
+					printf("set preset error %d\r\n",result);
 				}else{
 					if(result>=0){
 						flag = 1;
 					}else{
-						stpcpy(estr,"set have error");
+						strcpy(estr,"set have error");
 					}
 				}
 			}else{
