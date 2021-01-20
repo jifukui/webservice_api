@@ -624,7 +624,7 @@ send_mime( httpd_conn* hc, int status, char* title, char* encodings, char* extra
     char buf[1000];
     int partial_content;
     int s100;
-
+	char titledata[100]="";
     hc->status = status;
     hc->bytes_to_send = length;
     if ( hc->mime_flag )
