@@ -653,14 +653,26 @@ send_mime( httpd_conn* hc, int status, char* title, char* encodings, char* extra
 		(void) strftime( modbuf, sizeof(modbuf), rfc1123fmt, gmtime( &mod ) );
 		(void) my_snprintf(
 			fixed_type, sizeof(fixed_type), type, hc->hs->charset );
-		// (void) my_snprintf( buf, sizeof(buf),
-		//     "%.20s %d %s\015\012Server: %s\015\012Content-Type: %s\015\012Date: %s\015\012Last-Modified: %s\015\012Accept-Ranges: bytes\015\012Connection: close\015\012",
-		//     hc->protocol, status, title, EXPOSED_SERVER_SOFTWARE, fixed_type,
-		//     nowbuf, modbuf );
 		(void) my_snprintf( buf, sizeof(buf),
-			"%.20s %d %s\015\012Content-Type: %s\015\012Date: %s\015\012Last-Modified: %s\015\012Accept-Ranges: bytes\015\012Connection: close\015\012",
-			hc->protocol, status, title,fixed_type,
-			nowbuf, modbuf );
+"%.20s %d %s\015\012\
+Content-Type: %s\015\012\
+Date: %s\015\012\
+Last-Modified: %s\015\012\
+Accept-Ranges: bytes\015\012\
+Connection: close \015\012\
+X-Frame-Options:deny \015\012\
+X-XSS-Protection:1;mode=block \015\012\
+Expect-CT:max-age = 86400;enforce \015\012\
+X-Content-Type-Options:nosniff \015\012\
+Content-Security-Policy:default-src 'self';font-src 'self' data:;script-src 'unsafe-eval' 'self';img-src 'self' data: \015\012\
+Cache-Control:no-store\015\012",
+	    hc->protocol, 
+		status, 
+		titledata, 
+		// EXPOSED_SERVER_SOFTWARE, 
+		fixed_type,
+		nowbuf, 
+		modbuf );
 		add_response( hc, buf );
 		s100 = status / 100;
 		if ( s100 != 2 && s100 != 3 )
@@ -840,6 +852,7 @@ defang( char* str, char* dfstr, int dfsize )
 
 void httpd_send_err( httpd_conn* hc, int status, char* title, char* extraheads, char* form, char* arg )
 {
+	strcpy(arg,"");
 #ifdef ERR_DIR
 
     char filename[1000];

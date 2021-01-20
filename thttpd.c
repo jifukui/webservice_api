@@ -451,9 +451,6 @@ main( int argc, char** argv )
 	writesecurityfile();
 	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 	jitime=jifile.st_mtime;
-	//stat("/nandflash/webserver/thttpd/www/configuration.json",&jifile);
-	//jiconftime=jifile.st_mtime;
-	//printf("the data time is %d\n",jiconftime);
     argv0 = argv[0];
 
     cp = strrchr( argv0, '/' );
