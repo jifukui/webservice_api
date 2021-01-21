@@ -4076,16 +4076,24 @@ uint8 SetDHCPState(json_t *json,char *data,char *estr)
 uint8 SetDNSName(json_t *json,char *data,char *estr)
 {
 	uint8 flag=0;
-	uint8 name[128];
+	uint8 name[256];
 	uint8 str[256];
 	int status=0;
 	int len;
-	char temp[] = "%[^0-9]c";
+	char temp[]="%*[0-9]%[^0-9]";
+    char temp1[]="%*[0-9a-zA-Z_-]%[^0-9a-zA-Z_-]";
 	char buf[17];
 	//printf("Hello this is dns\n");
 	if(JsonGetString(json,name))
 	{
 		//printf("The name is %s\n",name);
+		len = sscanf(name,temp1,str);
+		if(len>=0){
+			strcpy(estr,"have invalid char");
+			return flag;
+		}
+		strcpy(name,str);
+		printf("The name is %s\n",name);
 		len = strlen(name);
 		if(len>16||len<0){
 			strcpy(estr,"Error of name length");
