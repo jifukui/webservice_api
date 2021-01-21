@@ -4079,10 +4079,31 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 	uint8 name[128];
 	uint8 str[256];
 	int status=0;
-	printf("Hello this is dns\n");
+	int len;
+	char temp[] = "%[^0-9]c";
+	char buf[17];
+	//printf("Hello this is dns\n");
 	if(JsonGetString(json,name))
 	{
 		//printf("The name is %s\n",name);
+		len = strlen(name);
+		if(len>16||len<0){
+			strcpy(estr,"Error of name length");
+			return flag ;
+		}
+		if(name[0]=='-'||name[0]=='_'){
+			strcpy(estr,"Error of name start");
+			return flag ;
+		}
+		if(name[len-1]=='-'){
+			strcpy(estr,"Error of name end");
+			return flag ;
+		}
+		len = sscanf(name,temp,buf);
+		if(len==0){
+			strcpy(estr,"the data cannot all number");
+			return flag ;
+		}
 		sprintf(str,"printf \"#name %s\r\" > /tmp/lig_com_in",name);
 		//printf("%s\n",str);
 		status=Mysystem(str);
@@ -4093,7 +4114,7 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 	}
 	else
 	{
-		printf("have error\n");
+		//printf("have error\n");
 		strcpy(estr,"Error of json type");
 	}
 	return flag;

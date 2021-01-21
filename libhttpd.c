@@ -3891,7 +3891,7 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	if ( ! check_referrer( hc ) )
 	    return -1;
 	/* Ok, generate an index. */
-	return ls( hc );
+	return -1;//ls( hc );
 #else /* GENERATE_INDEXES */
 	syslog(
 	    LOG_INFO, "%.80s URL \"%.80s\" tried to index a directory",
