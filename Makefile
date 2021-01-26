@@ -56,7 +56,7 @@ INCLS= -I.
 CFLAGS =	$(CCOPT) $(DEFS) $(INCLS)
 LDFLAGS =	
 #LDFLAGS =	-L/opt/fsl-imx-x11/4.1.15-2.1.0/sysroots/cortexa7hf-neon-poky-linux-gnueabi/usr/lib
-LIBS =		-lcrypt -ljansson -llig_matrix
+LIBS =		-lcrypt -ljansson -llig_matrix -lssl -lcrypto
 NETLIBS =	
 INSTALL =	/usr/bin/install -c
 
