@@ -4088,6 +4088,7 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 	{
 		//printf("The name is %s\n",name);
 		len = sscanf(name,temp1,str);
+		str[255] = 0;
 		if(len>=0){
 			strcpy(estr,"have invalid char");
 			return flag;

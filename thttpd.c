@@ -396,6 +396,7 @@ main( int argc, char** argv )
 		exit(2);
     }
 	// printf("good start work 1\n");
+	DisplayVersion();
 	liguoauth.security=0;
 	strcpy(liguoauth.Auth[0].username,"Admin");
 	//memset(liguoauth.Auth[0].password,0,PASSWORDLEN);

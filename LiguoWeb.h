@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include "config.h"
+#include "Session.h"
 typedef struct 
 {
     char username[15];
