@@ -8,15 +8,7 @@
 #include <stdlib.h>
 #include "config.h"
 #include "Session.h"
-typedef struct 
-{
-    char username[15];
-    char password[PASSWORDLEN];
-}authenticate;              
-typedef struct{
-    int security;
-    authenticate Auth[AUTH_NUM];
-}Auth_liguo;
+
 union semun
 {
     int val;

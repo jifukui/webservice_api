@@ -2,12 +2,17 @@
 #define __SESSION_H_
 #include <openssl/ssl.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include "timers.h"
+#define SESSION_NUM 20
 struct Session_Management{
-    
+    unsigned int min;
+    unsigned int max;
+    unsigned int num;
+    struct SessionInfo sesssion[SESSION_NUM];
 };
 struct Session_Version{
     unsigned int Major;
@@ -15,19 +20,39 @@ struct Session_Version{
     unsigned int Id;
 };
 struct UserInfo{
-
+    char username[15];
+    char password[PASSWORDLEN];
+    unsigned char power;
 };
-struct ConnectInfo{
+struct SessionInfo{
     unsigned int stat ;
+    unsigned int index ;
+    struct ConnectInfo connect;
+    struct UserInfo user;
+    Timer * timer;
+}
+struct ConnectInfo{
     unsigned int ipaddr;
     unsigned int token ;
-    Timer * timer;
 };
+typedef struct 
+{
+    char username[15];
+    char password[PASSWORDLEN];
+    unsigned char level;
+    unsigned char times;
+    unsigned char power;
+    Timer * timer;
+}authenticate;              
+typedef struct{
+    int security;
+    authenticate Auth[AUTH_NUM];
+}Auth_liguo;
 void DisplayVersion();
 int CreatShareMemory();
 int GetShareMemory();
 int ShareMemoryInit();
 void Display();
-void Add(struct ConnectInfo *con);
-void Del(struct ConnectInfo *con);
+int Add(struct ConnectInfo conn);
+int Del(unsigned int index);
 #endif

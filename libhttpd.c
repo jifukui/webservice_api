@@ -726,12 +726,10 @@ Cache-Control:no-store\015\012",
 			sprintf(data,"Set-Cookie: sessionid=%d;Max-Age=30\015\012",id);
 			printf("the data is %s\r\n",data);
 			struct ConnectInfo conn;
-			conn.ipaddr = hc->client_addr.sa_in.sin_addr.s_addr;//(hc->client_addr.sa_in.sin_addr.S_un_b[0]<<24)|\
-			(hc->client_addr.sa_in.sin_addr.S_un_b[1]<<16)\
-			(hc->client_addr.sa_in.sin_addr.S_un_b[0]<<8)\
-			(hc->client_addr.sa_in.sin_addr.S_un_b[0]<<0);
+			conn.ipaddr = hc->client_addr.sa_in.sin_addr.s_addr;
 			conn.token = id;
 			Add(&conn);
+			SetLogStat(0,"jifukui")
 			add_response( hc, data );
 		}
 		add_response( hc, "\015\012" );
