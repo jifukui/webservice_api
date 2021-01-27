@@ -37,14 +37,14 @@ static int binary_semaphore_wait()
     printf("waitting is %d\n",(int)getpid());
     return semop(bshmid,operations,1);
 }
-static int binary_semaphore_post(int semid)
+static int binary_semaphore_post()
 {
     struct sembuf operations[1];
     operations[0].sem_num=0;
     operations[0].sem_op=1;
     operations[0].sem_flg=SEM_UNDO;
-    //printf("process is %d\n",(int)getpid());
-    return semop(semid,operations,1);
+    printf("process is %d\n",(int)getpid());
+    return semop(bshmid,operations,1);
 }
 void DisplayKeyInfo(){
     printf("the key is %u\r\n",key);
