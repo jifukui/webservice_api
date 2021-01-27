@@ -1,9 +1,6 @@
 #ifndef _LIGUO_WEB_H_
 #define _LIGUO_WEB_H_
-#include <sys/ipc.h>
-#include <sys/sem.h>
-#include <sys/types.h>
-#include <stdio.h>
+
 #include <errno.h>
 #include <stdlib.h>
 #include "config.h"

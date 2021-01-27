@@ -104,7 +104,7 @@ void Display()
     }
 }
 int Add(struct ConnectInfo conn){
-    binary_semaphore_wait(semid);
+    binary_semaphore_wait();
     int i = sessionmanagement->min ;
     struct SessionInfo *con;
     if(sessionmanagement->num>=SESSION_NUM){
@@ -126,7 +126,7 @@ int Add(struct ConnectInfo conn){
             break;
         }
     }
-    binary_semaphore_post(semid);
+    binary_semaphore_post();
     Display();
     if(i<=SESSION_NUM){
         return i;
@@ -135,7 +135,7 @@ int Add(struct ConnectInfo conn){
     }
 }
 int SetLogStat(unsigned int index,char *str){
-    binary_semaphore_wait(semid);
+    binary_semaphore_wait();
     struct SessionInfo *con;
     if(!str){
         printf("SetLogStat error Info\r\n");
@@ -160,12 +160,12 @@ int SetLogStat(unsigned int index,char *str){
     }else{
         printf("SetLogStat connected failed\r\n");
     }
-    binary_semaphore_post(semid);
+    binary_semaphore_post();
     Display();
    return index;
 }
 int Del(unsigned int index){
-    binary_semaphore_wait(semid);
+    binary_semaphore_wait();
     struct SessionInfo *con;
     if(sessionmanagement->num<=0){
         return 0;
@@ -187,7 +187,7 @@ int Del(unsigned int index){
     }else{
         printf("Del connected failed\r\n");
     }
-    binary_semaphore_post(semid);
+    binary_semaphore_post();
     Display();
     return index;
 }
