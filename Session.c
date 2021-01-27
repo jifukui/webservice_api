@@ -54,7 +54,7 @@ void Display()
     int i = 0 ;
     struct SessionInfo *con;
     for(i;i < SESSION_NUM;i++ ){
-        con = sessionmanagement.sesssion[i] ;
+        con = sessionmanagement->sesssion[i] ;
         if(con->stat){
             printf("%d is used and stat is %d\r\n",i,con->stat);
             printf("the id is %u the token is %u\r\n",con->connect.ipaddr,con->connect.token);
@@ -65,23 +65,23 @@ void Display()
     }
 }
 int Add(struct ConnectInfo conn){
-    int i = sessionmanagement.min ;
+    int i = sessionmanagement->min ;
     struct SessionInfo *con;
-    if(sessionmanagement.num>=SESSION_NUM){
+    if(sessionmanagement->num>=SESSION_NUM){
         return 0;
     }
     for(i;i < SESSION_NUM;i++ ){
-        con =&sessionmanagement.sesssion[i] ;
+        con =sessionmanagement->sesssion[i] ;
         if(!con->stat){
-            sessionmanagement.num++;
+            sessionmanagement->num++;
             con->stat = 1;
             con->connect.ipaddr = conn.ipaddr;
             con->connect.token = conn.token;
-            sessionmanagement.num++;
-            sessionmanagement.sesssion->index = i;
-            sessionmanagement.min = i;
-            if(i>sessionmanagement.max){
-                sessionmanagement.max = i;
+            sessionmanagement->num++;
+            sessionmanagement->sesssion->index = i;
+            sessionmanagement->min = i;
+            if(i>sessionmanagement->max){
+                sessionmanagement->max = i;
             }
             break;
         }
@@ -99,19 +99,19 @@ int SetLogStat(unsigned int index,char *str){
         printf("SetLogStat error Info\r\n");
         return 0;
     }
-    if(sessionmanagement.num<=0){
+    if(sessionmanagement->num<=0){
         return 0;
     }
-    if(index<0 && index>sessionmanagement.max){
+    if(index<0 && index>sessionmanagement->max){
         return 0;
     }
-    con =sessionmanagement.sesssion[index] ;
+    con =sessionmanagement->sesssion[index] ;
     if(con->stat){
         con->stat = 2;
         strncpy(con->user.username,str,PASSWORDLEN-1);
         con->timer = NULL;
-        if(i<sessionmanagement.min){
-            sessionmanagement.min = index;
+        if(i<sessionmanagement->min){
+            sessionmanagement->min = index;
         }
         printf("Del connected success\r\n");
         
@@ -127,20 +127,20 @@ int SetLogStat(unsigned int index,char *str){
 }
 int Del(unsigned int index){
     struct SessionInfo *con;
-    if(sessionmanagement.num<=0){
+    if(sessionmanagement->num<=0){
         return 0;
     }
-    if(index<0&&index>sessionmanagement.max){
+    if(index<0&&index>sessionmanagement->max){
         return 0;
     }
-    con =&sessionmanagement.sesssion[index] ;
+    con =sessionmanagement->sesssion[index] ;
     if(con->stat){
-        sessionmanagement.num--;
+        sessionmanagement->num--;
         con->stat = 0;
         con->user.username[0]=0;
         con->timer = NULL;
-        if(index<sessionmanagement.min){
-            sessionmanagement.min = index;
+        if(index<sessionmanagement->min){
+            sessionmanagement->min = index;
         }
         printf("Del connected success\r\n");
         
