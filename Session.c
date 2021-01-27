@@ -64,7 +64,7 @@ void Add(struct ConnectInfo *con1){
     int i = 0 ;
     struct ConnectInfo *con;
     for(i;i < 10;i++ ){
-        con =conn[i];
+        con =&conn[i];
         if(!con->stat){
             con->stat = 1;
             con->ipaddr = con1->ipaddr;
