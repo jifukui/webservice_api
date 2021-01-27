@@ -8,12 +8,7 @@
 #include <sys/shm.h>
 #include "timers.h"
 #define SESSION_NUM 20
-struct Session_Management{
-    unsigned int min;
-    unsigned int max;
-    unsigned int num;
-    struct SessionInfo sesssion[SESSION_NUM];
-};
+
 struct Session_Version{
     unsigned int Major;
     unsigned int Modify;
@@ -24,13 +19,7 @@ struct UserInfo{
     char password[PASSWORDLEN];
     unsigned char power;
 };
-struct SessionInfo{
-    unsigned int stat ;
-    unsigned int index ;
-    struct ConnectInfo connect;
-    struct UserInfo user;
-    Timer * timer;
-}
+
 struct ConnectInfo{
     unsigned int ipaddr;
     unsigned int token ;
@@ -48,6 +37,19 @@ typedef struct{
     int security;
     authenticate Auth[AUTH_NUM];
 }Auth_liguo;
+struct SessionInfo{
+    unsigned int stat ;
+    unsigned int index ;
+    struct ConnectInfo connect;
+    struct UserInfo user;
+    Timer * timer;
+}
+struct Session_Management{
+    unsigned int min;
+    unsigned int max;
+    unsigned int num;
+    struct SessionInfo sesssion[SESSION_NUM];
+};
 void DisplayVersion();
 int CreatShareMemory();
 int GetShareMemory();
