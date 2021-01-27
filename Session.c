@@ -6,7 +6,7 @@ static void DisplayOpensslVersion();
 static key_t key = 0;
 static const int sharesize = 4096*2; 
 struct Session_Version Version={1,0,0};
-static struct Session_Management sessionmanagement;
+static struct Session_Management *sessionmanagement;
 static shmid = 0;
 ///////////////////////////////////////////////////////////////////////////////////////////
 static int CommonShareMemory(int size,int flags);
@@ -54,7 +54,7 @@ void Display()
     int i = 0 ;
     struct SessionInfo *con;
     for(i;i < SESSION_NUM;i++ ){
-        con = &sessionmanagement.sesssion[i] ;
+        con = sessionmanagement.sesssion[i] ;
         if(con->stat){
             printf("%d is used and stat is %d\r\n",i,con->stat);
             printf("the id is %u the token is %u\r\n",con->connect.ipaddr,con->connect.token);
@@ -105,13 +105,13 @@ int SetLogStat(unsigned int index,char *str){
     if(index<0 && index>sessionmanagement.max){
         return 0;
     }
-    con =&sessionmanagement.sesssion[i] ;
+    con =sessionmanagement.sesssion[index] ;
     if(con->stat){
         con->stat = 2;
         strncpy(con->user.username,str,PASSWORDLEN-1);
         con->timer = NULL;
         if(i<sessionmanagement.min){
-            sessionmanagement.min = i;
+            sessionmanagement.min = index;
         }
         printf("Del connected success\r\n");
         
