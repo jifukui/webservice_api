@@ -119,11 +119,7 @@ int SetLogStat(unsigned int index,char *str){
         printf("Del connected failed\r\n");
     }
     Display();
-    if(index<=SESSION_NUM){
-        return i;
-    }else{
-        return 0;
-    }
+   return index;
 }
 int Del(unsigned int index){
     struct SessionInfo *con;
@@ -148,9 +144,5 @@ int Del(unsigned int index){
         printf("Del connected failed\r\n");
     }
     Display();
-    if(index<=SESSION_NUM){
-        return i;
-    }else{
-        return 0;
-    }
+    return index;
 }
