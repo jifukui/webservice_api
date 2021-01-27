@@ -397,6 +397,8 @@ main( int argc, char** argv )
     }
 	// printf("good start work 1\n");
 	DisplayVersion();
+	ShareMemoryInit();
+	GetShareMemory();
 	liguoauth.security=0;
 	strcpy(liguoauth.Auth[0].username,"Admin");
 	//memset(liguoauth.Auth[0].password,0,PASSWORDLEN);

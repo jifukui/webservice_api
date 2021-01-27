@@ -720,6 +720,20 @@ Cache-Control:no-store\015\012",
 		}
 		if ( extraheads[0] != '\0' )
 			add_response( hc, extraheads );
+		if(!strcmp(hc->expnfilename,"index.html")){
+			char data[200]; 
+			int id = 123456789;
+			sprintf(data,"Set-Cookie: sessionid=%d;Max-Age=30\015\012",id);
+			printf("the data is %s\r\n",data);
+			struct ConnectInfo conn;
+			conn.ipaddr = (hc->client_addr.sa_in.sin_addr.S_un_b[0]<<24)|\
+			(hc->client_addr.sa_in.sin_addr.S_un_b[1]<<16)\
+			(hc->client_addr.sa_in.sin_addr.S_un_b[0]<<8)\
+			(hc->client_addr.sa_in.sin_addr.S_un_b[0]<<0);
+			conn.token = id;
+			Add(&conn);
+			add_response( hc, data );
+		}
 		add_response( hc, "\015\012" );
 	}
 }
@@ -3785,9 +3799,8 @@ cgi( httpd_conn* hc )
     }
 
 
-static int
-really_start_request( httpd_conn* hc, struct timeval* nowP )
-    {
+static int really_start_request( httpd_conn* hc, struct timeval* nowP )
+{
     static char* indexname;
     static size_t maxindexname = 0;
     static const char* index_names[] = { INDEX_NAMES };
@@ -3805,8 +3818,8 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
     /* Stat the file. */
     if ( stat( hc->expnfilename, &hc->sb ) < 0 )
 	{
-	httpd_send_err( hc, 500, err500title, "", err500form, hc->encodedurl );
-	return -1;
+		httpd_send_err( hc, 500, err500title, "", err500form, hc->encodedurl );
+		return -1;
 	}
 
     /* Is it world-readable or world-executable?  We check explicitly instead
@@ -3943,38 +3956,6 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	//printf("liguo auth2 \n");
     if ( auth_check( hc, dirname ) == -1 )
 	return -1;
-
-    /* Check if the filename is the AUTH_FILE itself - that's verboten. */
-	/* 
-    if ( expnlen == sizeof(AUTH_FILE) - 1 )
-	{
-	if ( strcmp( hc->expnfilename, AUTH_FILE ) == 0 )
-	    {
-	    syslog(
-		LOG_NOTICE,
-		"%.80s URL \"%.80s\" tried to retrieve an auth file",
-		httpd_ntoa( &hc->client_addr ), hc->encodedurl );
-	    httpd_send_err(
-		hc, 403, err403title, "",
-		ERROR_FORM( err403form, "The requested URL '%.80s' is an authorization file, retrieving it is not permitted.\n" ),
-		hc->encodedurl );
-	    return -1;
-	    }
-	}
-    else if ( expnlen >= sizeof(AUTH_FILE) &&
-	      strcmp( &(hc->expnfilename[expnlen - sizeof(AUTH_FILE) + 1]), AUTH_FILE ) == 0 &&
-	      hc->expnfilename[expnlen - sizeof(AUTH_FILE)] == '/' )
-	{
-	syslog(
-	    LOG_NOTICE,
-	    "%.80s URL \"%.80s\" tried to retrieve an auth file",
-	    httpd_ntoa( &hc->client_addr ), hc->encodedurl );
-	httpd_send_err(
-	    hc, 403, err403title, "",
-	    ERROR_FORM( err403form, "The requested URL '%.80s' is an authorization file, retrieving it is not permitted.\n" ),
-	    hc->encodedurl );
-	return -1;
-	}*/
 #endif /* AUTH_FILE */
     /* Referrer check. */
     if ( ! check_referrer( hc ) )
@@ -4037,21 +4018,21 @@ really_start_request( httpd_conn* hc, struct timeval* nowP )
 	 hc->if_modified_since >= hc->sb.st_mtime && strcmp(hc->expnfilename,"index.html"))
 	{
 		
-	send_mime(
-	    hc, 304, err304title, hc->encodings, "", hc->type, (off_t) -1,
-	    hc->sb.st_mtime );
+		send_mime(
+			hc, 304, err304title, hc->encodings, "", hc->type, (off_t) -1,
+			hc->sb.st_mtime );
 	}
     else
 	{
-	hc->file_address = mmc_map( hc->expnfilename, &(hc->sb), nowP );
-	if ( hc->file_address == (char*) 0 )
+		hc->file_address = mmc_map( hc->expnfilename, &(hc->sb), nowP );
+		if ( hc->file_address == (char*) 0 )
 	    {
-	    httpd_send_err( hc, 500, err500title, "", err500form, hc->encodedurl );
-	    return -1;
+			httpd_send_err( hc, 500, err500title, "", err500form, hc->encodedurl );
+			return -1;
 	    }
-	send_mime(
-	    hc, 200, ok200title, hc->encodings, "", hc->type, hc->sb.st_size,
-	    hc->sb.st_mtime );
+		send_mime(
+			hc, 200, ok200title, hc->encodings, "", hc->type, hc->sb.st_size,
+			hc->sb.st_mtime );
 	}
 
     return 0;
