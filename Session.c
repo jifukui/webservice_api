@@ -56,7 +56,7 @@ void Display()
     for(i;i < 10;i++ ){
         con =&conn[i];
         if(con->stat){
-            printf("the %d is used and ip is %u token is %u\r\n",i,con->ipaddr;con->token);
+            printf("the %d is used and ip is %u token is %u\r\n",i,con->ipaddr,con->token);
         }
     }
 }
