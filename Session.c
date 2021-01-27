@@ -74,7 +74,7 @@ void Add(struct ConnectInfo *con1){
     }
     Display();
 }
-void Del(struct ConnectInfo *con){
+void Del(struct ConnectInfo *con1){
     int i = 0 ;
     struct ConnectInfo *con;
     for(i;i < 10;i++ ){
