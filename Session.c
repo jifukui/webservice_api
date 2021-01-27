@@ -1,6 +1,7 @@
 #include "Session.h"
 
 #define PATHNAME "."
+#define PATHNAME1 "../"
 #define PROJ_ID 0x6666
 #define PROJ_ID1 0x6667
 static void DisplayOpensslVersion();
@@ -53,7 +54,7 @@ void DisplayKeyInfo(){
 }
 int ShareMemoryInit(){
     key = ftok(PATHNAME,PROJ_ID);
-    key1 = ftok(PATHNAME,PROJ_ID1);
+    key1 = ftok(PATHNAME1,PROJ_ID1);
     binary_semaphore_allocation(key,IPC_CREAT |0666);
     bshmid = binary_semaphore_initialize(key1);
     DisplayKeyInfo();
