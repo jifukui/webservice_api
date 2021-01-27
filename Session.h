@@ -8,7 +8,8 @@
 #include <sys/shm.h>
 #include "timers.h"
 #define SESSION_NUM 20
-
+#define PASSWORDLEN 15
+#define AUTH_NUM 10
 struct Session_Version{
     unsigned int Major;
     unsigned int Modify;

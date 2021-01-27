@@ -67,7 +67,7 @@ void Display()
 int Add(struct ConnectInfo conn){
     int i = sessionmanagement.min ;
     struct SessionInfo *con;
-    if(num>=SESSION_NUM){
+    if(sessionmanagement.num>=SESSION_NUM){
         return 0;
     }
     for(i;i < SESSION_NUM;i++ ){
@@ -108,7 +108,7 @@ int SetLogStat(unsigned int index,char *str){
     con =&sessionmanagement.sesssion[i] ;
     if(con->stat){
         con->stat = 2;
-        strncpy(con->user.username,str,14);
+        strncpy(con->user.username,str,PASSWORDLEN-1);
         con->timer = NULL;
         if(i<sessionmanagement.min){
             sessionmanagement.min = i;
@@ -139,8 +139,8 @@ int Del(unsigned int index){
         con->stat = 0;
         con->user.username[0]=0;
         con->timer = NULL;
-        if(i<sessionmanagement.min){
-            sessionmanagement.min = i;
+        if(index<sessionmanagement.min){
+            sessionmanagement.min = index;
         }
         printf("Del connected success\r\n");
         
