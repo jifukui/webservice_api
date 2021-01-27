@@ -119,7 +119,7 @@ int SetLogStat(unsigned int index,char *str){
         printf("Del connected failed\r\n");
     }
     Display();
-    if(i<=SESSION_NUM){
+    if(index<=SESSION_NUM){
         return i;
     }else{
         return 0;
@@ -133,7 +133,7 @@ int Del(unsigned int index){
     if(index<0&&index>sessionmanagement->max){
         return 0;
     }
-    con =sessionmanagement->sesssion[index] ;
+    con = &sessionmanagement->sesssion[index] ;
     if(con->stat){
         sessionmanagement->num--;
         con->stat = 0;
