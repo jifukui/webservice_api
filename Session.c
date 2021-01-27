@@ -54,7 +54,7 @@ void Display()
     int i = 0 ;
     struct SessionInfo *con;
     for(i;i < SESSION_NUM;i++ ){
-        con = sessionmanagement->sesssion[i] ;
+        con = &sessionmanagement->sesssion[i] ;
         if(con->stat){
             printf("%d is used and stat is %d\r\n",i,con->stat);
             printf("the id is %u the token is %u\r\n",con->connect.ipaddr,con->connect.token);
@@ -71,7 +71,7 @@ int Add(struct ConnectInfo conn){
         return 0;
     }
     for(i;i < SESSION_NUM;i++ ){
-        con =sessionmanagement->sesssion[i] ;
+        con = &sessionmanagement->sesssion[i] ;
         if(!con->stat){
             sessionmanagement->num++;
             con->stat = 1;
@@ -105,12 +105,12 @@ int SetLogStat(unsigned int index,char *str){
     if(index<0 && index>sessionmanagement->max){
         return 0;
     }
-    con =sessionmanagement->sesssion[index] ;
+    con = &sessionmanagement->sesssion[index] ;
     if(con->stat){
         con->stat = 2;
         strncpy(con->user.username,str,PASSWORDLEN-1);
         con->timer = NULL;
-        if(i<sessionmanagement->min){
+        if(index<sessionmanagement->min){
             sessionmanagement->min = index;
         }
         printf("Del connected success\r\n");
