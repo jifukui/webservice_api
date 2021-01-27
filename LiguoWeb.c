@@ -4118,6 +4118,8 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 		status=Mysystem(str);
 		if(!status)
 		{
+			struct ConnectInfo con;
+			Del(&con);
 			flag=1;
 		}
 	}

@@ -75,5 +75,17 @@ void Add(struct ConnectInfo *con1){
     Display();
 }
 void Del(struct ConnectInfo *con){
-
+    int i = 0 ;
+    struct ConnectInfo *con;
+    for(i;i < 10;i++ ){
+        con =&conn[i];
+        if(con->stat){
+            con->stat = 0;
+            con->ipaddr = 0;
+            con->token = 0;
+            printf("Del connected success\r\n");
+            break;
+        }
+    }
+    Display();
 }

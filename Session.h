@@ -7,7 +7,7 @@
 #include <sys/shm.h>
 #include "timers.h"
 struct Session_Management{
-    unsigned int temid;
+    
 };
 struct Session_Version{
     unsigned int Major;
@@ -29,4 +29,5 @@ int GetShareMemory();
 int ShareMemoryInit();
 void Display();
 void Add(struct ConnectInfo *con);
+void Del(struct ConnectInfo *con);
 #endif
