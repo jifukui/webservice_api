@@ -9,13 +9,7 @@
 #include "config.h"
 #include "Session.h"
 
-union semun
-{
-    int val;
-    struct semid_ds *buf;
-    unsigned short int *array;
-    struct seminfo *__buf;
-};
+
 typedef unsigned char uint8;
 int binary_semaphore_allocation(key_t key,int sem_flags);
 int binary_semaphore_deallocate(int semid);

@@ -9,7 +9,13 @@
 #include "timers.h"
 #include "config.h"
 #define SESSION_NUM 20
-
+union semun
+{
+    int val;
+    struct semid_ds *buf;
+    unsigned short int *array;
+    struct seminfo *__buf;
+};
 struct Session_Version{
     unsigned int Major;
     unsigned int Modify;
