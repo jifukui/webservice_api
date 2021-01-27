@@ -51,12 +51,13 @@ static int binary_semaphore_post()
 }
 void DisplayKeyInfo(){
     printf("the key is %u\r\n",key);
+    printf("the key1 is %u\r\n",key1);
 }
 int ShareMemoryInit(){
     key = ftok(PATHNAME,PROJ_ID);
     key1 = ftok(PATHNAME1,PROJ_ID1);
-    binary_semaphore_allocation(key,IPC_CREAT |0666);
-    bshmid = binary_semaphore_initialize(key1);
+    //binary_semaphore_allocation(key,IPC_CREAT |0666);
+    //bshmid = binary_semaphore_initialize(key1);
     DisplayKeyInfo();
     return CreatShareMemory();
 }
@@ -108,7 +109,7 @@ void Display()
     }
 }
 int Add(struct ConnectInfo conn){
-    binary_semaphore_wait();
+    //binary_semaphore_wait();
     int i = sessionmanagement->min ;
     struct SessionInfo *con;
     if(sessionmanagement->num>=SESSION_NUM){
@@ -130,7 +131,7 @@ int Add(struct ConnectInfo conn){
             break;
         }
     }
-    binary_semaphore_post();
+    //binary_semaphore_post();
     Display();
     if(i<=SESSION_NUM){
         return i;
@@ -139,7 +140,7 @@ int Add(struct ConnectInfo conn){
     }
 }
 int SetLogStat(unsigned int index,char *str){
-    binary_semaphore_wait();
+    //binary_semaphore_wait();
     struct SessionInfo *con;
     if(!str){
         printf("SetLogStat error Info\r\n");
@@ -164,12 +165,12 @@ int SetLogStat(unsigned int index,char *str){
     }else{
         printf("SetLogStat connected failed\r\n");
     }
-    binary_semaphore_post();
+    //binary_semaphore_post();
     Display();
    return index;
 }
 int Del(unsigned int index){
-    binary_semaphore_wait();
+    //binary_semaphore_wait();
     struct SessionInfo *con;
     if(sessionmanagement->num<=0){
         return 0;
@@ -191,7 +192,7 @@ int Del(unsigned int index){
     }else{
         printf("Del connected failed\r\n");
     }
-    binary_semaphore_post();
+    //binary_semaphore_post();
     Display();
     return index;
 }
