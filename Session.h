@@ -43,7 +43,7 @@ struct SessionInfo{
     struct ConnectInfo connect;
     struct UserInfo user;
     Timer * timer;
-}
+};
 struct Session_Management{
     unsigned int min;
     unsigned int max;
