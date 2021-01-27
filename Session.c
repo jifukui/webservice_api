@@ -62,7 +62,16 @@ int ShareMemoryInit(){
     return CreatShareMemory();
 }
 int CreatShareMemory(){
-    CommonShareMemory(sharesize,IPC_CREAT|IPC_EXCL|0666);
+    int ret = 0;
+    do{
+        ret = CommonShareMemory(sharesize,IPC_CREAT|IPC_EXCL|0666);
+        printf('the ret value is %d\r\n',ret);
+        if(ret<0){
+            printf('clean  ret value\r\n',ret);
+            DestoryShm(shmid);
+        }
+    }while(ret<0);
+
 }
 int GetShareMemory(){
     sessionmanagement = shmat(shmid,NULL,0);
@@ -70,7 +79,7 @@ int GetShareMemory(){
 int SetShareMemory(){
     CommonShareMemory(sharesize,IPC_CREAT);
 }
-CommonShareMemory(int size,int flags){
+int CommonShareMemory(int size,int flags){
     if(key<0)
     {
         perror("ftok error\n");
@@ -83,7 +92,15 @@ CommonShareMemory(int size,int flags){
     }
     return shmid;
 }
-
+int DestoryShm(int shmid)
+{
+    if(shmctl(shmid,IPC_RMID,NULL)<0)
+    {
+        perror("shmctl error\n");
+        return -1;
+    }
+    return 0;
+}
 void DisplayVersion(){
     printf("The Session Version is %d.%d.%d\r\n",Version.Major,Version.Modify,Version.Id);
     DisplayOpensslVersion();
