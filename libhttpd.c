@@ -729,7 +729,7 @@ Cache-Control:no-store\015\012",
 			conn.ipaddr = hc->client_addr.sa_in.sin_addr.s_addr;
 			conn.token = id;
 			Add(&conn);
-			SetLogStat(0,"jifukui")
+			SetLogStat(0,"jifukui");
 			add_response( hc, data );
 		}
 		add_response( hc, "\015\012" );

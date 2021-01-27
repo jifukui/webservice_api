@@ -4119,7 +4119,7 @@ uint8 SetDNSName(json_t *json,char *data,char *estr)
 		if(!status)
 		{
 			struct ConnectInfo con;
-			Del(&con);
+			Del(0);
 			flag=1;
 		}
 	}
