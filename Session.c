@@ -148,7 +148,7 @@ int Del(unsigned int index){
         printf("Del connected failed\r\n");
     }
     Display();
-    if(i<=SESSION_NUM){
+    if(index<=SESSION_NUM){
         return i;
     }else{
         return 0;
