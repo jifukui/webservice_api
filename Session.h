@@ -22,7 +22,7 @@ struct ConnectInfo{
     unsigned int ipaddr;
     unsigned int token ;
     Timer * timer;
-}
+};
 void DisplayVersion();
 int CreatShareMemory();
 int GetShareMemory();
