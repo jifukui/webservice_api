@@ -728,7 +728,7 @@ Cache-Control:no-store\015\012",
 			struct ConnectInfo conn;
 			conn.ipaddr = hc->client_addr.sa_in.sin_addr.s_addr;
 			conn.token = id;
-			Add(&conn);
+			Add(conn);
 			SetLogStat(0,"jifukui");
 			add_response( hc, data );
 		}
