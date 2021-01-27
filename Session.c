@@ -2,8 +2,10 @@
 
 #define PATHNAME "."
 #define PROJ_ID 0x6666
+#define PROJ_ID1 0x6667
 static void DisplayOpensslVersion();
 static key_t key = 0;
+static key_t key1 = 0;
 static const int sharesize = 4096*2; 
 struct Session_Version Version={1,0,0};
 static struct Session_Management *sessionmanagement;
@@ -51,8 +53,9 @@ void DisplayKeyInfo(){
 }
 int ShareMemoryInit(){
     key = ftok(PATHNAME,PROJ_ID);
+    key1 = ftok(PATHNAME,PROJ_ID1);
     binary_semaphore_allocation(key,IPC_CREAT |0666);
-    bshmid = binary_semaphore_initialize(key);
+    bshmid = binary_semaphore_initialize(key1);
     DisplayKeyInfo();
     return CreatShareMemory();
 }
