@@ -59,19 +59,20 @@ int ShareMemoryInit(){
     semaphore_allocation(key,IPC_CREAT |0666);
     bshmid = semaphore_initialize(key1);
     DisplayKeyInfo();
-    return SetShareMemory();
-    //return CreatShareMemory();
+    //return SetShareMemory();
+    return CreatShareMemory();
 }
 int CreatShareMemory(){
-    int ret = 0;
-    do{
-        ret = CommonShareMemory(sharesize,IPC_CREAT|IPC_EXCL|0666);
+    //int ret = 0;
+    CommonShareMemory(sharesize,IPC_CREAT|0666);
+    /*do{
+        ret = CommonShareMemory(sharesize,IPC_CREAT|0666);
         printf('the ret value is %d\r\n',ret);
         if(ret<0){
             printf('clean  ret value\r\n',ret);
             DestoryShm(shmid);
         }
-    }while(ret<0);
+    }while(ret<0);*/
 
 }
 int GetShareMemory(){
@@ -185,7 +186,7 @@ int SetLogStat(unsigned int index,char *str){
     }
     semaphore_post();
     Display();
-   return index;
+    return index;
 }
 int Del(unsigned int index){
     semaphore_wait();
