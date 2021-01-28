@@ -62,7 +62,7 @@ int ShareMemoryInit(){
     session_bshmid = semaphore_allocation(key1,IPC_CREAT |0666);
     semaphore_initialize(key1);
     DisplayKeyInfo();
-    
+    Display();
     //return SetShareMemory();
     return session_shmid;
 }
@@ -159,7 +159,6 @@ int Add(struct ConnectInfo conn){
             con->stat = 1;
             con->connect.ipaddr = conn.ipaddr;
             con->connect.token = conn.token;
-            sessionmanagement->num++;
             sessionmanagement->sesssion->index = i;
             sessionmanagement->min = i;
             if(i>sessionmanagement->max){
