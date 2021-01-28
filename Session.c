@@ -115,6 +115,8 @@ void Display()
 {
     int i = 0 ;
     struct SessionInfo *con;
+    printf("the address is %u\r\n",sessionmanagement);
+    printf("the min is %d max is %d num is %d\r\n",sessionmanagement->min,sessionmanagement->max,sessionmanagement->num);
     for(i;i < SESSION_NUM;i++ ){
         con = &sessionmanagement->sesssion[i] ;
         if(con->stat){
