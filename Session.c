@@ -58,11 +58,13 @@ void DisplayKeyInfo(){
 int ShareMemoryInit(){
     key = ftok(PATHNAME,PROJ_ID);
     key1 = ftok(PATHNAME1,PROJ_ID1);
+    session_shmid =CreatShareMemory();
     session_bshmid = semaphore_allocation(key1,IPC_CREAT |0666);
     semaphore_initialize(key1);
     DisplayKeyInfo();
+    
     //return SetShareMemory();
-    return CreatShareMemory();
+    return session_shmid;
 }
 void ShareMemoryDest(){
     if(session_bshmid!=-1)
