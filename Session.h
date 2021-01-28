@@ -62,6 +62,7 @@ void DisplayVersion();
 int CreatShareMemory();
 int GetShareMemory();
 int ShareMemoryInit();
+void ShareMemoryDest();
 void Display();
 int Add(struct ConnectInfo conn);
 int Del(unsigned int index);

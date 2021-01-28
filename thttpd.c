@@ -175,8 +175,6 @@ static void thttpd_logstats( long secs );
 extern void * lighandle;
 extern Auth_liguo liguoauth;
 extern key_t semid;
-extern key_t session_shmid;
-extern key_t session_bshmid;
 /* SIGTERM and SIGINT say to exit immediately. */
 static void
 handle_term( int sig )
@@ -1611,14 +1609,7 @@ shut_down( void )
 	{
 		binary_semaphore_deallocate(semid);
 	}
-	if(session_bshmid!=-1)
-	{
-		semaphore_deallocate(session_bshmid);
-	}
-	if(session_shmid!=-1)
-	{
-		DestoryShm(session_bshmid);
-	}
+	void ShareMemoryDest();
 }
 
 

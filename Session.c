@@ -62,6 +62,16 @@ int ShareMemoryInit(){
     //return SetShareMemory();
     return CreatShareMemory();
 }
+void ShareMemoryDest(){
+    if(session_bshmid!=-1)
+	{
+		semaphore_deallocate(session_bshmid);
+	}
+	if(session_shmid!=-1)
+	{
+		DestoryShm(session_bshmid);
+	}
+}
 int CreatShareMemory(){
     //int ret = 0;
     CommonShareMemory(sharesize,IPC_CREAT|0666);
