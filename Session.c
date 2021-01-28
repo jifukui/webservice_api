@@ -76,18 +76,7 @@ void ShareMemoryDest(){
 	}
 }
 int CreatShareMemory(){
-    //int ret = 0;
     CommonShareMemory(sharesize,IPC_CREAT|0666);
-    Display();
-    /*do{
-        ret = CommonShareMemory(sharesize,IPC_CREAT|0666);
-        printf('the ret value is %d\r\n',ret);
-        if(ret<0){
-            printf('clean  ret value\r\n',ret);
-            DestoryShm(shmid);
-        }
-    }while(ret<0);*/
-
 }
 int GetShareMemory(){
     sessionmanagement = shmat(session_shmid,NULL,0);
