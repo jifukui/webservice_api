@@ -59,7 +59,8 @@ int ShareMemoryInit(){
     //semaphore_allocation(key,IPC_CREAT |0666);
     //bshmid = semaphore_initialize(key1);
     DisplayKeyInfo();
-    return CreatShareMemory();
+    return SetShareMemory();
+    //return CreatShareMemory();
 }
 int CreatShareMemory(){
     int ret = 0;
@@ -80,7 +81,7 @@ int SetShareMemory(){
     CommonShareMemory(sharesize,IPC_CREAT);
 }
 int CommonShareMemory(int size,int flags){
-    if(key<0)
+    if(key<=0)
     {
         perror("ftok error\n");
         return -1;
