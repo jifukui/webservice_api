@@ -200,7 +200,9 @@ int Del(unsigned int index){
     semaphore_wait();
     struct SessionInfo *con;
     if(index<0){
+        printf("sessionmanagement->min is %d\r\n",sessionmanagement->min);
         index = sessionmanagement->min;
+        printf("now Del index is %d\r\n",index);
     }
     if(sessionmanagement->num<=0){
         return 0;
