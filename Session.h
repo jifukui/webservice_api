@@ -65,5 +65,5 @@ int ShareMemoryInit();
 void ShareMemoryDest();
 void Display();
 int Add(struct ConnectInfo conn);
-int Del(unsigned int index);
+int Del(int index);
 #endif

@@ -195,7 +195,7 @@ int SetLogStat(unsigned int index,char *str){
     Display();
     return index;
 }
-int Del(unsigned int index){
+int Del(int index){
     printf("Del\r\n");
     semaphore_wait();
     struct SessionInfo *con;
