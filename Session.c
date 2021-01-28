@@ -208,6 +208,7 @@ int Del(unsigned int index){
     if(index<0&&index>sessionmanagement->max){
         return 0;
     }
+    printf("Del index is %d\r\n",index);
     con = &sessionmanagement->sesssion[index] ;
     if(con->stat){
         sessionmanagement->num--;
