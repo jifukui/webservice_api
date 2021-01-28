@@ -52,11 +52,13 @@ static int semaphore_post()
 void DisplayKeyInfo(){
     printf("the key is %u\r\n",key);
     printf("the key1 is %u\r\n",key1);
+    printf("the session_shmid is %u\r\n",session_shmid);
+    printf("the session_bshmid is %u\r\n",session_bshmid);
 }
 int ShareMemoryInit(){
     key = ftok(PATHNAME,PROJ_ID);
     key1 = ftok(PATHNAME1,PROJ_ID1);
-    semaphore_allocation(key,IPC_CREAT |0666);
+    semaphore_allocation(key1,IPC_CREAT |0666);
     session_bshmid = semaphore_initialize(key1);
     DisplayKeyInfo();
     //return SetShareMemory();
@@ -171,7 +173,7 @@ int Add(struct ConnectInfo conn){
     }else{
         return 0;
     }
-}/*
+}
 int SetLogStat(unsigned int index,char *str){
     printf("SetLogStat\r\n");
     semaphore_wait();
@@ -202,7 +204,7 @@ int SetLogStat(unsigned int index,char *str){
     semaphore_post();
     Display();
     return index;
-}*/
+}
 int Del(unsigned int index){
     printf("Del\r\n");
     semaphore_wait();
