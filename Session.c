@@ -37,7 +37,7 @@ static int semaphore_wait()
     operations[0].sem_num=0;
     operations[0].sem_op=-1;
     operations[0].sem_flg=SEM_UNDO;
-    printf("waitting is %d\n",(int)getpid());
+    printf("session waitting is %d\n",(int)getpid());
     return semop(session_bshmid,operations,1);
 }
 static int semaphore_post()
@@ -46,7 +46,7 @@ static int semaphore_post()
     operations[0].sem_num=0;
     operations[0].sem_op=1;
     operations[0].sem_flg=SEM_UNDO;
-    printf("process is %d\n",(int)getpid());
+    printf("session process is %d\n",(int)getpid());
     return semop(session_bshmid,operations,1);
 }
 void DisplayKeyInfo(){
@@ -204,6 +204,9 @@ int SetLogStat(unsigned int index,char *str){
 int Del(unsigned int index){
     semaphore_wait();
     struct SessionInfo *con;
+    if(index<0){
+        index = sessionmanagement.min;
+    }
     if(sessionmanagement->num<=0){
         return 0;
     }
