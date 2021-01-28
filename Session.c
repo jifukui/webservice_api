@@ -171,7 +171,7 @@ int Add(struct ConnectInfo conn){
     }else{
         return 0;
     }
-}
+}/*
 int SetLogStat(unsigned int index,char *str){
     printf("SetLogStat\r\n");
     semaphore_wait();
@@ -202,7 +202,7 @@ int SetLogStat(unsigned int index,char *str){
     semaphore_post();
     Display();
     return index;
-}
+}*/
 int Del(unsigned int index){
     printf("Del\r\n");
     semaphore_wait();
