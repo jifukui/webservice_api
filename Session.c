@@ -141,6 +141,7 @@ void Display()
     }
 }
 int Add(struct ConnectInfo conn){
+    printf("add\r\n");
     semaphore_wait();
     int i = sessionmanagement->min ;
     struct SessionInfo *con;
@@ -172,6 +173,7 @@ int Add(struct ConnectInfo conn){
     }
 }
 int SetLogStat(unsigned int index,char *str){
+    printf("SetLogStat\r\n");
     semaphore_wait();
     struct SessionInfo *con;
     if(!str){
@@ -202,6 +204,7 @@ int SetLogStat(unsigned int index,char *str){
     return index;
 }
 int Del(unsigned int index){
+    printf("Del\r\n");
     semaphore_wait();
     struct SessionInfo *con;
     if(index<0){
