@@ -205,7 +205,7 @@ int Del(unsigned int index){
     semaphore_wait();
     struct SessionInfo *con;
     if(index<0){
-        index = sessionmanagement.min;
+        index = sessionmanagement->min;
     }
     if(sessionmanagement->num<=0){
         return 0;
