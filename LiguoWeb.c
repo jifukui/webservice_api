@@ -19,7 +19,7 @@ extern void *lighandle;
 extern Auth_liguo liguoauth;
 uint8 ligPorts=PORTNUM;
 static uint8 JI_JsonCreatFailed[]="Creat JSON Failed";
-key_t semid;
+key_t semid;  
 static uint8 ligportinfo[2][STRLEN]={"In Port Info","Out Port Info"};
 static uint8 ligsignalinfo[em_matrix_input_signal_dvi+1][STRLEN]={"No Signal","Unknown","HDMI","DVI"};
 static uint8 ligHDCPstatus[em_matrix_HDCP_version_2_0+1][STRLEN]={"HDCP OFF","HDCP 1.4","HDCP 2.2"};

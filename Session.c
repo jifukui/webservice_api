@@ -10,8 +10,8 @@ static key_t key1 = 0;
 static const int sharesize = 4096*2; 
 struct Session_Version Version={1,0,0};
 static struct Session_Management *sessionmanagement;
-static shmid = 0;
-static bshmid = 0 ;
+key_t session_shmid = 0;
+key_t session_bshmid = 0 ;
 ///////////////////////////////////////////////////////////////////////////////////////////
 static int CommonShareMemory(int size,int flags);
 static int semaphore_allocation(key_t key,int sem_flags)
@@ -21,7 +21,7 @@ static int semaphore_allocation(key_t key,int sem_flags)
 static int semaphore_deallocate()
 {
     union semun ignored_argument;
-    return semctl(bshmid,1,IPC_RMID,ignored_argument);
+    return semctl(session_bshmid,1,IPC_RMID,ignored_argument);
 }
 static int semaphore_initialize()
 {
@@ -29,7 +29,7 @@ static int semaphore_initialize()
     unsigned short values[1];
     values[0]=1;
     argument.array=values;
-    return semctl(bshmid,0,SETALL,argument);
+    return semctl(session_bshmid,0,SETALL,argument);
 }
 static int semaphore_wait()
 {
@@ -38,7 +38,7 @@ static int semaphore_wait()
     operations[0].sem_op=-1;
     operations[0].sem_flg=SEM_UNDO;
     printf("waitting is %d\n",(int)getpid());
-    return semop(bshmid,operations,1);
+    return semop(session_bshmid,operations,1);
 }
 static int semaphore_post()
 {
@@ -47,7 +47,7 @@ static int semaphore_post()
     operations[0].sem_op=1;
     operations[0].sem_flg=SEM_UNDO;
     printf("process is %d\n",(int)getpid());
-    return semop(bshmid,operations,1);
+    return semop(session_bshmid,operations,1);
 }
 void DisplayKeyInfo(){
     printf("the key is %u\r\n",key);
@@ -57,7 +57,7 @@ int ShareMemoryInit(){
     key = ftok(PATHNAME,PROJ_ID);
     key1 = ftok(PATHNAME1,PROJ_ID1);
     semaphore_allocation(key,IPC_CREAT |0666);
-    bshmid = semaphore_initialize(key1);
+    session_bshmid = semaphore_initialize(key1);
     DisplayKeyInfo();
     //return SetShareMemory();
     return CreatShareMemory();
@@ -76,7 +76,7 @@ int CreatShareMemory(){
 
 }
 int GetShareMemory(){
-    sessionmanagement = shmat(shmid,NULL,0);
+    sessionmanagement = shmat(session_shmid,NULL,0);
 }
 int SetShareMemory(){
     CommonShareMemory(sharesize,IPC_CREAT);
@@ -87,12 +87,12 @@ int CommonShareMemory(int size,int flags){
         perror("ftok error\n");
         return -1;
     }
-    if((shmid=shmget(key,size,flags))<0)
+    if((session_shmid=shmget(key,size,flags))<0)
     {
         perror("shmget error\n");
         return -2;
     }
-    return shmid;
+    return session_shmid;
 }
 int DestoryShm(int shmid)
 {
@@ -131,7 +131,7 @@ void Display()
     }
 }
 int Add(struct ConnectInfo conn){
-    //semaphore_wait();
+    semaphore_wait();
     int i = sessionmanagement->min ;
     struct SessionInfo *con;
     if(sessionmanagement->num>=SESSION_NUM){
@@ -153,7 +153,7 @@ int Add(struct ConnectInfo conn){
             break;
         }
     }
-    //semaphore_post();
+    semaphore_post();
     Display();
     if(i<=SESSION_NUM){
         return i;
@@ -162,7 +162,7 @@ int Add(struct ConnectInfo conn){
     }
 }
 int SetLogStat(unsigned int index,char *str){
-    //semaphore_wait();
+    semaphore_wait();
     struct SessionInfo *con;
     if(!str){
         printf("SetLogStat error Info\r\n");
@@ -187,12 +187,12 @@ int SetLogStat(unsigned int index,char *str){
     }else{
         printf("SetLogStat connected failed\r\n");
     }
-    //semaphore_post();
+    semaphore_post();
     Display();
     return index;
 }
 int Del(unsigned int index){
-    //semaphore_wait();
+    semaphore_wait();
     struct SessionInfo *con;
     if(sessionmanagement->num<=0){
         return 0;
@@ -214,7 +214,7 @@ int Del(unsigned int index){
     }else{
         printf("Del connected failed\r\n");
     }
-    //semaphore_post();
+    semaphore_post();
     Display();
     return index;
 }
