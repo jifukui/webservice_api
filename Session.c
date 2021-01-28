@@ -62,7 +62,6 @@ int ShareMemoryInit(){
     session_bshmid = semaphore_allocation(key1,IPC_CREAT |0666);
     semaphore_initialize(key1);
     DisplayKeyInfo();
-    Display();
     //return SetShareMemory();
     return session_shmid;
 }
@@ -79,6 +78,7 @@ void ShareMemoryDest(){
 int CreatShareMemory(){
     //int ret = 0;
     CommonShareMemory(sharesize,IPC_CREAT|0666);
+    Display();
     /*do{
         ret = CommonShareMemory(sharesize,IPC_CREAT|0666);
         printf('the ret value is %d\r\n',ret);
