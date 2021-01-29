@@ -50,6 +50,7 @@ static int semaphore_post()
     return semop(session_bshmid,operations,1);
 }
 static void ConnectLeave(ClientData index);
+static void Disconnect(ClientData index);
 void DisplayKeyInfo(){
     printf("the key is %u\r\n",key);
     printf("the key1 is %u\r\n",key1);
@@ -203,7 +204,8 @@ int SetLogStat(unsigned int index,char *str){
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("SetLogStat have start %u\r\n",time);
-            con->timer=tmr_create((struct timeval*)nowtime,ConnectLeave,(ClientData)i,15000,0);
+            con->timer=tmr_create((struct timeval*)nowtime,ConnectLeave,(ClientData)index,15000,0);
+            tmr_create((struct timeval*)nowtime,Disconnect,(ClientData)index,20000,0);
             if(con->timer==0){
                 printf("SetLogStat creat timer error\r\n");
             }else{
@@ -287,4 +289,9 @@ void ConnectLeave(ClientData index){
         printf("error for  timer\r\n");
     }
     semaphore_post();
+}
+void Disconnect(ClientData index){
+    int i;
+    i = index.i;
+    Del(i);
 }
