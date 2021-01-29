@@ -246,12 +246,14 @@ int Del(int index){
 void ConnectLeave(ClientData index){
     int time ;
     struct timeval* t;
+    struct SessionInfo *con;
     t = (Timer*) malloc( sizeof(Timer) );
     (void) gettimeofday( t, (struct timezone*) 0 );
     time = t->tv_sec*1000000+t->tv_usec;
     printf("have end %u\r\n",time);
     printf("the index is %d\r\n",index);
-    if(&sessionmanagement->sesssion[(int)index].timer==0){
+    con=&sessionmanagement->sesssion[index];
+    if(con.timer==0){
         printf("error for timer\r\n");
     }else{
         printf("good for  timer\r\n");
