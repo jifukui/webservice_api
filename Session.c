@@ -182,6 +182,7 @@ int Add(struct ConnectInfo conn){
 int SetLogStat(unsigned int index,char *str){
     int time ;
     struct timeval* t;
+    struct timeval *nowtime = NULL;
     printf("SetLogStat\r\n");
     semaphore_wait();
     struct SessionInfo *con;
@@ -240,6 +241,13 @@ int Del(int index){
     int i;
     if(index<0){
         printf("sessionmanagement->min is %d\r\n",sessionmanagement->min);
+        for(i = 0; i<&sessionmanagement->num; i++ ){
+            con = &sessionmanagement->sesssion[i];
+            if(con->stat){
+                index = i;
+                break;
+            }
+        }
         index = sessionmanagement->min;
         printf("now Del index is %d\r\n",index);
     }
