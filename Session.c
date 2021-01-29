@@ -201,6 +201,7 @@ int SetLogStat(unsigned int index,char *str){
     if(con->stat){
         if(con->timer){
             printf("SetLogStat good for this \r\n");
+            printf("cancel timer %u\r\n",con->timer);
             tmr_cancel(con->timer);
             printf("SetLogStat good for this end \r\n");
             t = (struct timeval*) malloc( sizeof(struct timeval) );
