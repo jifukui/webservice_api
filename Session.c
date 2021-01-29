@@ -183,6 +183,7 @@ int SetLogStat(unsigned int index,char *str){
     int time ;
     struct timeval * t = NULL ;
     struct timeval *nowtime = NULL;
+    int i = index;
     printf("SetLogStat\r\n");
     semaphore_wait();
     struct SessionInfo *con;
@@ -201,12 +202,12 @@ int SetLogStat(unsigned int index,char *str){
         if(con->timer){
             printf("SetLogStat good for this \r\n");
             tmr_cancel(con->timer);
-            t = (struct timeval*) malloc( sizeof(ctruct timeval) );
+            t = (struct timeval*) malloc( sizeof(struct timeval) );
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("SetLogStat have start %u\r\n",time);
-            con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave,(ClientData)index,15000,0);
-            tmr_create((struct timeval*)nowtime,(TimerProc*)&Disconnect,(ClientData)index,20000,0);
+            con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave,(ClientData)i,15000,0);
+            tmr_create((struct timeval*)nowtime,(TimerProc*)&Disconnect,(ClientData)i,20000,0);
             if(con->timer==0){
                 printf("SetLogStat creat timer error\r\n");
             }else{
