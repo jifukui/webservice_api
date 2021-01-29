@@ -142,7 +142,7 @@ int Add(struct ConnectInfo conn){
     int i = sessionmanagement->min ;
     struct SessionInfo *con;
     int time ;
-    struct timeval* t;
+    struct Timer * t;
     if(sessionmanagement->num>=SESSION_NUM){
         return -1;
     }
@@ -162,7 +162,7 @@ int Add(struct ConnectInfo conn){
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("have start %u\r\n",time);
-            con->timer=tmr_create((struct timeval*)nowtime,ConnectLeave,(ClientData)i,5000,0);
+            con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave,(ClientData)i,5000,0);
             if(con->timer==0){
                 printf("creat timer error\r\n");
             }else{
@@ -181,7 +181,7 @@ int Add(struct ConnectInfo conn){
 }
 int SetLogStat(unsigned int index,char *str){
     int time ;
-    struct timeval* t;
+    struct Timer* t;
     struct timeval *nowtime = NULL;
     printf("SetLogStat\r\n");
     semaphore_wait();
@@ -205,8 +205,8 @@ int SetLogStat(unsigned int index,char *str){
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("SetLogStat have start %u\r\n",time);
-            con->timer=tmr_create((struct timeval*)nowtime,ConnectLeave,(ClientData)index,15000,0);
-            tmr_create((struct timeval*)nowtime,Disconnect,(ClientData)index,20000,0);
+            con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave,(ClientData)index,15000,0);
+            tmr_create((struct timeval*)nowtime,(TimerProc*)&Disconnect,(ClientData)index,20000,0);
             if(con->timer==0){
                 printf("SetLogStat creat timer error\r\n");
             }else{
