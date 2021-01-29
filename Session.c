@@ -253,7 +253,7 @@ void ConnectLeave(ClientData index){
     (void) gettimeofday( t, (struct timezone*) 0 );
     time = t->tv_sec*1000000+t->tv_usec;
     printf("have end %u\r\n",time);
-    printf("the index is %d\r\n",index);
+    printf("the index is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
     if(con.timer){
         printf("error for timer\r\n");
