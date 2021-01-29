@@ -179,6 +179,8 @@ int Add(struct ConnectInfo conn){
     }
 }
 int SetLogStat(unsigned int index,char *str){
+    int time ;
+    struct timeval* t;
     printf("SetLogStat\r\n");
     semaphore_wait();
     struct SessionInfo *con;
@@ -194,6 +196,22 @@ int SetLogStat(unsigned int index,char *str){
     }
     con = &sessionmanagement->sesssion[index] ;
     if(con->stat){
+        if(con->timer){
+            printf("SetLogStat good for this \r\n");
+            tmr_cancel(con->timer);
+            t = (Timer*) malloc( sizeof(Timer) );
+            (void) gettimeofday( t, (struct timezone*) 0 );
+            time = t->tv_sec*1000000+t->tv_usec;
+            printf("SetLogStat have start %u\r\n",time);
+            con->timer=tmr_create((struct timeval*)nowtime,ConnectLeave,(ClientData)i,15000,0);
+            if(con->timer==0){
+                printf("SetLogStat creat timer error\r\n");
+            }else{
+                printf("SetLogStat creat timer ok\r\n");
+            }
+        }else{
+            printf("SetLogStat error for this \r\n");
+        }
         con->stat = 2;
         strncpy(con->user.username,str,PASSWORDLEN-1);
         if(con->timer){
@@ -249,6 +267,7 @@ int Del(int index){
     return index;
 }
 void ConnectLeave(ClientData index){
+    semaphore_wait();
     int time ;
     struct timeval* t;
     struct SessionInfo *con;
@@ -261,8 +280,11 @@ void ConnectLeave(ClientData index){
     printf("the index is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
     if(con->timer){
-        printf("error for timer\r\n");
+        printf("good for timer\r\n");
+        tmr_cancel(con->timer);
+        con->timer = NULL;
     }else{
-        printf("good for  timer\r\n");
+        printf("error for  timer\r\n");
     }
+    semaphore_post();
 }
