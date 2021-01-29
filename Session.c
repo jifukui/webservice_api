@@ -161,7 +161,7 @@ int Add(struct ConnectInfo conn){
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("have start %u\r\n",time);
-            con->timer=tmr_create(nowtime,ConnectLeave,i,5000,0);
+            con->timer=tmr_create((struct timeval*)nowtime,ConnectLeave,(ClientData)i,5000,0);
             break;
         }
     }
