@@ -248,7 +248,7 @@ void ConnectLeave(ClientData index){
     struct timeval* t;
     struct SessionInfo *con;
     int i;
-    i = (int)index;
+    i = index.i;
     t = (Timer*) malloc( sizeof(Timer) );
     (void) gettimeofday( t, (struct timezone*) 0 );
     time = t->tv_sec*1000000+t->tv_usec;
