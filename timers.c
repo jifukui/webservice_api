@@ -114,7 +114,7 @@ static void
 l_remove( Timer* t )
     {
     int h = t->hash;
-	printf("the hash is %d\r\n",h);
+	//printf("the hash is %d\r\n",h);
     if ( t->prev == (Timer*) 0 )
 	timers[h] = t->next;
     else
@@ -188,7 +188,7 @@ tmr_create(
     /* Add the new timer to the proper active list. */
     l_add( t );
     ++active_count;
-	printf("the address is %u and hash is %d\r\n",t,t->hash);
+	//printf("the address is %u and hash is %d\r\n",t,t->hash);
     return t;
     }
 
