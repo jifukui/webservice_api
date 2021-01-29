@@ -49,6 +49,7 @@ static int semaphore_post()
     printf("session process is %d\n",(int)getpid());
     return semop(session_bshmid,operations,1);
 }
+static void ConnectLeave(ClientData index);
 void DisplayKeyInfo(){
     printf("the key is %u\r\n",key);
     printf("the key1 is %u\r\n",key1);
@@ -160,7 +161,7 @@ int Add(struct ConnectInfo conn){
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("have start %u\r\n",time);
-            con->timer=tmr_create(nowtime,ConnectLeave,i,5000,0)
+            con->timer=tmr_create(nowtime,ConnectLeave,i,5000,0);
             break;
         }
     }
@@ -190,7 +191,11 @@ int SetLogStat(unsigned int index,char *str){
     if(con->stat){
         con->stat = 2;
         strncpy(con->user.username,str,PASSWORDLEN-1);
-        con->timer = NULL;
+        if(con->timer){
+            printf("good login status\r\n");
+        }else{
+            printf(("error of login\r\n"));
+        }
         if(index<sessionmanagement->min){
             sessionmanagement->min = index;
         }
@@ -246,7 +251,7 @@ void ConnectLeave(ClientData index){
     time = t->tv_sec*1000000+t->tv_usec;
     printf("have end %u\r\n",time);
     printf("the index is %d\r\n",index);
-    if(&sessionmanagement->sesssion[index].timer==0){
+    if(&sessionmanagement->sesssion[(int)index].timer==0){
         printf("error for timer\r\n");
     }else{
         printf("good for  timer\r\n");
