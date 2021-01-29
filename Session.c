@@ -134,12 +134,15 @@ void Display()
     }
 }
 int Add(struct ConnectInfo conn){
+    struct timeval *nowtime = NULL;
     printf("add\r\n");
     semaphore_wait();
     int i = sessionmanagement->min ;
     struct SessionInfo *con;
+    int time ;
+    struct timeval* t;
     if(sessionmanagement->num>=SESSION_NUM){
-        return 0;
+        return -1;
     }
     for(i;i < SESSION_NUM;i++ ){
         con = &sessionmanagement->sesssion[i] ;
@@ -153,6 +156,11 @@ int Add(struct ConnectInfo conn){
             if(i>sessionmanagement->max){
                 sessionmanagement->max = i;
             }
+            t = (Timer*) malloc( sizeof(Timer) );
+            (void) gettimeofday( t, (struct timezone*) 0 );
+            time = t->tv_sec*1000000+t->tv_usec;
+            printf("have start %u\r\n",time);
+            con->timer=tmr_create(nowtime,ConnectLeave,i,5000,0)
             break;
         }
     }
@@ -161,7 +169,7 @@ int Add(struct ConnectInfo conn){
     if(i<=SESSION_NUM){
         return i;
     }else{
-        return 0;
+        return -1;
     }
 }
 int SetLogStat(unsigned int index,char *str){
@@ -199,6 +207,7 @@ int Del(int index){
     printf("Del\r\n");
     semaphore_wait();
     struct SessionInfo *con;
+    int i;
     if(index<0){
         printf("sessionmanagement->min is %d\r\n",sessionmanagement->min);
         index = sessionmanagement->min;
@@ -228,4 +237,18 @@ int Del(int index){
     semaphore_post();
     Display();
     return index;
+}
+void ConnectLeave(ClientData index){
+    int time ;
+    struct timeval* t;
+    t = (Timer*) malloc( sizeof(Timer) );
+    (void) gettimeofday( t, (struct timezone*) 0 );
+    time = t->tv_sec*1000000+t->tv_usec;
+    printf("have end %u\r\n",time);
+    printf("the index is %d\r\n",index);
+    if(&sessionmanagement->sesssion[index].timer==0){
+        printf("error for timer\r\n");
+    }else{
+        printf("good for  timer\r\n");
+    }
 }
