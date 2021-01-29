@@ -166,7 +166,7 @@ int Add(struct ConnectInfo conn){
             if(con->timer==0){
                 printf("creat timer error\r\n");
             }else{
-                printf("creat timer ok\r\n");
+                printf("creat timer ok %u\r\n",con->timer);
             }
             break;
         }
@@ -202,6 +202,7 @@ int SetLogStat(unsigned int index,char *str){
         if(con->timer){
             printf("SetLogStat good for this \r\n");
             tmr_cancel(con->timer);
+            printf("SetLogStat good for this end \r\n");
             t = (struct timeval*) malloc( sizeof(struct timeval) );
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
