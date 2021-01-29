@@ -162,6 +162,11 @@ int Add(struct ConnectInfo conn){
             time = t->tv_sec*1000000+t->tv_usec;
             printf("have start %u\r\n",time);
             con->timer=tmr_create((struct timeval*)nowtime,ConnectLeave,(ClientData)i,5000,0);
+            if(con->timer==0){
+                printf("creat timer error\r\n");
+            }else{
+                printf("creat timer ok\r\n");
+            }
             break;
         }
     }
