@@ -255,7 +255,7 @@ void ConnectLeave(ClientData index){
     printf("have end %u\r\n",time);
     printf("the index is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
-    if(con.timer){
+    if(con->timer){
         printf("error for timer\r\n");
     }else{
         printf("good for  timer\r\n");
