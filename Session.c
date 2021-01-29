@@ -142,7 +142,7 @@ int Add(struct ConnectInfo conn){
     int i = sessionmanagement->min ;
     struct SessionInfo *con;
     int time ;
-    struct Timer * t;
+    struct timeval * t;
     if(sessionmanagement->num>=SESSION_NUM){
         return -1;
     }
@@ -158,7 +158,7 @@ int Add(struct ConnectInfo conn){
             if(i>sessionmanagement->max){
                 sessionmanagement->max = i;
             }
-            t = (Timer*) malloc( sizeof(Timer) );
+            t = (timeval*) malloc( sizeof(timeval) );
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("have start %u\r\n",time);
@@ -181,7 +181,7 @@ int Add(struct ConnectInfo conn){
 }
 int SetLogStat(unsigned int index,char *str){
     int time ;
-    struct Timer* t;
+    struct timeval * t;
     struct timeval *nowtime = NULL;
     printf("SetLogStat\r\n");
     semaphore_wait();
@@ -201,7 +201,7 @@ int SetLogStat(unsigned int index,char *str){
         if(con->timer){
             printf("SetLogStat good for this \r\n");
             tmr_cancel(con->timer);
-            t = (Timer*) malloc( sizeof(Timer) );
+            t = (timeval*) malloc( sizeof(timeval) );
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("SetLogStat have start %u\r\n",time);
