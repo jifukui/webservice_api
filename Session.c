@@ -335,9 +335,10 @@ void Disconnect(ClientData index){
         printf("disconnected have end %u\r\n",time);
         if(con->timer){
             printf("the timmer have no dis\r\n");
+            Del(i);
         }else{
             printf("the timmer have  dis\r\n");
-            Del(i);
+            
         }
         
     }else{
