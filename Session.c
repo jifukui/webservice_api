@@ -302,16 +302,35 @@ void ConnectLeave(ClientData index){
     if(con->timer){
         printf("good for timer\r\n");
         tmr_cancel(con->timer);
-        con->timer = NULL;
+        //con->timer = NULL;
     }else{
         printf("error for  timer %u\r\n",con->timer);
-        exit(0);
+        //exit(0);
     }
     semaphore_post();
 }
 void Disconnect(ClientData index){
     int i;
+    int time ;
+    struct timeval* t;
+    struct SessionInfo *con;
     i = index.i;
     printf("i Have disconnnect %d\r\n",i);
-    Del(i);
+    if(i<&sessionmanagement->max&&i>=0){
+        con=&sessionmanagement->sesssion[i];
+        printf("the timer is  is %u\r\n",con->timer);
+        t = (Timer*) malloc( sizeof(Timer) );
+        (void) gettimeofday( t, (struct timezone*) 0 );
+        time = t->tv_sec*1000000+t->tv_usec;
+        printf("disconnected have end %u\r\n",time);
+        if(con->timer){
+            ptintf("the timmer have no dis\r\n");
+        }else{
+            ptintf("the timmer have  dis\r\n");
+        }
+        Del(i);
+    }else{
+        printf("have error for disconnected\r\n");
+    }
+    
 }
