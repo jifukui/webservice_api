@@ -263,6 +263,7 @@ tmr_run( struct timeval* nowP )
 		 ( t->time.tv_sec == nowP->tv_sec &&
 		   t->time.tv_usec > nowP->tv_usec ) )
 		break;
+		pritf("call function\r\n");
 	    (t->timer_proc)( t->client_data, nowP );
 	    if ( t->periodic )
 		{
@@ -342,10 +343,12 @@ tmr_term( void )
 /* Generate debugging statistics syslog message. */
 void
 tmr_logstats( long secs )
-    {
+{
     syslog(
 	LOG_NOTICE, "  timers - %d allocated, %d active, %d free",
 	alloc_count, active_count, free_count );
+	printf("  timers - %d allocated, %d active, %d free\r\n",
+	alloc_count, active_count, free_count);
     if ( active_count + free_count != alloc_count )
 	syslog( LOG_ERR, "timer counts don't add up!" );
-    }
+}
