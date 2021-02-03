@@ -263,7 +263,7 @@ tmr_run( struct timeval* nowP )
 		 ( t->time.tv_sec == nowP->tv_sec &&
 		   t->time.tv_usec > nowP->tv_usec ) )
 		break;
-		pritf("call function\r\n");
+		printf("call function\r\n");
 	    (t->timer_proc)( t->client_data, nowP );
 	    if ( t->periodic )
 		{
