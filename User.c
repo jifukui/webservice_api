@@ -161,7 +161,7 @@ void InitUserInfo(){
     }
 }
 void writesecurityfile()
-{
+{/*
 	json_t *file;
 	json_t *userarray;
 	json_t *json;
@@ -219,5 +219,5 @@ void writesecurityfile()
 	else
 	{
 		printf("write file error\n");
-	}	
+	}	*/
 }
