@@ -155,6 +155,7 @@ int Add(struct ConnectInfo conn){
             con->connect.token = conn.token;
             sessionmanagement->sesssion->index = i;
             sessionmanagement->min = i;
+            con->timer = 0;
             if(i>sessionmanagement->max){
                 sessionmanagement->max = i;
             }
@@ -296,12 +297,13 @@ void ConnectLeave(ClientData index){
     printf("have end %u\r\n",time);
     printf("the index is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
+    printf("the timer is  is %u\r\n",con->timer);
     if(con->timer){
         printf("good for timer\r\n");
         tmr_cancel(con->timer);
         con->timer = NULL;
     }else{
-        printf("error for  timer\r\n");
+        printf("error for  timer %u\r\n",con->timer);
         exit(0);
     }
     semaphore_post();
