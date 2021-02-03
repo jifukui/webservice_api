@@ -271,7 +271,7 @@ int Del(int index){
         if(con->timer){
             printf("Delete timer\r\n");
             tmr_cancel(con->timer);
-            con->timer = NULL;
+            //con->timer = NULL;
         }
         if(index<sessionmanagement->min){
             sessionmanagement->min = index;
