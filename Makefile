@@ -176,5 +176,5 @@ timers.o:	timers.h
 match.o:	match.h
 tdate_parse.o:	tdate_parse.h
 LiguoWeb.o:  	LiguoWeb.h
-Session.o:	Session.hard
+Session.o:	Session.h
 User.o:	User.h
