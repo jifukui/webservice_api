@@ -251,7 +251,7 @@ int Del(int index){
                 break;
             }
         }
-        index = sessionmanagement->min;
+        //index = sessionmanagement->min;
         printf("now Del index is %d\r\n",index);
     }
     if(sessionmanagement->num<=0){
@@ -266,7 +266,11 @@ int Del(int index){
         sessionmanagement->num--;
         con->stat = 0;
         con->user.username[0]=0;
-        con->timer = NULL;
+        if(con->timer){
+            printf("Delete timer\r\n");
+            tmr_cancel(con->timer);
+            con->timer = NULL;
+        }
         if(index<sessionmanagement->min){
             sessionmanagement->min = index;
         }
