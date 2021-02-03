@@ -11,9 +11,10 @@ static const int sharesize = 4096*2;
 static struct Session_Management *sessionmanagement;
 static key_t session_shmid = 0;
 static key_t session_bshmid = 0 ;
-void DisplayKeyInfo();
+static void DisplayKeyInfo();
 void InitUserInfo();
 static void writesecurityfile();
+static int CreatShareMemory()
 struct AuthFile{
     unsigned int security;
     struct User user[USER_NUM];
