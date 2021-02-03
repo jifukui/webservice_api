@@ -211,7 +211,7 @@ int SetLogStat(unsigned int index,char *str){
             time = t->tv_sec*1000000+t->tv_usec;
             printf("SetLogStat have start %u\r\n",time);
             con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave,(ClientData)i,15000,0);
-            tmr_create((struct timeval*)nowtime,(TimerProc*)&Disconnect,(ClientData)i,20000,0);
+            tmr_create((struct timeval*)nowtime,(TimerProc*)&Disconnect,(ClientData)i,10000,0);
             printf("the SetLogStat timer is %u\r\n",con->timer);
             if(con->timer==0){
                 printf("SetLogStat creat timer error\r\n");
@@ -254,7 +254,6 @@ int Del(int index){
                 break;
             }
         }
-        //index = sessionmanagement->min;
         printf("now Del index is %d\r\n",index);
     }
     if(sessionmanagement->num<=0){
@@ -301,15 +300,6 @@ void ConnectLeave(ClientData index){
     con=&sessionmanagement->sesssion[i];
     printf("the timer is  is %u\r\n",con->timer);
     con->timer = NULL;
-    /*if(con->timer){
-        printf("good for timer\r\n");
-        tmr_cancel(con->timer);
-        //con->timer = NULL;
-    }else{
-        printf("error for  timer %u\r\n",con->timer);
-        tmr_cancel(con->timer);
-        //exit(0);
-    }*/
     semaphore_post();
 }
 void ConnectLeave1(ClientData index){
@@ -327,15 +317,6 @@ void ConnectLeave1(ClientData index){
     con=&sessionmanagement->sesssion[i];
     printf("the timer1 is  is %u\r\n",con->timer);
     con->timer = NULL;
-    /*if(con->timer){
-        printf("good for timer\r\n");
-        tmr_cancel(con->timer);
-        //con->timer = NULL;
-    }else{
-        printf("error for  timer %u\r\n",con->timer);
-        tmr_cancel(con->timer);
-        //exit(0);
-    }*/
     semaphore_post();
 }
 void Disconnect(ClientData index){
@@ -356,8 +337,9 @@ void Disconnect(ClientData index){
             printf("the timmer have no dis\r\n");
         }else{
             printf("the timmer have  dis\r\n");
+            Del(i);
         }
-        Del(i);
+        
     }else{
         printf("have error for disconnected\r\n");
     }
