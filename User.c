@@ -109,7 +109,7 @@ void UserInfoInit(){
 		security=(unsigned int )json_integer_value(authdata);
 		printf("liguoauth.security is %d\n",security);
         if(security<2){
-
+            InitUserInfo();
         }else if(security ==2){
 
         }
@@ -125,7 +125,7 @@ void UserInfoInit(){
 	}
 	else
 	{
-		
+		InitUserInfo();
 	}
 }
 void InitUserInfo(){
