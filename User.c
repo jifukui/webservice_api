@@ -124,8 +124,7 @@ void UserInfoInit(){
 	}
 	else
 	{
-		printf("The liguoauth.Auth[i].username is %s\n",liguoauth.Auth[0].username);
-		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
+		
 	}
 }
 void InitUserInfo(){
