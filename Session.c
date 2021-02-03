@@ -325,7 +325,7 @@ void ConnectLeave1(ClientData index){
     printf("the index is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
     printf("the timer is  is %u\r\n",con->timer);
-    if(con->timer){
+    /*if(con->timer){
         printf("good for timer\r\n");
         tmr_cancel(con->timer);
         //con->timer = NULL;
@@ -333,7 +333,7 @@ void ConnectLeave1(ClientData index){
         printf("error for  timer %u\r\n",con->timer);
         tmr_cancel(con->timer);
         //exit(0);
-    }
+    }*/
     semaphore_post();
 }
 void Disconnect(ClientData index){
