@@ -28,6 +28,6 @@ struct User{
     int forbidTimes;
     unsigned int time;
     unsigned int power;
-}
+};
 void UserInfoInit();
 #endif
