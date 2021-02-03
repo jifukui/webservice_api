@@ -302,6 +302,7 @@ void ConnectLeave(ClientData index){
         con->timer = NULL;
     }else{
         printf("error for  timer\r\n");
+        exit(0);
     }
     semaphore_post();
 }
