@@ -50,6 +50,7 @@ static int semaphore_post()
     return semop(session_bshmid,operations,1);
 }
 static void ConnectLeave(ClientData index);
+static void ConnectLeave1(ClientData index);
 static void Disconnect(ClientData index);
 void DisplayKeyInfo(){
     printf("the key is %u\r\n",key);
@@ -163,7 +164,7 @@ int Add(struct ConnectInfo conn){
             (void) gettimeofday( t, (struct timezone*) 0 );
             time = t->tv_sec*1000000+t->tv_usec;
             printf("have start %u\r\n",time);
-            con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave,(ClientData)i,5000,0);
+            con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave1,(ClientData)i,5000,0);
             if(con->timer==0){
                 printf("creat timer error\r\n");
             }else{
@@ -296,6 +297,31 @@ void ConnectLeave(ClientData index){
     (void) gettimeofday( t, (struct timezone*) 0 );
     time = t->tv_sec*1000000+t->tv_usec;
     printf("have end %u\r\n",time);
+    printf("the index is %d\r\n",i);
+    con=&sessionmanagement->sesssion[i];
+    printf("the timer is  is %u\r\n",con->timer);
+    if(con->timer){
+        printf("good for timer\r\n");
+        tmr_cancel(con->timer);
+        //con->timer = NULL;
+    }else{
+        printf("error for  timer %u\r\n",con->timer);
+        tmr_cancel(con->timer);
+        //exit(0);
+    }
+    semaphore_post();
+}
+void ConnectLeave1(ClientData index){
+    semaphore_wait();
+    int time ;
+    struct timeval* t;
+    struct SessionInfo *con;
+    int i;
+    i = index.i;
+    t = (Timer*) malloc( sizeof(Timer) );
+    (void) gettimeofday( t, (struct timezone*) 0 );
+    time = t->tv_sec*1000000+t->tv_usec;
+    printf("have end1 %u\r\n",time);
     printf("the index is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
     printf("the timer is  is %u\r\n",con->timer);
