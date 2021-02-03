@@ -451,6 +451,7 @@ main( int argc, char** argv )
 		printf("The liguoauth.Auth[i].password is %s\n",liguoauth.Auth[0].password);
 		//writesecurityfile();
 	}
+	UserInfoInit();
 	writesecurityfile();
 	stat("/nandflash/webserver/thttpd/bin/security.json",&jifile);
 	jitime=jifile.st_mtime;

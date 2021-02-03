@@ -1,22 +1,7 @@
 #ifndef __SESSION_H_
 #define __SESSION_H_
-#include <openssl/ssl.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <sys/sem.h>
-#include "timers.h"
-#include "config.h"
+#include "User.h"
 #define SESSION_NUM 20
-union semun
-{
-    int val;
-    struct semid_ds *buf;
-    unsigned short int *array;
-    struct seminfo *__buf;
-};
 struct Session_Version{
     unsigned int Major;
     unsigned int Modify;

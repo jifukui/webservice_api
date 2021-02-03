@@ -66,7 +66,7 @@ INSTALL =	/usr/bin/install -c
 	@rm -f $@
 	$(CC) $(CFLAGS) -c $*.c
 
-SRC =		thttpd.c libhttpd.c fdwatch.c mmc.c timers.c match.c tdate_parse.c LiguoWeb.c Session.c
+SRC =		thttpd.c libhttpd.c fdwatch.c mmc.c timers.c match.c tdate_parse.c LiguoWeb.c Session.c User.c
 
 OBJ =		$(SRC:.c=.o) 
 
@@ -169,10 +169,12 @@ tar:
 
 thttpd.o:	config.h version.h libhttpd.h fdwatch.h mmc.h timers.h match.h lig_pid_file.h
 libhttpd.o:	config.h version.h libhttpd.h mime_encodings.h mime_types.h \
-		mmc.h timers.h match.h tdate_parse.h LiguoWeb.h
+		mmc.h timers.h match.h tdate_parse.h LiguoWeb.h Session.h User.h
 fdwatch.o:	fdwatch.h
 mmc.o:		mmc.h libhttpd.h
 timers.o:	timers.h
 match.o:	match.h
 tdate_parse.o:	tdate_parse.h
 LiguoWeb.o:  	LiguoWeb.h
+Session.o:	Session.hard
+User.o:	User.h
