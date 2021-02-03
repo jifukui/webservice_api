@@ -272,7 +272,7 @@ int Del(int index){
         if(con->timer){
             printf("Delete timer\r\n");
             tmr_cancel(con->timer);
-            //con->timer = NULL;
+            con->timer = NULL;
         }
         if(index<sessionmanagement->min){
             sessionmanagement->min = index;
@@ -300,7 +300,8 @@ void ConnectLeave(ClientData index){
     printf("the index is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
     printf("the timer is  is %u\r\n",con->timer);
-    if(con->timer){
+    con->timer = NULL;
+    /*if(con->timer){
         printf("good for timer\r\n");
         tmr_cancel(con->timer);
         //con->timer = NULL;
@@ -308,7 +309,7 @@ void ConnectLeave(ClientData index){
         printf("error for  timer %u\r\n",con->timer);
         tmr_cancel(con->timer);
         //exit(0);
-    }
+    }*/
     semaphore_post();
 }
 void ConnectLeave1(ClientData index){
@@ -322,9 +323,10 @@ void ConnectLeave1(ClientData index){
     (void) gettimeofday( t, (struct timezone*) 0 );
     time = t->tv_sec*1000000+t->tv_usec;
     printf("have end1 %u\r\n",time);
-    printf("the index is %d\r\n",i);
+    printf("the index1 is %d\r\n",i);
     con=&sessionmanagement->sesssion[i];
-    printf("the timer is  is %u\r\n",con->timer);
+    printf("the timer1 is  is %u\r\n",con->timer);
+    con->timer = NULL;
     /*if(con->timer){
         printf("good for timer\r\n");
         tmr_cancel(con->timer);
