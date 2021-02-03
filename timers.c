@@ -112,28 +112,28 @@ l_add( Timer* t )
 
 static void
 l_remove( Timer* t )
-    {
-    int h = t->hash;
+{
+	int h = t->hash;
 	//printf("the hash is %d\r\n",h);
-    if ( t->prev == (Timer*) 0 )
+	if ( t->prev == (Timer*) 0 )
 	timers[h] = t->next;
-    else
+	else
 	t->prev->next = t->next;
-    if ( t->next != (Timer*) 0 )
+	if ( t->next != (Timer*) 0 )
 	t->next->prev = t->prev;
-    }
+}
 
 
 static void
 l_resort( Timer* t )
-    {
+{
     /* Remove the timer from its old list. */
     l_remove( t );
     /* Recompute the hash. */
     t->hash = hash( t );
     /* And add it back in to its new list, sorted correctly. */
     l_add( t );
-    }
+}
 
 
 void
