@@ -57,23 +57,23 @@ static int semaphore_post()
     printf("user process is %d\n",(int)getpid());
     return semop(session_bshmid,operations,1);
 }
-void DisplayKeyInfo(){
+static void DisplayKeyInfo(){
     printf("the user key is %u\r\n",key);
     printf("the user key1 is %u\r\n",key1);
     printf("the user_shmid is %u\r\n",session_shmid);
     printf("the user_bshmid is %u\r\n",session_bshmid);
 }
-int CreatShareMemory(){
+static int CreatShareMemory(){
     CommonShareMemory(sharesize,IPC_CREAT|0666);
     DisplayKeyInfo();
 }
-int GetShareMemory(){
+static int GetShareMemory(){
     sessionmanagement = shmat(session_shmid,NULL,0);
 }
-int SetShareMemory(){
+static int SetShareMemory(){
     CommonShareMemory(sharesize,IPC_CREAT);
 }
-int CommonShareMemory(int size,int flags){
+static int CommonShareMemory(int size,int flags){
     if(key<=0)
     {
         perror("user ftok error\n");
@@ -86,7 +86,7 @@ int CommonShareMemory(int size,int flags){
     }
     return session_shmid;
 }
-int DestoryShm(int shmid)
+static int DestoryShm(int shmid)
 {
     if(shmctl(shmid,IPC_RMID,NULL)<0)
     {
