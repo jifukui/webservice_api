@@ -14,7 +14,7 @@ static key_t session_bshmid = 0 ;
 static void DisplayKeyInfo();
 void InitUserInfo();
 static void writesecurityfile();
-static int CreatShareMemory()
+static int CreatShareMemory();
 struct AuthFile{
     unsigned int security;
     struct User user[USER_NUM];
