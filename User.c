@@ -18,7 +18,7 @@ struct AuthFile{
     unsigned int security;
     struct User user[USER_NUM];
     unsigned int num;
-}
+};
 struct AuthFile JwtAuth;
 ///////////////////////////////////////////////////////////////////////////////////////////
 static int CommonShareMemory(int size,int flags);
