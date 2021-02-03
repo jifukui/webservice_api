@@ -211,6 +211,7 @@ int SetLogStat(unsigned int index,char *str){
             printf("SetLogStat have start %u\r\n",time);
             con->timer=tmr_create((struct timeval*)nowtime,(TimerProc*)&ConnectLeave,(ClientData)i,15000,0);
             tmr_create((struct timeval*)nowtime,(TimerProc*)&Disconnect,(ClientData)i,20000,0);
+            printf("the SetLogStat timer is %u\r\n",con->timer);
             if(con->timer==0){
                 printf("SetLogStat creat timer error\r\n");
             }else{
@@ -311,5 +312,6 @@ void ConnectLeave(ClientData index){
 void Disconnect(ClientData index){
     int i;
     i = index.i;
+    printf("i Have disconnnect %d\r\n",i);
     Del(i);
 }
