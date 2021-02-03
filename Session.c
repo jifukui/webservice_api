@@ -282,8 +282,8 @@ int Del(int index){
     }else{
         printf("Del connected failed\r\n");
     }
-    semaphore_post();
     Display();
+    semaphore_post();
     return index;
 }
 void ConnectLeave(ClientData index){

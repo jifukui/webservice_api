@@ -724,12 +724,12 @@ Cache-Control:no-store\015\012",
 			char data[200]; 
 			int id = 123456789;
 			sprintf(data,"Set-Cookie: sessionid=%d;Max-Age=30\015\012",id);
-			//printf("the data is %s\r\n",data);
+			printf("the data is %s\r\n",data);
 			struct ConnectInfo conn;
 			conn.ipaddr = hc->client_addr.sa_in.sin_addr.s_addr;
 			conn.token = id;
 			hc->sessionid=Add(conn);
-			SetLogStat(hc->sessionid,"jifukui");
+			//SetLogStat(hc->sessionid,"jifukui");
 			add_response( hc, data );
 		}
 		add_response( hc, "\015\012" );
